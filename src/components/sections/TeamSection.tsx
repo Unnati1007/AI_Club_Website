@@ -7,7 +7,7 @@ const TeamSection = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-    const defaultImage = "https://via.placeholder.com/200x200/0D8ABC/FFFFFF?text=Team+Member";
+    const defaultImage = "https://via.placeholder.com/200x200/0D8ABC/FFFFFF?text=AI";
 
     const teamHierarchy = {
         president: {
@@ -17,24 +17,10 @@ const TeamSection = () => {
             linkedin: "#",
             github: "#",
         },
-
         vicepresidents: [
-            {
-                name: "Unnati Jadon",
-                role: "Vice President",
-                image: "./public/Photos/photo.jpeg",
-                linkedin: "#",
-                github: "#",
-            },
-            {
-                name: "Manya Suranglikar",
-                role: "Vice President",
-                image: "./public/Photos/Manya.JPG",
-                linkedin: "#",
-                github: "#",
-            },
+            { name: "Unnati Jadon", role: "Vice President", image: "./public/Photos/photo.jpeg", linkedin: "#", github: "#" },
+            { name: "Manya Suranglikar", role: "Vice President", image: "./public/Photos/Manya.JPG", linkedin: "#", github: "#" },
         ],
-
         operationsCoordinator: {
             name: "Anirudh Parmar",
             role: "Co-ordinator",
@@ -42,91 +28,21 @@ const TeamSection = () => {
             linkedin: "#",
             github: "#",
         },
-
         leads: [
-            {
-                name: "Shashwat Verma",
-                role: "Tech Head",
-                image: "./public/Photos/Shashwat Verma.jpeg",
-                linkedin: "#",
-                github: "#",
-            },
-            {
-                name: "Devansh Mishra",
-                role: "PR & Marketing Head",
-                image: "./public/Photos/devansh mishra.jpeg",
-                linkedin: "#",
-                github: "#",
-            },
-            {
-                name: "Akash Rathore",
-                role: "Treasurer",
-                image: "./public/Photos/Akash Rathore.jpg",
-                linkedin: "#",
-                github: "#",
-
-            },
-            {
-                name: "Kushagra Malviya",
-                role: "Logistics Head",
-                image: "./public/Photos/Kushagra Malviya.jpg",
-                linkedin: "#",
-                github: "#",
-            },
-            {
-                name: "Chanpreet Singh Chitrath",
-                role: "Digital Creators Head",
-                image: "./public/Photos/Chanpreet.jpeg",
-                linkedin: "#",
-                github: "#",
-            },
-            {
-                name: "Suyash Khare",
-                role: "Research & Development Head",
-                image: "./public/Photos/Suyash.jpg",
-                linkedin: "#",
-                github: "#",
-            },
+            { name: "Shashwat Verma", role: "Tech Head", image: "./public/Photos/Shashwat Verma.jpeg", linkedin: "#", github: "#" },
+            { name: "Devansh Mishra", role: "PR & Marketing Head", image: "./public/Photos/devansh mishra.jpeg", linkedin: "#", github: "#" },
+            { name: "Akash Rathore", role: "Treasurer", image: "./public/Photos/Akash Rathore.jpg", linkedin: "#", github: "#" },
+            { name: "Kushagra Malviya", role: "Logistics Head", image: "./public/Photos/Kushagra Malviya.jpg", linkedin: "#", github: "#" },
+            { name: "Chanpreet Singh Chitrath", role: "Digital Creators Head", image: "./public/Photos/Chanpreet.jpeg", linkedin: "#", github: "#" },
+            { name: "Suyash Khare", role: "R&D Head", image: "./public/Photos/Suyash.jpg", linkedin: "#", github: "#" },
         ],
-
         coleads: [
-            {
-                name: "Aastha Pyasi",
-                role: "Jr. Co-ordinator",
-                image: "./public/Photos/aastha.jpg",
-                linkedin: "#",
-                github: "#",
-            },
-            {
-                name: "Lisa Zhang",
-                role: "Tech Co-Lead",
-                image: defaultImage,
-                linkedin: "#",
-                github: "#",
-            },
-            {
-                name: "Akriti Kushwaha",
-                role: "Logistics Co-Lead",
-                image: "./public/Photos/Akriti.jpeg",
-                linkedin: "#",
-                github: "#",
-            },
-            {
-                name: "Amanda Martinez",
-                role: "Community Co-Lead",
-                image: defaultImage,
-                linkedin: "#",
-                github: "#",
-            },
-            {
-                name: "Samarth Agrawal",
-                role: "Jr. Co-ordinator",
-                image: "./public/Photos/Samarth.png",
-                linkedin: "#",
-                github: "#",
-            },
+            { name: "Aastha Pyasi", role: "Jr. Co-ordinator", image: "./public/Photos/aastha.jpg", linkedin: "#", github: "#" },
+            { name: "Lisa Zhang", role: "Tech Co-Lead", image: defaultImage, linkedin: "#", github: "#" },
+            { name: "Akriti Kushwaha", role: "Logistics Co-Lead", image: "./public/Photos/Akriti.jpeg", linkedin: "#", github: "#" },
+            { name: "Amanda Martinez", role: "Community Co-Lead", image: defaultImage, linkedin: "#", github: "#" },
+            { name: "Samarth Agrawal", role: "Jr. Co-ordinator", image: "./public/Photos/Samarth.png", linkedin: "#", github: "#" },
         ],
-
         coordinator: {
             name: "Dr. R S Jadon",
             role: "Faculty Coordinator",
@@ -136,17 +52,24 @@ const TeamSection = () => {
         },
     };
 
-    const TeamMember = ({ member, delay, size = "medium" }) => {
-        const sizeClasses = {
-            large: "w-40 h-40",
-            medium: "w-32 h-32",
-            small: "w-28 h-28",
-        };
+    interface TeamMemberType {
+        name: string;
+        role: string;
+        image: string;
+        linkedin: string;
+        github: string;
+    }
 
+    const TeamMember = ({ member, delay, size = "medium" }: { member: TeamMemberType; delay: number; size?: "large" | "medium" | "small" }) => {
+        const sizeClasses = {
+            large: "w-36 h-36",
+            medium: "w-28 h-28",
+            small: "w-24 h-24",
+        };
         const textSizeClasses = {
-            large: "text-lg",
-            medium: "text-base",
-            small: "text-sm",
+            large: "text-base",
+            medium: "text-sm",
+            small: "text-xs",
         };
 
         return (
@@ -156,140 +79,124 @@ const TeamSection = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay }}
             >
-                <div className={`relative mb-4 ${sizeClasses[size]}`}>
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md" />
-                    <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-border group-hover:border-primary/50 transition-colors duration-300">
+                <div className={`relative mb-3 ${sizeClasses[size]}`}>
+                    {/* Hexagonal clip container */}
+                    <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-md" />
+
+                    <div
+                        className="relative w-full h-full overflow-hidden border-2 border-border/50 group-hover:border-primary/50 transition-all duration-500"
+                        style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+                    >
                         <img
                             src={member.image}
                             alt={member.name}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
-                    </div>
-
-                    <div className="absolute inset-0 rounded-full bg-background/80 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <a href={member.linkedin} className="p-2 hover:text-primary transition-colors">
-                            <Linkedin className="w-4 h-4" />
-                        </a>
-                        <a href={member.github} className="p-2 hover:text-primary transition-colors">
-                            <Github className="w-4 h-4" />
-                        </a>
+                        {/* Hover overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent flex items-end justify-center pb-4 gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <a href={member.linkedin} className="p-1.5 rounded-full bg-primary/20 hover:bg-primary/40 transition-colors">
+                                <Linkedin className="w-3.5 h-3.5 text-primary" />
+                            </a>
+                            <a href={member.github} className="p-1.5 rounded-full bg-primary/20 hover:bg-primary/40 transition-colors">
+                                <Github className="w-3.5 h-3.5 text-primary" />
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <h3 className={`font-semibold text-center ${textSizeClasses[size]}`}>
+                <h3 className={`font-semibold text-center ${textSizeClasses[size]} group-hover:text-primary transition-colors duration-300`}>
                     {member.name}
                 </h3>
-                <p className="text-primary text-xs font-mono text-center">{member.role}</p>
+                <p className="text-primary/70 text-[10px] font-mono text-center uppercase tracking-wider mt-0.5">{member.role}</p>
             </motion.div>
         );
     };
 
     return (
         <section id="team" className="py-24 relative overflow-hidden" ref={ref}>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/5 to-transparent" />
+            {/* Bg */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/[0.03] to-transparent" />
+            <div className="absolute inset-0 hex-pattern opacity-15" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-secondary/20 to-transparent" />
 
             <div className="container mx-auto px-6 relative z-10">
                 <motion.div
-                    className="text-center max-w-2xl mx-auto mb-20"
+                    className="text-center max-w-2xl mx-auto mb-16"
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                 >
-                    <span className="text-primary font-mono text-sm mb-4 block">
-            // THE TEAM
-                    </span>
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                        <span className="text-primary font-mono text-sm">// THE TEAM</span>
+                        <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse" />
+                    </div>
                     <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                        Meet Our <span className="text-gradient">Leadership</span>
+                        Meet Our <span className="text-gradient neon-text">Leadership</span>
                     </h2>
                     <p className="text-muted-foreground text-lg">
                         Dedicated leaders driving innovation and building our thriving community
                     </p>
                 </motion.div>
 
-                <div className="max-w-6xl mx-auto space-y-12">
-                    <div className="flex justify-center mb-8">
-                        <TeamMember
-                            member={teamHierarchy.president}
-                            delay={0.1}
-                            size="large"
-                        />
-                    </div>
-
+                <div className="max-w-6xl mx-auto space-y-10">
+                    {/* President */}
                     <div className="flex justify-center">
-                        <div className="w-1 h-8 bg-gradient-to-b from-primary to-transparent" />
+                        <TeamMember member={teamHierarchy.president} delay={0.1} size="large" />
                     </div>
 
-                    <div className="flex flex-wrap justify-center gap-8 mb-8">
+                    {/* Connector */}
+                    <div className="flex justify-center">
+                        <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
+                    </div>
+
+                    {/* Vice Presidents */}
+                    <div className="flex flex-wrap justify-center gap-12">
                         {teamHierarchy.vicepresidents.map((vp, i) => (
-                            <TeamMember
-                                key={i}
-                                member={vp}
-                                delay={0.2 + i * 0.1}
-                                size="large"
-                            />
+                            <TeamMember key={i} member={vp} delay={0.2 + i * 0.1} size="large" />
                         ))}
                     </div>
 
                     <div className="flex justify-center">
-                        <div className="w-1 h-8 bg-gradient-to-b from-primary to-transparent" />
+                        <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
                     </div>
 
-                    <div className="flex justify-center mb-8">
-                        <TeamMember
-                            member={teamHierarchy.operationsCoordinator}
-                            delay={0.4}
-                            size="medium"
-                        />
+                    {/* Coordinator */}
+                    <div className="flex justify-center">
+                        <TeamMember member={teamHierarchy.operationsCoordinator} delay={0.4} size="medium" />
                     </div>
 
                     <div className="flex justify-center">
-                        <div className="w-1 h-8 bg-gradient-to-b from-primary to-transparent" />
+                        <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
                     </div>
 
-                    <div className="flex flex-wrap justify-center gap-12 md:gap-8">
+                    {/* Leads */}
+                    <div className="flex flex-wrap justify-center gap-8 md:gap-10">
                         {teamHierarchy.leads.map((lead, i) => (
-                            <TeamMember
-                                key={i}
-                                member={lead}
-                                delay={0.5 + i * 0.1}
-                                size="medium"
-                            />
+                            <TeamMember key={i} member={lead} delay={0.5 + i * 0.08} size="medium" />
                         ))}
                     </div>
 
-                    <div className="flex justify-center">
-                        <div className="w-full max-w-4xl flex justify-between px-8 relative h-8">
-                            <div className="absolute top-0 left-1/2 w-3/4 h-full border-l border-b border-r border-primary/30 rounded-b-3xl transform -translate-x-1/2" />
-                            {teamHierarchy.leads.map((_, i) => (
-                                <div
-                                    key={i}
-                                    className="w-1 h-8 bg-gradient-to-b from-transparent to-primary/30"
-                                />
-                            ))}
-                        </div>
+                    {/* Decorative divider */}
+                    <div className="flex items-center gap-4 max-w-md mx-auto">
+                        <div className="flex-1 h-px bg-gradient-to-r from-transparent to-primary/20" />
+                        <div className="w-2 h-2 rounded-full bg-primary/30" />
+                        <div className="flex-1 h-px bg-gradient-to-l from-transparent to-primary/20" />
                     </div>
 
-                    <div className="flex flex-wrap justify-center gap-8 md:gap-6">
+                    {/* Co-Leads */}
+                    <div className="flex flex-wrap justify-center gap-8">
                         {teamHierarchy.coleads.map((colead, i) => (
-                            <TeamMember
-                                key={i}
-                                member={colead}
-                                delay={0.3 + i * 0.1}
-                                size="small"
-                            />
+                            <TeamMember key={i} member={colead} delay={0.3 + i * 0.08} size="small" />
                         ))}
                     </div>
 
                     <div className="flex justify-center">
-                        <div className="w-1 h-8 bg-gradient-to-b from-primary/30 to-transparent" />
+                        <div className="w-[2px] h-8 bg-gradient-to-b from-primary/20 to-transparent" />
                     </div>
 
+                    {/* Faculty */}
                     <div className="flex justify-center">
-                        <TeamMember
-                            member={teamHierarchy.coordinator}
-                            delay={0.8}
-                            size="medium"
-                        />
+                        <TeamMember member={teamHierarchy.coordinator} delay={0.8} size="medium" />
                     </div>
                 </div>
             </div>
