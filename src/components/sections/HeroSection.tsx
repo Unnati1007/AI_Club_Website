@@ -4,18 +4,40 @@ import { SplineScene } from "@/components/ui/spline-scene";
 import { Spotlight } from "@/components/ui/spotlight";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Lenis from "lenis";
 
 const HeroSection = () => {
     const [scrollY, setScrollY] = useState(0);
+    const lenisRef = useRef<Lenis | null>(null);
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrollY(window.scrollY);
-        };
+        // Initialize Lenis for smooth scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            lerp: 0.1,
+            infinite: false,
+        });
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        // Update scroll position for animations
+        function raf(time: number) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Listen for scroll events to update state
+        lenis.on('scroll', ({ scroll }) => {
+            setScrollY(scroll);
+        });
+
+        lenisRef.current = lenis;
+
+        return () => {
+            lenis.destroy();
+        };
     }, []);
 
     // Calculate diagonal movement: move left and up as user scrolls
