@@ -54,14 +54,14 @@ const AboutSection = () => {
                 <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
                     <div className="h-[400px] lg:h-[500px] relative">
                         <motion.div
-                            className="relative h-full rounded-2xl overflow-hidden glass border-primary/10"
+                            className="hidden lg:block relative h-full rounded-2xl overflow-hidden glass border-primary/10"
                             initial={{ opacity: 0, x: -50 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ duration: 0.8 }}
                         >
                             {/* Corner decorations */}
                             <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-primary/30 rounded-tl-2xl z-10" />
-                            <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-secondary/30 rounded-br-2xl z-10" />
+                            <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-secondary/30 rounded-br-2xl z-10 pointer-events-none" />
 
                             {isInView && (
                                 <SplineScene
@@ -79,22 +79,22 @@ const AboutSection = () => {
                     >
                         {/* Terminal-style label */}
                         <div className="flex items-center gap-2 mb-4">
-                            <span className="text-primary font-mono text-sm">// ABOUT US</span>
-                            <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse" />
+                            <span className="text-primary font-mono text-sm uppercase tracking-widest">// About_Us</span>
+                            <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                         </div>
 
-                        <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
+                        <h2 className="text-lg md:text-2xl font-bold mb-6 leading-tight">
                             Empowering the Next Generation of{" "}
-                            <span className="text-gradient neon-text">AI Innovators</span>
+                            <span className="text-primary font-display">AI Innovators</span>
                         </h2>
 
-                        <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
                             AI Club is a vibrant community dedicated to exploring the frontiers of artificial intelligence.
                             We bring together students, developers, and enthusiasts who share a passion for building
                             intelligent systems that solve real-world problems.
                         </p>
 
-                        <p className="text-muted-foreground leading-relaxed mb-8">
+                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-8">
                             Through workshops, hackathons, and collaborative projects, we provide hands-on experience
                             with machine learning, deep learning, natural language processing, and computer vision.
                             Our mission is to demystify AI and make it accessible to everyone.
@@ -117,7 +117,7 @@ const AboutSection = () => {
                                     <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 group-hover:border-primary/40 transition-all duration-300">
                                         <point.icon className="w-4 h-4 text-primary" />
                                     </div>
-                                    <span className="text-foreground font-medium">{point.text}</span>
+                                    <span className="text-foreground font-medium text-sm md:text-base">{point.text}</span>
                                 </motion.div>
                             ))}
                         </div>

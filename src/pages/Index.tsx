@@ -12,6 +12,7 @@ const Index = () => {
     return (
         <LenisProvider>
             <div className="w-full bg-background text-foreground overflow-x-hidden">
+                <div className="bg-noise" />
                 <Navbar />
                 <main>
                     <HeroSection />

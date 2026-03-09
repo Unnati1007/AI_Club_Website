@@ -1,97 +1,91 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export interface GDItem {
-    id: string;
+    _id: string;
     title: string;
     description: string;
     image: string;
     date: string;
+    link?: string;
 }
 
-const STORAGE_KEY = 'ai-club-gds';
-
-const DEFAULT_GDS: GDItem[] = [
-    {
-        id: '1',
-        title: 'AI Ethics & Bias',
-        description: 'Explored the ethical implications of AI systems and how bias can creep into machine learning models. Discussed real-world examples and mitigation strategies.',
-        image: 'https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=600&h=400&fit=crop',
-        date: '2025-10-15',
-    },
-    {
-        id: '2',
-        title: 'Future of LLMs',
-        description: 'Deep dive into Large Language Models, their architecture evolution, and what the future holds for generative AI in production systems.',
-        image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=400&fit=crop',
-        date: '2025-10-22',
-    },
-    {
-        id: '3',
-        title: 'Computer Vision Workshop',
-        description: 'Hands-on session covering image classification, object detection, and the latest advances in vision transformers.',
-        image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
-        date: '2025-11-01',
-    },
-    {
-        id: '4',
-        title: 'Reinforcement Learning',
-        description: 'From Q-learning to PPO — understanding how agents learn from interaction. We implemented a simple RL agent live during the session.',
-        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop',
-        date: '2025-11-10',
-    },
-    {
-        id: '5',
-        title: 'Open Source Contributions',
-        description: 'How to contribute to major AI/ML open-source projects. Walked through GitHub workflows, issue triage, and making your first PR.',
-        image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&h=400&fit=crop',
-        date: '2025-11-18',
-    },
-];
-
-function loadGDs(): GDItem[] {
-    try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-            return JSON.parse(stored);
-        }
-    } catch {
-        // ignore parse errors
-    }
-    // First time — seed with defaults
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_GDS));
-    return DEFAULT_GDS;
-}
-
-function saveGDs(gds: GDItem[]): string | null {
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(gds));
-        return null;
-    } catch {
-        return 'Storage quota exceeded. Try using image URLs instead of uploading files, or delete some GDs.';
-    }
-}
+const API_URL = 'http://127.0.0.1:5000/api/gds';
 
 export function useGDStore() {
-    const [gds, setGDs] = useState<GDItem[]>(loadGDs);
-    const [storageError, setStorageError] = useState<string | null>(null);
+    const [gds, setGDs] = useState<GDItem[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
-    // Sync to localStorage whenever gds changes
+    // Fetch from backend API
+    const fetchGDs = useCallback(async () => {
+        setIsLoading(true);
+        setError(null);
+        console.log('Fetching GDs from:', API_URL);
+        try {
+            const res = await fetch(API_URL);
+            if (!res.ok) throw new Error(`Server returned ${res.status}: ${res.statusText}`);
+            const data = await res.json();
+            console.log('Fetched GDs:', data);
+            setGDs(data);
+        } catch (err: any) {
+            console.error('Fetch corner error:', err);
+            setError(err.message || 'An error occurred fetching GDs');
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
     useEffect(() => {
-        const err = saveGDs(gds);
-        setStorageError(err);
-    }, [gds]);
+        fetchGDs();
+    }, [fetchGDs]);
 
-    const addGD = useCallback((gd: Omit<GDItem, 'id'>) => {
-        setGDs(prev => [...prev, { ...gd, id: Date.now().toString() }]);
+    const addGD = useCallback(async (gd: Omit<GDItem, '_id'>) => {
+        setError(null);
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(gd)
+            });
+            if (!res.ok) throw new Error('Failed to add GD');
+            const newGD = await res.json();
+            setGDs(prev => [newGD, ...prev]);
+            return { success: true };
+        } catch (err: any) {
+            setError(err.message);
+            return { success: false, error: err.message };
+        }
     }, []);
 
-    const updateGD = useCallback((id: string, updates: Partial<Omit<GDItem, 'id'>>) => {
-        setGDs(prev => prev.map(gd => gd.id === id ? { ...gd, ...updates } : gd));
+    const updateGD = useCallback(async (id: string, updates: Partial<Omit<GDItem, '_id'>>) => {
+        // Implementation for PUT
+        try {
+            const res = await fetch(`${API_URL}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updates)
+            });
+            if (!res.ok) throw new Error('Failed to update GD');
+            const updatedGD = await res.json();
+            setGDs(prev => prev.map(gd => gd._id === id ? updatedGD : gd));
+            return { success: true };
+        } catch (err: any) {
+            setError(err.message);
+            return { success: false, error: err.message };
+        }
     }, []);
 
-    const deleteGD = useCallback((id: string) => {
-        setGDs(prev => prev.filter(gd => gd.id !== id));
+    const deleteGD = useCallback(async (id: string) => {
+        try {
+            const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            if (!res.ok) throw new Error('Failed to delete GD');
+            setGDs(prev => prev.filter(gd => gd._id !== id));
+            return { success: true };
+        } catch (err: any) {
+            setError(err.message);
+            return { success: false, error: err.message };
+        }
     }, []);
 
-    return { gds, addGD, updateGD, deleteGD, storageError };
+    return { gds, isLoading, error, addGD, updateGD, deleteGD, refresh: fetchGDs };
 }

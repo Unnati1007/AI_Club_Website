@@ -1,13 +1,15 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { MessageSquare, Calendar } from "lucide-react";
+import { useRef, useState } from "react";
+import { MessageSquare, Calendar, ExternalLink, AlertCircle } from "lucide-react";
 import { useGDStore } from "@/hooks/useGDStore";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const GDSection = () => {
     const ref = useRef(null);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
-    const { gds } = useGDStore();
+    const { gds, isLoading, error } = useGDStore();
+    const [selectedGD, setSelectedGD] = useState<typeof gds[0] | null>(null);
 
     return (
         <section id="gds" className="py-24 relative overflow-hidden" ref={ref}>
@@ -26,11 +28,11 @@ const GDSection = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <div className="flex items-center justify-center gap-2 mb-4">
-                        <span className="text-primary font-mono text-sm">// GROUP DISCUSSIONS</span>
-                        <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse" />
+                        <span className="text-primary font-mono text-sm tracking-widest uppercase">// Group_Discussions</span>
+                        <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                        Our <span className="text-gradient neon-text">GDs</span>
+                    <h2 className="text-xl md:text-3xl font-bold mb-4">
+                        Our <span className="text-primary font-display">GDs</span>
                     </h2>
                     <p className="text-muted-foreground text-lg">
                         Weekly brainstorming sessions where ideas collide and innovation sparks
@@ -55,7 +57,7 @@ const GDSection = () => {
                 >
                     {gds.map((gd, i) => (
                         <motion.div
-                            key={gd.id}
+                            key={gd._id}
                             className="group flex-shrink-0 w-[300px] md:w-[340px] rounded-2xl glass border-border/30 hover:border-primary/30 transition-all duration-500 overflow-hidden cursor-pointer"
                             initial={{ opacity: 0, x: 40 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -81,9 +83,12 @@ const GDSection = () => {
                                 </div>
 
                                 {/* GD icon */}
-                                <div className="absolute bottom-3 left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/20">
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); setSelectedGD(gd); }}
+                                    className="absolute bottom-3 left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 transition-transform"
+                                >
                                     <MessageSquare className="w-5 h-5 text-white" />
-                                </div>
+                                </button>
                             </div>
 
                             {/* Content */}
@@ -98,8 +103,35 @@ const GDSection = () => {
                         </motion.div>
                     ))}
 
+                    {/* Loading state */}
+                    {isLoading && (
+                        <div className="flex-shrink-0 w-full flex items-center justify-center py-16">
+                            <div className="flex flex-col items-center gap-4">
+                                <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                                <p className="font-mono text-xs text-muted-foreground animate-pulse">Establishing neural link...</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Error state */}
+                    {error && !isLoading && (
+                        <div className="flex-shrink-0 w-full flex items-center justify-center py-16 px-6">
+                            <div className="text-center max-w-md p-6 glass border-destructive/20 rounded-2xl">
+                                <AlertCircle className="w-10 h-10 text-destructive mx-auto mb-4" />
+                                <h3 className="font-bold text-foreground mb-2">Connection Failure</h3>
+                                <p className="text-sm text-muted-foreground mb-4 font-mono">{error}</p>
+                                <button
+                                    onClick={() => window.location.reload()}
+                                    className="text-primary text-xs font-bold hover:underline"
+                                >
+                                    Retry Connection
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Empty state */}
-                    {gds.length === 0 && (
+                    {gds.length === 0 && !isLoading && !error && (
                         <div className="flex-shrink-0 w-full flex items-center justify-center py-16">
                             <div className="text-center text-muted-foreground">
                                 <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-30" />
@@ -121,6 +153,34 @@ const GDSection = () => {
                     ← Scroll to explore →
                 </span>
             </motion.div>
+            {/* GD Details Dialog */}
+            <Dialog open={!!selectedGD} onOpenChange={(open) => !open && setSelectedGD(null)}>
+                <DialogContent className="sm:max-w-xl glass border-primary/20 backdrop-blur-2xl">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-display text-primary">{selectedGD?.title}</DialogTitle>
+                        <DialogDescription className="text-muted-foreground mt-2 flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            {selectedGD && new Date(selectedGD.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    {selectedGD?.image && (
+                        <div className="w-full h-48 rounded-xl overflow-hidden mt-2 relative">
+                            <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent z-10" />
+                            <img src={selectedGD.image} alt={selectedGD.title} className="w-full h-full object-cover" />
+                        </div>
+                    )}
+
+                    <div className="mt-4 space-y-4">
+                        <div className="bg-primary/5 p-4 rounded-xl border border-primary/10">
+                            <h4 className="text-sm font-mono text-primary uppercase tracking-wider mb-2">Description</h4>
+                            <p className="text-foreground/90 whitespace-pre-wrap leading-relaxed">{selectedGD?.description}</p>
+                        </div>
+
+                        {/* End of content */}
+                    </div>
+                </DialogContent>
+            </Dialog>
         </section>
     );
 };

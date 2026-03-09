@@ -11,37 +11,37 @@ const TeamSection = () => {
 
     const teamHierarchy = {
         president: {
-            name: "Vanshika Verma",
+            name: "Vanshika Varun",
             role: "President",
-            image: defaultImage,
+            image: "./Photos/Vanshika.jpg",
             linkedin: "#",
             github: "#",
         },
         vicepresidents: [
-            { name: "Unnati Jadon", role: "Vice President", image: "./public/Photos/photo.jpeg", linkedin: "#", github: "#" },
-            { name: "Manya Suranglikar", role: "Vice President", image: "./public/Photos/Manya.JPG", linkedin: "#", github: "#" },
+            { name: "Unnati Jadon", role: "Vice President", image: "./Photos/unnati.jpeg", linkedin: "#", github: "#" },
+            { name: "Manya Suranglikar", role: "Vice President", image: "./Photos/Manya.JPG", linkedin: "#", github: "#" },
         ],
         operationsCoordinator: {
             name: "Anirudh Parmar",
             role: "Co-ordinator",
-            image: "./public/Photos/Anirudh Parmar.jpg",
+            image: "./Photos/Anirudh Parmar.jpg",
             linkedin: "#",
             github: "#",
         },
         leads: [
-            { name: "Shashwat Verma", role: "Tech Head", image: "./public/Photos/Shashwat Verma.jpeg", linkedin: "#", github: "#" },
-            { name: "Devansh Mishra", role: "PR & Marketing Head", image: "./public/Photos/devansh mishra.jpeg", linkedin: "#", github: "#" },
-            { name: "Akash Rathore", role: "Treasurer", image: "./public/Photos/Akash Rathore.jpg", linkedin: "#", github: "#" },
-            { name: "Kushagra Malviya", role: "Logistics Head", image: "./public/Photos/Kushagra Malviya.jpg", linkedin: "#", github: "#" },
-            { name: "Chanpreet Singh Chitrath", role: "Digital Creators Head", image: "./public/Photos/Chanpreet.jpeg", linkedin: "#", github: "#" },
-            { name: "Suyash Khare", role: "R&D Head", image: "./public/Photos/Suyash.jpg", linkedin: "#", github: "#" },
+            { name: "Shashwat Verma", role: "Tech Head", image: "./Photos/Shashwat verma.JPG", linkedin: "#", github: "#" },
+            { name: "Devansh Mishra", role: "PR & Marketing Head", image: "./Photos/devansh mishra.jpeg", linkedin: "#", github: "#" },
+            { name: "Akash Rathore", role: "Treasurer", image: "./Photos/Akash Rathore.jpg", linkedin: "#", github: "#" },
+            { name: "Kushagra Malviya", role: "Logistics Head", image: "./Photos/Kushagra Malviya.jpg", linkedin: "#", github: "#" },
+            { name: "Chanpreet Singh Chitrath", role: "Digital Creators Head", image: "./Photos/Chanpreet.jpeg", linkedin: "#", github: "#" },
+            { name: "Suyash Khare", role: "R&D Head", image: "./Photos/Suyash.jpg", linkedin: "#", github: "#" },
         ],
         coleads: [
-            { name: "Aastha Pyasi", role: "Jr. Co-ordinator", image: "./public/Photos/aastha.jpg", linkedin: "#", github: "#" },
+            { name: "Aastha Pyasi", role: "Jr. Co-ordinator", image: "./Photos/aastha.jpg", linkedin: "#", github: "#" },
             { name: "Lisa Zhang", role: "Tech Co-Lead", image: defaultImage, linkedin: "#", github: "#" },
-            { name: "Akriti Kushwaha", role: "Logistics Co-Lead", image: "./public/Photos/Akriti.jpeg", linkedin: "#", github: "#" },
+            { name: "Akriti Kushwaha", role: "Logistics Co-Lead", image: "./Photos/Akriti.jpeg", linkedin: "#", github: "#" },
             { name: "Amanda Martinez", role: "Community Co-Lead", image: defaultImage, linkedin: "#", github: "#" },
-            { name: "Samarth Agrawal", role: "Jr. Co-ordinator", image: "./public/Photos/Samarth.png", linkedin: "#", github: "#" },
+            { name: "Samarth Agrawal", role: "Jr. Co-ordinator", image: "./Photos/Samarth.png", linkedin: "#", github: "#" },
         ],
         coordinator: {
             name: "Dr. R S Jadon",
@@ -80,12 +80,11 @@ const TeamSection = () => {
                 transition={{ delay }}
             >
                 <div className={`relative mb-3 ${sizeClasses[size]}`}>
-                    {/* Hexagonal clip container */}
-                    <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-md" />
+                    {/* Glow effect behind shape */}
+                    <div className="absolute -inset-1 bg-gradient-to-br from-primary/30 to-secondary/30 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-md" />
 
                     <div
-                        className="relative w-full h-full overflow-hidden border-2 border-border/50 group-hover:border-primary/50 transition-all duration-500"
-                        style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+                        className="relative w-full h-full overflow-hidden bg-card/20 border border-white/10 group-hover:border-white/30 transition-all duration-500 [clip-path:polygon(15%_0%,_100%_0%,_100%_85%,_85%_100%,_0%_100%,_0%_15%)]"
                     >
                         <img
                             src={member.image}
@@ -127,11 +126,11 @@ const TeamSection = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <div className="flex items-center justify-center gap-2 mb-4">
-                        <span className="text-primary font-mono text-sm">// THE TEAM</span>
-                        <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse" />
+                        <span className="text-primary font-mono text-sm uppercase tracking-widest">// The Team</span>
+                        <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                        Meet Our <span className="text-gradient neon-text">Leadership</span>
+                    <h2 className="text-xl md:text-3xl font-bold mb-4 font-display tracking-tight">
+                        Meet Our <span className="text-primary">Leadership</span>
                     </h2>
                     <p className="text-muted-foreground text-lg">
                         Dedicated leaders driving innovation and building our thriving community

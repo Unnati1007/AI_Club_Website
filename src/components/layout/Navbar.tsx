@@ -14,13 +14,15 @@ const Navbar = () => {
 
             // Detect active section
             const sections = ["hero", "about", "events", "gds", "team", "contributors"];
-            const scrollPosition = window.scrollY + 150; // Detection line offset
-
             let current = "";
             for (const section of sections) {
                 const el = document.getElementById(section);
-                if (el && el.offsetTop <= scrollPosition) {
-                    current = section;
+                if (el) {
+                    const rect = el.getBoundingClientRect();
+                    // Detect if the section is crossing the middle of the viewport
+                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                        current = section;
+                    }
                 }
             }
             setActiveSection(current);
@@ -43,23 +45,20 @@ const Navbar = () => {
     return (
         <motion.nav
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-                ? "glass-strong py-2 shadow-[0_4px_30px_rgba(0,212,255,0.05)]"
+                ? "bg-background/80 backdrop-blur-xl py-2"
                 : "py-3 bg-transparent"
                 }`}
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-            {/* Animated bottom border on scroll */}
+            {/* Crisp border on scroll */}
             {isScrolled && (
                 <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-[1px]"
+                    className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/10"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 0.6 }}
-                    style={{
-                        background: "linear-gradient(90deg, transparent, hsl(190 100% 50% / 0.3), hsl(263 70% 58% / 0.3), transparent)",
-                    }}
                 />
             )}
 

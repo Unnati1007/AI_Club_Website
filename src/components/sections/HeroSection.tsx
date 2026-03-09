@@ -19,9 +19,6 @@ const HeroSection = () => {
         return () => clearTimeout(timer);
     }, []);
 
-    const translateX = useTransform(scrollY, [0, 450], [0, -200]);
-    const translateY = useTransform(scrollY, [0, 450], [0, 680]);
-
     const sectionRef = useRef(null);
     const isInView = useInView(sectionRef, { margin: "0px 0px -100px 0px" });
 
@@ -32,20 +29,12 @@ const HeroSection = () => {
                 <ParticleField particleCount={60} connectionDistance={130} />
             </div>
 
-            {/* Hex grid overlay */}
-            <div className="absolute inset-0 hex-pattern opacity-30" />
-
-            {/* Gradient orbs */}
-            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[100px] animate-float-slow" />
-            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-secondary/8 rounded-full blur-[100px] animate-float-slow" style={{ animationDelay: '-4s' }} />
-
-            {/* Scanline overlay */}
-            <div className="absolute inset-0 pointer-events-none z-20 opacity-[0.02]">
-                <div className="w-full h-[2px] bg-primary/50 animate-scan-line" />
-            </div>
+            {/* Gradient orbs (subtle) */}
+            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] animate-float-slow" />
+            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[120px] animate-float-slow" style={{ animationDelay: '-4s' }} />
 
             <div className="container mx-auto px-3 relative z-10">
-                <Card className="w-full bg-card/30 backdrop-blur-md border-border/30 relative overflow-hidden min-h-[500px] lg:min-h-[600px] shadow-[0_0_80px_rgba(0,212,255,0.03)]">
+                <Card className="w-full bg-card/10 backdrop-blur-xl border-white/10 hover:border-white/20 transition-colors relative overflow-hidden min-h-[500px] lg:min-h-[600px] shadow-2xl">
                     <Spotlight
                         className="-top-40 left-0 md:left-60 md:-top-20"
                         fill="hsl(var(--primary))"
@@ -64,37 +53,28 @@ const HeroSection = () => {
                         >
                             {/* Status badge */}
                             <motion.div
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 mb-6 w-fit"
+                                className="inline-flex items-center gap-2 px-4 py-1.5 border border-primary/20 bg-primary/5 backdrop-blur-md mb-6 w-fit rounded-full"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
                             >
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
-                                </span>
-                                <span className="text-xs font-mono text-primary/80 tracking-wider uppercase">System Active</span>
+                                <span className="w-2 h-2 bg-primary group-hover:animate-pulse rounded-full"></span>
+                                <span className="text-xs font-mono text-primary tracking-widest uppercase">System Active</span>
                             </motion.div>
 
-                            {/* Main heading with glitch */}
+                            {/* Main heading */}
                             <div className="mb-2">
                                 <GlitchText
                                     as="h1"
-                                    className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight text-foreground font-display tracking-tight"
+                                    className="text-2xl md:text-3xl lg:text-4xl font-black leading-tight text-foreground font-display tracking-tight"
                                 >
                                     AI CLUB
                                 </GlitchText>
                             </div>
 
-                            {/* Typewriter subheading */}
-                            <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 min-h-[1.2em]">
-                                <TypewriterText
-                                    phrases={["Innovate.", "Build.", "Deploy.", "Learn.", "Create."]}
-                                    className="text-gradient"
-                                    typeSpeed={100}
-                                    deleteSpeed={50}
-                                    pauseDuration={1500}
-                                />
+                            {/* Clean subheading */}
+                            <div className="text-xl md:text-2xl font-semibold mb-4 text-foreground/90">
+                                Innovate. Build. Deploy.
                             </div>
 
                             <p className="text-base text-muted-foreground max-w-lg mb-8 leading-relaxed">
@@ -105,19 +85,15 @@ const HeroSection = () => {
                             <div className="flex flex-wrap gap-4">
                                 <Button
                                     size="lg"
-                                    className="group relative overflow-hidden bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-secondary text-primary-foreground font-semibold transition-all duration-500 animate-pulse-glow"
+                                    className="group relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground font-semibold transition-all duration-300 rounded-xl"
+                                    asChild
                                 >
-                                    <Sparkles className="mr-2 w-4 h-4" />
-                                    Explore Events
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
+                                    <a href="#events">
+                                        Explores Events
+                                        <Sparkles className="ml-2 w-4 h-4" />
+                                    </a>
                                 </Button>
-                                <Button
-                                    size="lg"
-                                    variant="outline"
-                                    className="border-border/50 hover:border-primary/50 hover:bg-primary/5 font-semibold transition-all duration-300"
-                                >
-                                    Learn More
-                                </Button>
+
                             </div>
 
                             {/* Animated stats */}
@@ -144,14 +120,10 @@ const HeroSection = () => {
 
                         {/* Spline Robot */}
                         <motion.div
-                            className="h-[350px] lg:h-full relative will-change-transform"
+                            className="hidden md:block h-[350px] lg:h-full relative will-change-transform"
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.8, delay: 0.3 }}
-                            style={{
-                                x: translateX,
-                                y: translateY
-                            }}
                         >
                             {isInView && (
                                 <SplineScene

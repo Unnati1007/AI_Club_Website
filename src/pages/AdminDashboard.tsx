@@ -7,7 +7,7 @@ import { useGDStore, GDItem } from "@/hooks/useGDStore";
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
-    const { gds, addGD, updateGD, deleteGD, storageError } = useGDStore();
+    const { gds, addGD, updateGD, deleteGD, error: backendError, isLoading } = useGDStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingGD, setEditingGD] = useState<GDItem | null>(null);
     const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
@@ -100,7 +100,7 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLocalError(null);
         if (!formTitle.trim() || !formDescription.trim()) return;
@@ -108,15 +108,16 @@ const AdminDashboard = () => {
         const imageUrl = formImage || "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=600&h=400&fit=crop";
 
         try {
+            let result;
             if (editingGD) {
-                updateGD(editingGD.id, {
+                result = await updateGD(editingGD._id, {
                     title: formTitle,
                     description: formDescription,
                     image: imageUrl,
                     date: formDate,
                 });
             } else {
-                addGD({
+                result = await addGD({
                     title: formTitle,
                     description: formDescription,
                     image: imageUrl,
@@ -124,23 +125,23 @@ const AdminDashboard = () => {
                 });
             }
 
-            // We close the modal, if there's a storage error it will appear on the main dashboard
-            // But we check if the storageError jumped immediately
-            setTimeout(() => {
-                if (!storageError) {
-                    setIsModalOpen(false);
-                } else {
-                    setLocalError(storageError);
-                }
-            }, 100);
-        } catch (err) {
-            setLocalError("Failed to save. Storage might be full.");
+            if (result.success) {
+                setIsModalOpen(false);
+            } else {
+                setLocalError(result.error || "Failed to save");
+            }
+        } catch (err: any) {
+            setLocalError(err.message || "An unexpected error occurred");
         }
     };
 
-    const handleDelete = (id: string) => {
-        deleteGD(id);
-        setDeleteConfirm(null);
+    const handleDelete = async (id: string) => {
+        const result = await deleteGD(id);
+        if (result.success) {
+            setDeleteConfirm(null);
+        } else {
+            setLocalError(result.error || "Failed to delete");
+        }
     };
 
     return (
@@ -176,7 +177,7 @@ const AdminDashboard = () => {
 
             <div className="container mx-auto px-6 py-8">
                 {/* Storage Error Alert */}
-                {(storageError || localError) && (
+                {(backendError || localError) && (
                     <motion.div
                         className="flex items-center gap-3 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm mb-8"
                         initial={{ opacity: 0, y: -10 }}
@@ -184,8 +185,8 @@ const AdminDashboard = () => {
                     >
                         <AlertCircle className="w-5 h-5 flex-shrink-0" />
                         <div>
-                            <p className="font-bold">Storage Error</p>
-                            <p className="opacity-90">{localError || storageError}</p>
+                            <p className="font-bold">Error</p>
+                            <p className="opacity-90">{localError || backendError}</p>
                         </div>
                     </motion.div>
                 )}
@@ -219,7 +220,7 @@ const AdminDashboard = () => {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {gds.map((gd, i) => (
                             <motion.div
-                                key={gd.id}
+                                key={gd._id}
                                 className="group rounded-2xl glass border-border/30 overflow-hidden hover:border-primary/20 transition-all duration-300"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -257,12 +258,12 @@ const AdminDashboard = () => {
                                             <Pencil className="w-3 h-3" />
                                             Edit
                                         </Button>
-                                        {deleteConfirm === gd.id ? (
+                                        {deleteConfirm === gd._id ? (
                                             <div className="flex gap-1">
                                                 <Button
                                                     variant="destructive"
                                                     size="sm"
-                                                    onClick={() => handleDelete(gd.id)}
+                                                    onClick={() => handleDelete(gd._id)}
                                                     className="text-xs px-3"
                                                 >
                                                     Confirm
@@ -280,7 +281,7 @@ const AdminDashboard = () => {
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                onClick={() => setDeleteConfirm(gd.id)}
+                                                onClick={() => setDeleteConfirm(gd._id)}
                                                 className="gap-1.5 border-border/50 hover:border-destructive/50 hover:text-destructive text-xs"
                                             >
                                                 <Trash2 className="w-3 h-3" />

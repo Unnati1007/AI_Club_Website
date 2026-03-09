@@ -63,11 +63,11 @@ export default function EventsSection() {
                     transition={{ duration: 0.6 }}
                 >
                     <div className="flex items-center gap-3 mb-4">
-                        <span className="h-[1px] w-10 bg-gradient-to-r from-transparent to-primary" />
-                        <span className="text-primary font-mono text-xs tracking-[0.3em] uppercase">// Events</span>
-                        <span className="h-[1px] w-10 bg-gradient-to-l from-transparent to-primary" />
+                        <span className="h-[1px] w-10 bg-white/20" />
+                        <span className="text-primary font-mono text-xs tracking-[0.3em] uppercase">// Events_Log</span>
+                        <span className="h-[1px] w-10 bg-white/20" />
                     </div>
-                    <h2 className="font-display text-5xl md:text-7xl font-bold mb-6 text-gradient tracking-tight">
+                    <h2 className="font-display text-3xl md:text-4xl font-bold mb-6 tracking-tight">
                         Events
                     </h2>
                     <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
@@ -126,7 +126,7 @@ export default function EventsSection() {
                                 </span>
                             </div>
 
-                            <h3 className="font-display text-3xl font-bold text-foreground group-hover:text-primary transition-colors duration-300 relative z-10">
+                            <h3 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300 relative z-10">
                                 {event.title}
                             </h3>
 
