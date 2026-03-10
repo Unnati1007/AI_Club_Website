@@ -79,7 +79,6 @@ const AboutSection = () => {
                     >
                         {/* Terminal-style label */}
                         <div className="flex items-center gap-2 mb-4">
-                            <span className="text-primary font-mono text-sm uppercase tracking-widest">// About_Us</span>
                             <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                         </div>
 

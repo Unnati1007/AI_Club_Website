@@ -126,7 +126,6 @@ const TeamSection = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <div className="flex items-center justify-center gap-2 mb-4">
-                        <span className="text-primary font-mono text-sm uppercase tracking-widest">// The Team</span>
                         <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
                     <h2 className="text-xl md:text-3xl font-bold mb-4 font-display tracking-tight">

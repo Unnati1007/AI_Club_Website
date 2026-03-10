@@ -28,11 +28,10 @@ const GDSection = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <div className="flex items-center justify-center gap-2 mb-4">
-                        <span className="text-primary font-mono text-sm tracking-widest uppercase">// Group_Discussions</span>
                         <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
                     <h2 className="text-xl md:text-3xl font-bold mb-4">
-                        Our <span className="text-primary font-display">GDs</span>
+                        AI <span className="text-primary font-display">Round Table</span>
                     </h2>
                     <p className="text-muted-foreground text-lg">
                         Weekly brainstorming sessions where ideas collide and innovation sparks

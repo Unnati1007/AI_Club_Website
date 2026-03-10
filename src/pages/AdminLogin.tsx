@@ -48,8 +48,8 @@ const AdminLogin = () => {
             >
                 {/* Logo */}
                 <div className="flex items-center justify-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 flex items-center justify-center">
-                        <Cpu className="w-5 h-5 text-primary" />
+                    <div className="flex items-center justify-center relative">
+                        <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-12 h-12 object-contain relative z-10" />
                     </div>
                     <span className="font-display text-xl font-bold tracking-wider text-gradient">AI CLUB</span>
                 </div>

@@ -150,8 +150,8 @@ const AdminDashboard = () => {
             <div className="glass-strong border-b border-border/30 sticky top-0 z-50">
                 <div className="container mx-auto px-6 py-3 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 flex items-center justify-center">
-                            <Cpu className="w-4 h-4 text-primary" />
+                        <div className="flex items-center justify-center relative">
+                            <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-8 h-8 object-contain relative z-10" />
                         </div>
                         <div>
                             <span className="font-display text-sm font-bold tracking-wider text-gradient">AI CLUB</span>

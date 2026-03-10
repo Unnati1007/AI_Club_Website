@@ -104,9 +104,8 @@ const HeroSection = () => {
                                 transition={{ delay: 0.6 }}
                             >
                                 {[
-                                    { value: 200, suffix: "+", label: "Members" },
-                                    { value: 50, suffix: "+", label: "Projects" },
-                                    { value: 30, suffix: "+", label: "Events" },
+                                    { value: 50, suffix: "+", label: "Members" },
+                                    { value: 5, suffix: "+", label: "Events" },
                                 ].map((stat, i) => (
                                     <div key={i} className="group">
                                         <div className="text-2xl md:text-3xl font-bold font-display text-gradient group-hover:neon-text transition-all duration-300">

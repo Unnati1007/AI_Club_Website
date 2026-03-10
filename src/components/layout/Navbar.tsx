@@ -66,11 +66,9 @@ const Navbar = () => {
                 <div className="flex items-center justify-between">
                     {/* Logo */}
                     <a href="#" className="flex items-center gap-3 group">
-                        <div className="relative">
-                            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 flex items-center justify-center group-hover:shadow-[0_0_15px_rgba(0,212,255,0.3)] transition-all duration-300">
-                                <Cpu className="w-5 h-5 text-primary" />
-                            </div>
-                            <div className="absolute -inset-1 rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10 blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="relative flex items-center justify-center">
+                            <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-10 h-10 object-contain z-10" />
+                            <div className="absolute -inset-1 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 blur-sm opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
                         <span className="font-display text-lg font-bold tracking-wider bg-gradient-to-r from-primary to-foreground bg-clip-text text-transparent">
                             AI CLUB
