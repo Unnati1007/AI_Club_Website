@@ -67,25 +67,25 @@ const Navbar = () => {
                     {/* Logo */}
                     <a href="#" className="flex items-center gap-3 group">
                         <div className="relative flex items-center justify-center">
-                            <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-10 h-10 object-contain z-10" />
+                            <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-12 h-12 md:w-14 md:h-14 object-contain z-10 group-hover:scale-105 transition-transform duration-300" />
                             <div className="absolute -inset-1 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 blur-sm opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
-                        <span className="font-display text-lg font-bold tracking-wider bg-gradient-to-r from-primary to-foreground bg-clip-text text-transparent">
+                        <span className="font-display text-xl md:text-2xl font-bold tracking-wider bg-gradient-to-r from-primary to-foreground bg-clip-text text-transparent">
                             AI CLUB
                         </span>
                     </a>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-1">
+                    <div className="hidden md:flex items-center gap-2">
                         {navLinks.map((link) => {
                             const isActive = activeSection === link.href.replace("#", "");
                             return (
                                 <a
                                     key={link.label}
                                     href={link.href}
-                                    className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg ${isActive
-                                        ? "text-primary"
-                                        : "text-muted-foreground hover:text-foreground"
+                                    className={`relative px-5 py-2 text-base font-semibold tracking-wide transition-all duration-300 rounded-lg ${isActive
+                                        ? "text-primary bg-primary/10"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-foreground/5 hover:scale-105"
                                         }`}
                                 >
                                     {link.label}

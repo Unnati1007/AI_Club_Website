@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Brain, Code2, Users, Lightbulb, Zap, Target } from "lucide-react";
+import { Users, Zap, Target, MessageSquare, FileText } from "lucide-react";
 import { SplineScene } from "@/components/ui/spline-scene";
 
 const AboutSection = () => {
@@ -10,27 +10,21 @@ const AboutSection = () => {
 
     const features = [
         {
-            icon: Brain,
-            title: "AI Research",
-            description: "Explore cutting-edge AI technologies and machine learning concepts",
+            icon: MessageSquare,
+            title: "Discussions & Trends",
+            description: "We host monthly group discussions where we talk about current AI trends, research topics, and real-world applications. It’s a space to share ideas, ask questions, and understand things together.",
             color: "from-cyan-500 to-blue-500",
         },
         {
-            icon: Code2,
-            title: "Hands-on Projects",
-            description: "Build real-world applications using the latest AI tools and frameworks",
+            icon: FileText,
+            title: "Research & Reports",
+            description: "For selected topics, we go a step further — researching, breaking things down, and creating simple reports. It’s a great starting point for anyone curious about exploring AI beyond basics.",
             color: "from-purple-500 to-pink-500",
         },
         {
-            icon: Users,
-            title: "Community",
-            description: "Connect with like-minded innovators and industry professionals",
-            color: "from-blue-500 to-indigo-500",
-        },
-        {
-            icon: Lightbulb,
-            title: "Innovation",
-            description: "Turn ideas into reality through hackathons and collaborative projects",
+            icon: Target,
+            title: "Sessions, Events & Activities",
+            description: "Along with learning sessions, we also organize interactive events, fun activities, and AI-based games to keep things engaging and practical.",
             color: "from-amber-500 to-orange-500",
         },
     ];
@@ -50,6 +44,24 @@ const AboutSection = () => {
             />
 
             <div className="container mx-auto px-6 relative z-10">
+                {/* Section Heading */}
+                <motion.div
+                    className="text-center max-w-2xl mx-auto mb-16"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                >
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                        <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
+                    </div>
+                    <h2 className="text-xl md:text-3xl font-bold mb-4 font-display tracking-tight">
+                        About <span className="text-primary">AI Club</span>
+                    </h2>
+                    <p className="text-muted-foreground text-lg">
+                        Empowering the Next Generation of AI Innovators
+                    </p>
+                </motion.div>
+
                 {/* Hero area with Spline */}
                 <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
                     <div className="h-[400px] lg:h-[500px] relative">
@@ -77,26 +89,17 @@ const AboutSection = () => {
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
-                        {/* Terminal-style label */}
-                        <div className="flex items-center gap-2 mb-4">
-                            <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
-                        </div>
-
-                        <h2 className="text-lg md:text-2xl font-bold mb-6 leading-tight">
-                            Empowering the Next Generation of{" "}
-                            <span className="text-primary font-display">AI Innovators</span>
-                        </h2>
 
                         <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
-                            AI Club is a vibrant community dedicated to exploring the frontiers of artificial intelligence.
-                            We bring together students, developers, and enthusiasts who share a passion for building
-                            intelligent systems that solve real-world problems.
+                            AI Club is a student-driven community for anyone curious about artificial intelligence and how it actually works in the real world. Instead of just focusing on theory, we regularly conduct group discussions where members explore current AI trends, share ideas, and break down complex topics in a simple way.
                         </p>
 
-                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-8">
-                            Through workshops, hackathons, and collaborative projects, we provide hands-on experience
-                            with machine learning, deep learning, natural language processing, and computer vision.
-                            Our mission is to demystify AI and make it accessible to everyone.
+                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
+                            We also organize practical events, workshops, and hands-on sessions to help members understand tools and technologies step by step. What makes our club different is that it provides a space for students who are interested in research whether it's exploring new ideas, working on problem statements, or understanding how real-world AI systems are built.
+                        </p>
+
+                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
+                            The club is open to learners at all levels. If you're someone who likes asking questions, discussing new tech, or experimenting with ideas, this is a place where you can actively learn, contribute, and grow with others who share the same interest.
                         </p>
 
                         {/* Mission points with animated reveal */}
@@ -124,7 +127,7 @@ const AboutSection = () => {
                 </div>
 
                 {/* Feature cards grid */}
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6">
                     {features.map((feature, i) => (
                         <motion.div
                             key={i}

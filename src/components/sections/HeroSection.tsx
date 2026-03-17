@@ -79,7 +79,7 @@ const HeroSection = () => {
 
                             <p className="text-base text-muted-foreground max-w-lg mb-8 leading-relaxed">
                                 Join a community of passionate innovators, developers, and AI enthusiasts.
-                                We explore cutting-edge technologies, build groundbreaking projects, and shape the future together.
+                                We explore cutting-edge technologies, brainstrom about current AI trends and shape the future together.
                             </p>
 
                             <div className="flex flex-wrap gap-4">
@@ -96,24 +96,72 @@ const HeroSection = () => {
 
                             </div>
 
-                            {/* Animated stats */}
+                            {/* Animated stats & Info cards */}
                             <motion.div
-                                className="flex gap-8 mt-12 pt-8 border-t border-border/30"
+                                className="flex flex-col sm:flex-row gap-4 mt-12 pt-8 border-t border-border/30"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.6 }}
                             >
-                                {[
-                                    { value: 50, suffix: "+", label: "Members" },
-                                    { value: 5, suffix: "+", label: "Events" },
-                                ].map((stat, i) => (
-                                    <div key={i} className="group">
-                                        <div className="text-2xl md:text-3xl font-bold font-display text-gradient group-hover:neon-text transition-all duration-300">
-                                            <AnimatedCounter target={stat.value} suffix={stat.suffix} duration={2000 + i * 300} />
+                                {/* Community Pulse Card */}
+                                <div className="relative group overflow-hidden rounded-2xl bg-[#1a1c23] p-6 border border-white/5 flex-1 min-w-[240px]">
+                                    {/* Neon border glow effect */}
+                                    <div className="absolute -inset-px bg-gradient-to-r from-teal-500/0 via-teal-500/40 to-teal-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                    <div className="relative z-10 flex flex-col h-full justify-between">
+                                        <div>
+                                            <div className="text-[10px] font-bold tracking-[0.2em] text-[#00e5ff] uppercase mb-2">
+                                                COMMUNITY PULSE
+                                            </div>
+                                            <div className="text-xl md:text-2xl font-bold text-white mb-6">
+                                                We are a Community of 50+ Innovators
+                                            </div>
                                         </div>
-                                        <div className="text-xs text-muted-foreground font-mono uppercase tracking-wider mt-1">{stat.label}</div>
+
+                                        {/* Simple SVG Trend Line */}
+                                        <div className="w-full h-12 relative mt-auto">
+                                            <svg viewBox="0 0 100 40" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+                                                {/* Gradient Fill under line */}
+                                                <defs>
+                                                    <linearGradient id="trendGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                        <stop offset="0%" stopColor="#00e5ff" stopOpacity="0.3" />
+                                                        <stop offset="100%" stopColor="#00e5ff" stopOpacity="0" />
+                                                    </linearGradient>
+                                                </defs>
+
+                                                <path
+                                                    d="M0 30 L15 25 L30 32 L45 20 L60 25 L75 10 L100 5 V40 L0 40 Z"
+                                                    fill="url(#trendGradient)"
+                                                    className="opacity-50"
+                                                />
+                                                <path
+                                                    d="M0 30 L15 25 L30 32 L45 20 L60 25 L75 10 L100 5"
+                                                    fill="none"
+                                                    stroke="#00e5ff"
+                                                    strokeWidth="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    className="drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]"
+                                                />
+                                            </svg>
+                                        </div>
                                     </div>
-                                ))}
+                                </div>
+
+                                {/* Events Info Card */}
+                                <div className="relative group overflow-hidden rounded-2xl bg-[#13111c] p-6 border border-white/5 flex-1 min-w-[200px] flex flex-col items-center justify-center text-center">
+                                    {/* Neon border glow effect */}
+                                    <div className="absolute -inset-px bg-gradient-to-r from-purple-500/0 via-purple-500/30 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                    <div className="relative z-10 w-full h-full flex flex-col items-center justify-center">
+                                        <div className="w-12 h-12 rounded-full bg-purple-500/20 mb-4 flex items-center justify-center">
+                                            <Sparkles className="w-6 h-6 text-[#b026ff]" />
+                                        </div>
+                                        <div className="text-lg md:text-xl font-bold text-white leading-tight">
+                                            Conducted Many Events<br />& Group Discussions
+                                        </div>
+                                    </div>
+                                </div>
                             </motion.div>
                         </motion.div>
 
