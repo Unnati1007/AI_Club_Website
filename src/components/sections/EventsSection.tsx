@@ -232,7 +232,7 @@ export default function EventsSection() {
                         {[...EVENT_IMAGES, ...EVENT_IMAGES, ...EVENT_IMAGES].map((src, index) => (
                             <motion.div
                                 key={index}
-                                className="h-72 w-96 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-card/30 group relative transform-gpu"
+                                className="h-72 w-96 flex-shrink-0 overflow-hidden clay-card group relative transform-gpu"
                                 whileHover={{
                                     scale: 1.05,
                                     rotateY: 5,
@@ -286,7 +286,7 @@ export default function EventsSection() {
                                     }}
                                     onHoverStart={() => setHoveredIndex(actualIndex)}
                                     onHoverEnd={() => setHoveredIndex(null)}
-                                    className="group relative cursor-pointer rounded-3xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-xl p-[1px] overflow-hidden border border-border/50 hover:border-transparent transition-all duration-500"
+                                    className="group relative cursor-pointer clay-card overflow-hidden transition-all duration-500"
                                 >
                                     {/* Animated gradient border */}
                                     <motion.div
@@ -298,7 +298,7 @@ export default function EventsSection() {
                                     />
 
                                     {/* Card content */}
-                                    <div className="relative flex flex-col gap-6 rounded-3xl bg-gradient-to-br from-background to-card p-8 h-full">
+                                    <div className="relative flex flex-col gap-6 p-8 h-full">
                                         {/* Top accent with icon */}
                                         <div className="flex justify-between items-start">
                                             <div className="flex items-center gap-3">
@@ -376,7 +376,7 @@ export default function EventsSection() {
                     <Button
                         variant="outline"
                         size="lg"
-                        className="group relative overflow-hidden border-2 border-primary/20 hover:border-primary/40 bg-background/50 backdrop-blur-sm px-8 py-6 text-lg font-medium rounded-full font-sans"
+                        className="group relative overflow-hidden px-8 py-6 text-lg font-medium font-sans"
                         onClick={() => setShowAll(!showAll)}
                     >
                         <motion.span

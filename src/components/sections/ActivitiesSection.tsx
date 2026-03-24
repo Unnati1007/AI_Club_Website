@@ -68,7 +68,7 @@ const ActivitiesSection = () => {
                     {activities.map((activity, i) => (
                         <motion.div
                             key={i}
-                            className={`group grid md:grid-cols-2 gap-0 items-stretch rounded-2xl overflow-hidden border border-border/30 hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(0,212,255,0.05)] bg-card/30 backdrop-blur-sm`}
+                            className={`group grid md:grid-cols-2 gap-0 items-stretch clay-card overflow-hidden hover:-translate-y-2 transition-all duration-500`}
                             initial={{ opacity: 0, y: 40 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ delay: 0.15 * i, duration: 0.6 }}

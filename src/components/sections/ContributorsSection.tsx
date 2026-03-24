@@ -102,7 +102,7 @@ const ContributorsSection = () => {
                     {contributors.map((contributor, i) => (
                         <motion.div
                             key={i}
-                            className="group relative rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-xl border border-border/30 transition-all duration-500 overflow-hidden cursor-pointer"
+                            className="group relative clay-card transition-all duration-500 overflow-hidden cursor-pointer"
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ delay: 0.15 + i * 0.1, duration: 0.5 }}
@@ -285,7 +285,7 @@ const ContributorsSection = () => {
                                 <div className="flex gap-3">
                                     <motion.a
                                         href={contributor.github}
-                                        className="w-9 h-9 rounded-xl bg-muted/30 border border-border/30 flex items-center justify-center relative overflow-hidden group/btn"
+                                        className="w-9 h-9 clay-btn flex items-center justify-center relative overflow-hidden group/btn"
                                         whileHover={{
                                             scale: 1.15,
                                             y: -3,
@@ -307,7 +307,7 @@ const ContributorsSection = () => {
                                     </motion.a>
                                     <motion.a
                                         href={contributor.linkedin}
-                                        className="w-9 h-9 rounded-xl bg-muted/30 border border-border/30 flex items-center justify-center relative overflow-hidden group/btn"
+                                        className="w-9 h-9 clay-btn flex items-center justify-center relative overflow-hidden group/btn"
                                         whileHover={{
                                             scale: 1.15,
                                             y: -3,

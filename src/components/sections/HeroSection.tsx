@@ -34,7 +34,7 @@ const HeroSection = () => {
             <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[120px] animate-float-slow" style={{ animationDelay: '-4s' }} />
 
             <div className="container mx-auto px-3 relative z-10">
-                <Card className="w-full bg-card/10 backdrop-blur-xl border-white/10 hover:border-white/20 transition-colors relative overflow-hidden min-h-[500px] lg:min-h-[600px] shadow-2xl">
+                <Card className="w-full clay-panel transition-colors relative overflow-hidden min-h-[500px] lg:min-h-[600px]">
                     <Spotlight
                         className="-top-40 left-0 md:left-60 md:-top-20"
                         fill="hsl(var(--primary))"
@@ -85,7 +85,7 @@ const HeroSection = () => {
                             <div className="flex flex-wrap gap-4">
                                 <Button
                                     size="lg"
-                                    className="group relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground font-semibold transition-all duration-300 rounded-xl"
+                                    className="group relative overflow-hidden font-semibold transition-all duration-300"
                                     asChild
                                 >
                                     <a href="#events">
@@ -104,7 +104,7 @@ const HeroSection = () => {
                                 transition={{ delay: 0.6 }}
                             >
                                 {/* Community Pulse Card */}
-                                <div className="relative group overflow-hidden rounded-2xl bg-[#1a1c23] p-6 border border-white/5 flex-1 min-w-[240px]">
+                                <div className="relative group overflow-hidden clay-card p-6 flex-1 min-w-[240px]">
                                     {/* Neon border glow effect */}
                                     <div className="absolute -inset-px bg-gradient-to-r from-teal-500/0 via-teal-500/40 to-teal-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -149,7 +149,7 @@ const HeroSection = () => {
                                 </div>
 
                                 {/* Events Info Card */}
-                                <div className="relative group overflow-hidden rounded-2xl bg-[#13111c] p-6 border border-white/5 flex-1 min-w-[200px] flex flex-col items-center justify-center text-center">
+                                <div className="relative group overflow-hidden clay-card p-6 flex-1 min-w-[200px] flex flex-col items-center justify-center text-center">
                                     {/* Neon border glow effect */}
                                     <div className="absolute -inset-px bg-gradient-to-r from-purple-500/0 via-purple-500/30 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 

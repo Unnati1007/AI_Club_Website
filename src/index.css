@@ -5,45 +5,77 @@
 
 @layer base {
     :root {
-        --background: 220 20% 4%;
-        --foreground: 210 40% 98%;
+        --background: 210 20% 95%;
+        --foreground: 220 20% 15%;
 
-        --card: 220 20% 8%;
-        --card-foreground: 210 40% 98%;
+        --card: 210 20% 95%;
+        --card-foreground: 220 20% 15%;
 
-        --popover: 220 20% 8%;
-        --popover-foreground: 210 40% 98%;
+        --popover: 210 20% 95%;
+        --popover-foreground: 220 20% 15%;
 
-        --primary: 190 100% 50%;
-        --primary-foreground: 220 20% 4%;
+        --primary: 250 80% 65%;
+        --primary-foreground: 0 0% 100%;
 
-        --secondary: 263 70% 58%;
-        --secondary-foreground: 210 40% 98%;
+        --secondary: 190 80% 60%;
+        --secondary-foreground: 0 0% 100%;
 
-        --muted: 220 15% 15%;
-        --muted-foreground: 215 20% 65%;
+        --muted: 210 20% 85%;
+        --muted-foreground: 220 20% 40%;
 
-        --accent: 263 70% 58%;
-        --accent-foreground: 210 40% 98%;
+        --accent: 340 80% 65%;
+        --accent-foreground: 0 0% 100%;
 
         --destructive: 0 84% 60%;
         --destructive-foreground: 210 40% 98%;
 
-        --border: 220 15% 20%;
-        --input: 220 15% 20%;
-        --ring: 190 100% 50%;
+        --border: 210 20% 85%;
+        --input: 210 20% 85%;
+        --ring: 250 80% 65%;
 
-        --radius: 1rem;
+        --radius: 1.5rem;
 
-        --glow-primary: 190 100% 50%;
-        --glow-secondary: 263 70% 58%;
-        --gradient-start: 190 100% 50%;
-        --gradient-end: 263 70% 58%;
+        --clay-bg: 210 20% 95%;
+        --clay-shadow-out: 12px 12px 24px hsl(210 20% 85%), -12px -12px 24px hsl(0 0% 100%);
+        --clay-shadow-in: inset 6px 6px 12px hsl(210 20% 85%), inset -6px -6px 12px hsl(0 0% 100%);
+        --clay-shadow-btn: 6px 6px 12px hsl(210 20% 85%), -6px -6px 12px hsl(0 0% 100%), inset 2px 2px 4px hsl(0 0% 100%), inset -2px -2px 4px hsl(210 20% 85%);
+        --clay-shadow-btn-active: inset 6px 6px 12px hsl(210 20% 85%), inset -6px -6px 12px hsl(0 0% 100%);
     }
 
     .dark {
-        --background: 220 20% 4%;
-        --foreground: 210 40% 98%;
+        --background: 220 20% 12%;
+        --foreground: 210 40% 95%;
+
+        --card: 220 20% 12%;
+        --card-foreground: 210 40% 95%;
+
+        --popover: 220 20% 12%;
+        --popover-foreground: 210 40% 95%;
+
+        --primary: 250 80% 65%;
+        --primary-foreground: 0 0% 100%;
+
+        --secondary: 190 80% 60%;
+        --secondary-foreground: 0 0% 100%;
+
+        --muted: 220 20% 20%;
+        --muted-foreground: 215 20% 70%;
+
+        --accent: 340 80% 65%;
+        --accent-foreground: 0 0% 100%;
+
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+
+        --border: 220 20% 20%;
+        --input: 220 20% 20%;
+        --ring: 250 80% 65%;
+
+        --clay-bg: 220 20% 12%;
+        --clay-shadow-out: 12px 12px 24px hsl(220 20% 6%), -12px -12px 24px hsl(220 20% 18%);
+        --clay-shadow-in: inset 6px 6px 12px hsl(220 20% 6%), inset -6px -6px 12px hsl(220 20% 18%);
+        --clay-shadow-btn: 6px 6px 12px hsl(220 20% 6%), -6px -6px 12px hsl(220 20% 18%), inset 2px 2px 4px hsl(220 20% 18%), inset -2px -2px 4px hsl(220 20% 6%);
+        --clay-shadow-btn-active: inset 6px 6px 12px hsl(220 20% 6%), inset -6px -6px 12px hsl(220 20% 18%);
     }
 }
 
@@ -118,6 +150,73 @@
 }
 
 @layer utilities {
+    .clay-card {
+        background: hsl(var(--clay-bg));
+        border-radius: var(--radius);
+        box-shadow: var(--clay-shadow-out), var(--clay-shadow-in);
+        border: none;
+    }
+    
+    .clay-panel {
+        background: hsl(var(--clay-bg));
+        border-radius: calc(var(--radius) * 1.5);
+        box-shadow: var(--clay-shadow-out);
+        border: none;
+    }
+
+    .clay-btn {
+        background: hsl(var(--clay-bg));
+        border-radius: calc(var(--radius) - 0.5rem);
+        box-shadow: var(--clay-shadow-btn);
+        color: hsl(var(--foreground));
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+        border: none;
+    }
+    
+    .clay-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .clay-btn:active {
+        transform: translateY(2px);
+        box-shadow: var(--clay-shadow-btn-active);
+    }
+
+    .clay-btn-primary {
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+        border-radius: calc(var(--radius) - 0.5rem);
+        box-shadow: 
+            6px 6px 12px hsl(var(--clay-bg) / 0.5), 
+            -6px -6px 12px hsl(0 0% 100% / 0.1), 
+            inset 3px 3px 6px hsl(0 0% 100% / 0.2), 
+            inset -3px -3px 6px hsl(0 0% 0% / 0.2);
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+        border: none;
+    }
+    
+    .clay-btn-primary:active {
+        box-shadow: 
+            inset 4px 4px 8px hsl(0 0% 0% / 0.3), 
+            inset -4px -4px 8px hsl(0 0% 100% / 0.2);
+        transform: translateY(2px);
+    }
+
+    .clay-input {
+        background: hsl(var(--clay-bg));
+        border-radius: calc(var(--radius) - 0.5rem);
+        box-shadow: var(--clay-shadow-in);
+        border: 2px solid transparent;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .clay-input:focus {
+        border-color: hsl(var(--ring));
+        outline: none;
+    }
+
     .text-gradient {
         @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
     }

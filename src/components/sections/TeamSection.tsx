@@ -78,7 +78,7 @@ const TeamSection = () => {
                     <div className="absolute -inset-2 bg-primary/20 rounded-full opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
 
                     <div
-                        className="relative w-full h-full overflow-hidden bg-card/20 border-2 border-white/10 group-hover:border-primary/40 transition-all duration-500 [clip-path:polygon(15%_0%,_100%_0%,_100%_85%,_85%_100%,_0%_100%,_0%_15%)]"
+                        className="relative w-full h-full overflow-hidden clay-card transition-all duration-500 rounded-2xl"
                     >
                         <img
                             src={member.image}
@@ -124,7 +124,7 @@ const TeamSection = () => {
                     <div className="absolute inset-2 border border-primary/20 rounded-md" />
 
                     {/* Image area */}
-                    <div className="absolute inset-4 overflow-hidden rounded-md bg-gradient-to-br from-card to-card/50">
+                    <div className="absolute inset-4 overflow-hidden clay-card">
                         <img
                             src={image}
                             alt={name}

@@ -65,8 +65,8 @@ const AboutSection = () => {
                 {/* Hero area with Spline */}
                 <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
                     <div className="h-[400px] lg:h-[500px] relative">
-                        <motion.div
-                            className="hidden lg:block relative h-full rounded-2xl overflow-hidden glass border-primary/10"
+                            <motion.div
+                                className="hidden lg:block relative h-full clay-card overflow-hidden"
                             initial={{ opacity: 0, x: -50 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ duration: 0.8 }}
@@ -116,7 +116,7 @@ const AboutSection = () => {
                                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                                     transition={{ delay: 0.4 + i * 0.1 }}
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 group-hover:border-primary/40 transition-all duration-300">
+                                    <div className="w-8 h-8 clay-card flex items-center justify-center transition-all duration-300">
                                         <point.icon className="w-4 h-4 text-primary" />
                                     </div>
                                     <span className="text-foreground font-medium text-sm md:text-base">{point.text}</span>
@@ -131,7 +131,7 @@ const AboutSection = () => {
                     {features.map((feature, i) => (
                         <motion.div
                             key={i}
-                            className="group relative p-6 rounded-2xl glass border-transparent hover:border-primary/20 transition-all duration-500 cursor-pointer overflow-hidden"
+                            className="group relative p-6 clay-card hover:-translate-y-2 transition-all duration-500 cursor-pointer overflow-hidden"
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ delay: 0.6 + i * 0.1 }}

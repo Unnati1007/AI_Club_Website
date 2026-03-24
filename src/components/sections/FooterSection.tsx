@@ -173,7 +173,7 @@ const FooterSection = () => {
                                     href={social.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={`w-12 h-12 rounded-xl glass flex items-center justify-center transition-all duration-300 group border border-transparent hover:border-primary/20 hover:scale-110 hover:shadow-lg ${social.color}`}
+                                    className={`w-12 h-12 clay-btn flex items-center justify-center transition-all duration-300 group hover:scale-110 ${social.color}`}
                                     aria-label={social.label}
                                 >
                                     <social.icon className="w-5 h-5 text-muted-foreground group-hover:text-inherit transition-colors duration-300" />

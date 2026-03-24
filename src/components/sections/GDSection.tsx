@@ -125,7 +125,7 @@ const GDSection = () => {
                         return (
                             <motion.div
                                 key={gd._id}
-                                className="group flex-shrink-0 w-[340px] md:w-[380px] rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-xl border border-border/30 hover:border-primary/30 transition-all duration-500 overflow-hidden cursor-pointer relative"
+                                className="group flex-shrink-0 w-[340px] md:w-[380px] clay-card transition-all duration-500 overflow-hidden cursor-pointer relative"
                                 initial={{ opacity: 0, x: 40, y: 20 }}
                                 animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
                                 transition={{ delay: 0.1 + i * 0.08, duration: 0.5 }}
@@ -215,7 +215,7 @@ const GDSection = () => {
                                 {/* View details button */}
                                 <motion.button
                                     onClick={(e) => { e.stopPropagation(); setSelectedGD(gd); }}
-                                    className="absolute bottom-5 right-5 w-8 h-8 rounded-full bg-primary/20 hover:bg-primary/40 flex items-center justify-center transition-colors duration-300"
+                                    className="absolute bottom-5 right-5 w-8 h-8 clay-btn rounded-full flex items-center justify-center transition-colors duration-300"
                                     whileHover={{ scale: 1.1, rotate: 90 }}
                                 >
                                     <ExternalLink className="w-4 h-4 text-primary" />
@@ -248,7 +248,7 @@ const GDSection = () => {
                     {/* Error state */}
                     {error && !isLoading && (
                         <div className="flex-shrink-0 w-full flex items-center justify-center py-16 px-6">
-                            <div className="text-center max-w-md p-6 glass border-destructive/20 rounded-2xl">
+                            <div className="text-center max-w-md p-6 clay-card border-destructive/20">
                                 <AlertCircle className="w-12 h-12 text-destructive mx-auto mb-4" />
                                 <h3 className="font-bold text-foreground mb-2">Connection Error</h3>
                                 <p className="text-sm text-muted-foreground mb-4 font-mono">{error}</p>
@@ -285,7 +285,7 @@ const GDSection = () => {
 
             {/* GD Details Dialog */}
             <Dialog open={!!selectedGD} onOpenChange={(open) => !open && setSelectedGD(null)}>
-                <DialogContent className="sm:max-w-2xl glass border-primary/20 backdrop-blur-2xl">
+                <DialogContent className="sm:max-w-2xl clay-panel border-primary/20">
                     <DialogHeader>
                         <div className="flex items-center gap-2 text-primary text-sm mb-2">
                             <Calendar className="w-4 h-4" />
