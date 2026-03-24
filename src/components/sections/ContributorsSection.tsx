@@ -3,44 +3,23 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Github, Linkedin, GitCommit, Code2 } from "lucide-react";
 
+import { useCMSData } from "@/hooks/useCMSData";
+
+export interface Contributor {
+    _id: string;
+    name: string;
+    avatar: string;
+    contributions: number;
+    projects: string[];
+    github: string;
+    linkedin: string;
+}
+
 const ContributorsSection = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const { data: contributors, isLoading } = useCMSData<Contributor>('contributors');
 
-    const contributors = [
-        {
-            name: "Naitik Jain",
-            avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face",
-            contributions: 47,
-            projects: ["Course Hero", "Write"],
-            github: "#",
-            linkedin: "#",
-        },
-        {
-            name: "Naitik Jain",
-            avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face",
-            contributions: 32,
-            projects: ["Course Hero", "Write"],
-            github: "#",
-            linkedin: "#",
-        },
-        {
-            name: "Arman",
-            avatar: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop&crop=face",
-            contributions: 28,
-            projects: ["Karthik"],
-            github: "#",
-            linkedin: "#",
-        },
-        {
-            name: "Harshita",
-            avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=300&h=300&fit=crop&crop=face",
-            contributions: 56,
-            projects: ["Developers"],
-            github: "#",
-            linkedin: "#",
-        },
-    ];
 
     return (
         <section id="contributors" className="py-24 relative overflow-hidden" ref={ref}>
@@ -98,6 +77,11 @@ const ContributorsSection = () => {
                 </motion.div>
 
                 {/* Contributor Cards Grid */}
+                {isLoading && (
+                    <div className="flex justify-center py-12">
+                        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    </div>
+                )}
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {contributors.map((contributor, i) => (
                         <motion.div
@@ -203,6 +187,9 @@ const ContributorsSection = () => {
                                         src={contributor.avatar}
                                         alt={contributor.name}
                                         className="relative w-20 h-20 rounded-full object-cover border-2 border-border/50 group-hover:border-primary/50 transition-all duration-500"
+                                        onError={(e) => {
+                                            e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(contributor.name)}&background=random`;
+                                        }}
                                         whileHover={{
                                             scale: 1.15,
                                             rotate: 5,

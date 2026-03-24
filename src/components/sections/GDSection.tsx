@@ -1,7 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { MessageSquare, Calendar, ExternalLink, AlertCircle, ChevronDown, ChevronUp, Clock, Users, Sparkles } from "lucide-react";
-import { useGDStore } from "@/hooks/useGDStore";
+import { useGDStore, GDItem } from "@/hooks/useGDStore";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const GDSection = () => {
@@ -11,38 +11,8 @@ const GDSection = () => {
     const { gds, isLoading, error } = useGDStore();
     const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
     const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
-    const [selectedGD, setSelectedGD] = useState<typeof manualGDs[0] | null>(null);
+    const [selectedGD, setSelectedGD] = useState<GDItem | null>(null);
 
-    // Manual GD data with proper images and descriptions
-    const manualGDs = [
-        {
-            _id: "gd3",
-            title: "AI in Legal Decision-Making",
-            description: "From arguments in favor of efficiency and consistency to concerns around bias, ethics, and accountability, the discussion sparked diverse perspectives. Members explored how AI could revolutionize legal research and case prediction, while raising critical questions about transparency and judicial discretion. The debate highlighted the tension between technological progress and fundamental legal principles. Some advocated for AI as a tool to reduce backlog and assist judges, while others warned of algorithmic bias perpetuating systemic inequalities. The consensus emerged that AI should augment rather than replace human judgment, with proper safeguards and oversight mechanisms. The group agreed that balance is key - leveraging AI's capabilities while maintaining human-centric justice.",
-            image: "/Photos/GD3-JAN26.jpeg",
-            date: "2026-01-15",
-            monthYear: "JAN 2026",
-            topic: "AI in Legal Decision-Making",
-        },
-        {
-            _id: "gd2",
-            title: "AI's Loop: Is It Running the Internet?",
-            description: "From the rise of low-quality AI-generated content to its profound impact on creativity and information trust, members shared thorough perspectives and debated real challenges shaping today's online world. The discussion examined how AI algorithms now curate our news feeds, recommend content, and even generate articles and art. Concerns about filter bubbles, misinformation, and the devaluation of human creativity were balanced against AI's ability to personalize experiences and democratize content creation. Members explored the paradox of AI both enabling and potentially undermining authentic human expression. The conversation concluded that while AI is indeed running significant portions of the internet, human oversight and ethical guidelines remain essential to maintain digital integrity and foster genuine innovation.",
-            image: "/Photos/GD2-NOV.png",
-            date: "2025-11-20",
-            monthYear: "NOV 2025",
-            topic: "AI's Loop: Is It Running the Internet?",
-        },
-        {
-            _id: "gd1",
-            title: "The Future of Jobs: Will AI Create More Jobs Than It Replaces?",
-            description: "From exploring automation and new-age careers to debating the balance between human creativity and machine efficiency, the discussion was full of fresh insights and diverse viewpoints. Members analyzed historical technological shifts and their impact on employment, drawing parallels to the AI revolution. Optimists highlighted emerging roles in AI ethics, prompt engineering, and human-AI collaboration. Skeptics pointed to potential job displacement in creative fields and white-collar professions. The group explored how education systems must adapt to prepare future generations for an AI-augmented workforce. The consensus acknowledged that while AI will transform many roles, uniquely human skills like emotional intelligence, creative problem-solving, and ethical reasoning will become even more valuable.",
-            image: "/Photos/GD1-SEP25.jpeg",
-            date: "2025-09-10",
-            monthYear: "SEP 2025",
-            topic: "The Future of Jobs",
-        }
-    ];
 
     const toggleCard = (id: string) => {
         setExpandedCards(prev => ({
@@ -119,8 +89,13 @@ const GDSection = () => {
                         WebkitOverflowScrolling: 'touch',
                     }}
                 >
-                    {manualGDs.map((gd, i) => {
+                    {gds.map((gd, i) => {
                         const isExpanded = expandedCards[gd._id];
+                        // Extract month and year from string date if possible
+                        const dateObj = new Date(gd.date);
+                        const monthYear = !isNaN(dateObj.getTime()) 
+                            ? dateObj.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()
+                            : gd.date;
 
                         return (
                             <motion.div
@@ -167,10 +142,10 @@ const GDSection = () => {
                                         transition={{ duration: 0.8 }}
                                     />
 
-                                    {/* Date badge - only element left */}
+                                    {/* Date badge */}
                                     <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-primary/20 text-xs font-bold text-primary">
                                         <Calendar className="w-3 h-3" />
-                                        {gd.monthYear}
+                                        {monthYear}
                                     </div>
                                 </div>
 
@@ -289,7 +264,7 @@ const GDSection = () => {
                     <DialogHeader>
                         <div className="flex items-center gap-2 text-primary text-sm mb-2">
                             <Calendar className="w-4 h-4" />
-                            <span>{selectedGD?.monthYear}</span>
+                            <span>{selectedGD ? new Date(selectedGD.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase() : ''}</span>
                         </div>
                         <DialogTitle className="text-3xl font-display bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
                             {selectedGD?.title}

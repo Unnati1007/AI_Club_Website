@@ -3,57 +3,33 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { GraduationCap, Award } from "lucide-react";
 
+import { useCMSData } from "@/hooks/useCMSData";
+
+export interface TeamMember {
+    _id: string;
+    name: string;
+    role: string;
+    hierarchyLevel: string;
+    image: string;
+    subRole?: string;
+}
+
 const TeamSection = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const { data: teamMembers, isLoading } = useCMSData<TeamMember>('team-members');
 
-    const teamHierarchy = {
-        president: {
-            name: "Vanshika Varun",
-            role: "President",
-            image: "./Photos/Vanshika.jpg",
-        },
-        vicepresidents: [
-            { name: "Unnati Jadon", role: "Vice President", image: "./Photos/unnati.jpeg" },
-            { name: "Manya Suranglikar", role: "Vice President", image: "./Photos/Manya.JPG" },
-        ],
-        operationsCoordinator: {
-            name: "Anirudh Parmar",
-            role: "Co-ordinator",
-            image: "./Photos/Anirudh Parmar.jpg",
-        },
-        jrCoordinators: [
-            { name: "Aastha Pyasi", role: "Jr. Co-ordinator", image: "./Photos/aastha.jpg" },
-            { name: "Samarth Agrawal", role: "Jr. Co-ordinator", image: "./Photos/Samarth.png" },
-        ],
-        leads: [
-            { name: "Shashwat Verma", role: "Technical Head", image: "./Photos/Shashwat verma.JPG" },
-            { name: "Devansh Mishra", role: "PR & Marketing Head", image: "./Photos/devansh mishra.jpeg" },
-            { name: "Akash Rathore", role: "Treasurer", image: "./Photos/Akash Rathore.jpg" },
-            { name: "Kushagra Malviya", role: "Logistics Head", image: "./Photos/Kushagra Malviya.jpg" },
-            { name: "Chanpreet Singh Chitrath", role: "Digital Creators Head", image: "./Photos/Chanpreet.jpeg" },
-            { name: "Suyash Khare", role: "Research and Development Head", image: "./Photos/Suyash.jpg" },
-        ],
-        coleads: [
-            { name: "Akriti Kushwaha", role: "Logistics Co-Lead", image: "./Photos/Akriti.jpeg" },
-        ],
-    };
+    // Organize hierarchy from dynamic data
+    const facultyCoordinator = teamMembers.find(m => m.hierarchyLevel === 'faculty');
+    const president = teamMembers.find(m => m.hierarchyLevel === 'president');
+    const vicepresidents = teamMembers.filter(m => m.hierarchyLevel === 'vicepresident');
+    const operationsCoordinator = teamMembers.find(m => m.hierarchyLevel === 'operations');
+    const jrCoordinators = teamMembers.filter(m => m.hierarchyLevel === 'junior');
+    const leads = teamMembers.filter(m => m.hierarchyLevel === 'lead');
+    const coleads = teamMembers.filter(m => m.hierarchyLevel === 'coleads' || m.hierarchyLevel === 'colead');
 
-    // Faculty Coordinator data
-    const facultyCoordinator = {
-        name: "Dr. Rakesh Singh Jadon",
-        role: "Faculty Coordinator",
-        subRole: "Dean, Students Administration",
-        image: "./Photos/Faculty.png",
-    };
 
-    interface TeamMemberType {
-        name: string;
-        role: string;
-        image: string;
-    }
-
-    const TeamMember = ({ member, delay, size = "medium" }: { member: TeamMemberType; delay: number; size?: "large" | "medium" | "small" }) => {
+    const TeamMemberCard = ({ member, delay, size = "medium" }: { member: TeamMember; delay: number; size?: "large" | "medium" | "small" }) => {
         const sizeClasses = {
             large: "w-36 h-36",
             medium: "w-28 h-28",
@@ -226,93 +202,125 @@ const TeamSection = () => {
                 </motion.div>
 
                 {/* Faculty Coordinator Section - Centered */}
-                <motion.div
-                    className="max-w-4xl mx-auto mb-24"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                >
-                    <div className="relative">
-                        {/* Subtle background decoration */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 rounded-3xl blur-3xl" />
-
-                        <div className="relative flex justify-center py-8">
-                            {/* Faculty Card with separate image and text */}
-                            <FacultyCard
-                                name={facultyCoordinator.name}
-                                role={facultyCoordinator.role}
-                                subRole={facultyCoordinator.subRole}
-                                image={facultyCoordinator.image}
-                                delay={0.2}
-                            />
-                        </div>
+                {isLoading && (
+                    <div className="flex justify-center py-12">
+                        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                     </div>
-                </motion.div>
+                )}
+
+                {facultyCoordinator && (
+                    <motion.div
+                        className="max-w-4xl mx-auto mb-24"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                    >
+                        <div className="relative">
+                            {/* Subtle background decoration */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 rounded-3xl blur-3xl" />
+
+                            <div className="relative flex justify-center py-8">
+                                {/* Faculty Card with separate image and text */}
+                                <FacultyCard
+                                    name={facultyCoordinator.name}
+                                    role={facultyCoordinator.role}
+                                    subRole={facultyCoordinator.subRole || ""}
+                                    image={facultyCoordinator.image}
+                                    delay={0.2}
+                                />
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
 
                 {/* Rest of the team hierarchy */}
-                <div className="max-w-6xl mx-auto space-y-10">
-                    {/* President */}
-                    <div className="flex justify-center">
-                        <TeamMember member={teamHierarchy.president} delay={0.1} size="large" />
-                    </div>
+                {!isLoading && (
+                    <div className="max-w-6xl mx-auto space-y-10">
+                        {/* President */}
+                        {president && (
+                            <div className="flex justify-center">
+                                <TeamMemberCard member={president} delay={0.1} size="large" />
+                            </div>
+                        )}
 
-                    {/* Connector */}
-                    <div className="flex justify-center">
-                        <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
-                    </div>
+                        {/* Connector */}
+                        {president && (vicepresidents.length > 0) && (
+                            <div className="flex justify-center">
+                                <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
+                            </div>
+                        )}
 
-                    {/* Vice Presidents */}
-                    <div className="flex flex-wrap justify-center gap-12">
-                        {teamHierarchy.vicepresidents.map((vp, i) => (
-                            <TeamMember key={i} member={vp} delay={0.2 + i * 0.1} size="large" />
-                        ))}
-                    </div>
+                        {/* Vice Presidents */}
+                        {vicepresidents.length > 0 && (
+                            <div className="flex flex-wrap justify-center gap-12">
+                                {vicepresidents.map((vp, i) => (
+                                    <TeamMemberCard key={vp._id} member={vp} delay={0.2 + i * 0.1} size="large" />
+                                ))}
+                            </div>
+                        )}
 
-                    <div className="flex justify-center">
-                        <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
-                    </div>
+                        {(vicepresidents.length > 0 && operationsCoordinator) && (
+                            <div className="flex justify-center">
+                                <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
+                            </div>
+                        )}
 
-                    {/* Operations Coordinator */}
-                    <div className="flex justify-center">
-                        <TeamMember member={teamHierarchy.operationsCoordinator} delay={0.4} size="medium" />
-                    </div>
+                        {/* Operations Coordinator */}
+                        {operationsCoordinator && (
+                            <div className="flex justify-center">
+                                <TeamMemberCard member={operationsCoordinator} delay={0.4} size="medium" />
+                            </div>
+                        )}
 
-                    <div className="flex justify-center">
-                        <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
-                    </div>
+                        {(operationsCoordinator && jrCoordinators.length > 0) && (
+                            <div className="flex justify-center">
+                                <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
+                            </div>
+                        )}
 
-                    {/* Junior Coordinators */}
-                    <div className="flex flex-wrap justify-center gap-8">
-                        {teamHierarchy.jrCoordinators.map((jr, i) => (
-                            <TeamMember key={i} member={jr} delay={0.45 + i * 0.08} size="medium" />
-                        ))}
-                    </div>
+                        {/* Junior Coordinators */}
+                        {jrCoordinators.length > 0 && (
+                            <div className="flex flex-wrap justify-center gap-8">
+                                {jrCoordinators.map((jr, i) => (
+                                    <TeamMemberCard key={jr._id} member={jr} delay={0.45 + i * 0.08} size="medium" />
+                                ))}
+                            </div>
+                        )}
 
-                    <div className="flex justify-center">
-                        <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
-                    </div>
+                        {(jrCoordinators.length > 0 && leads.length > 0) && (
+                            <div className="flex justify-center">
+                                <div className="w-[2px] h-8 bg-gradient-to-b from-primary/40 to-primary/10" />
+                            </div>
+                        )}
 
-                    {/* Leads */}
-                    <div className="flex flex-wrap justify-center gap-8 md:gap-10">
-                        {teamHierarchy.leads.map((lead, i) => (
-                            <TeamMember key={i} member={lead} delay={0.5 + i * 0.08} size="medium" />
-                        ))}
-                    </div>
+                        {/* Leads */}
+                        {leads.length > 0 && (
+                            <div className="flex flex-wrap justify-center gap-8 md:gap-10">
+                                {leads.map((lead, i) => (
+                                    <TeamMemberCard key={lead._id} member={lead} delay={0.5 + i * 0.08} size="medium" />
+                                ))}
+                            </div>
+                        )}
 
-                    {/* Decorative divider */}
-                    <div className="flex items-center gap-4 max-w-md mx-auto">
-                        <div className="flex-1 h-px bg-gradient-to-r from-transparent to-primary/20" />
-                        <div className="w-2 h-2 rounded-full bg-primary/30" />
-                        <div className="flex-1 h-px bg-gradient-to-l from-transparent to-primary/20" />
-                    </div>
+                        {/* Decorative divider */}
+                        {(leads.length > 0 || coleads.length > 0) && (
+                            <div className="flex items-center gap-4 max-w-md mx-auto">
+                                <div className="flex-1 h-px bg-gradient-to-r from-transparent to-primary/20" />
+                                <div className="w-2 h-2 rounded-full bg-primary/30" />
+                                <div className="flex-1 h-px bg-gradient-to-l from-transparent to-primary/20" />
+                            </div>
+                        )}
 
-                    {/* Co-Leads - Only Akriti remaining */}
-                    <div className="flex flex-wrap justify-center gap-8">
-                        {teamHierarchy.coleads.map((colead, i) => (
-                            <TeamMember key={i} member={colead} delay={0.3 + i * 0.08} size="small" />
-                        ))}
+                        {/* Co-Leads */}
+                        {coleads.length > 0 && (
+                            <div className="flex flex-wrap justify-center gap-8">
+                                {coleads.map((colead, i) => (
+                                    <TeamMemberCard key={colead._id} member={colead} delay={0.3 + i * 0.08} size="small" />
+                                ))}
+                            </div>
+                        )}
                     </div>
-                </div>
+                )}
             </div>
         </section>
     );

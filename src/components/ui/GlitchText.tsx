@@ -21,7 +21,7 @@ export function GlitchText({
         intervalRef.current = setInterval(() => {
             setIsGlitching(true);
             setTimeout(() => setIsGlitching(false), 200);
-        }, 5000 + Math.random() * 3000);
+        }, 5001 + Math.random() * 3000);
 
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);

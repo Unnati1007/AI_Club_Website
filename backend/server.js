@@ -2,17 +2,69 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
 import GD from "./models/GD.js";
-import Admin from "./models/Admin.js";
+import SiteContent from "./models/SiteContent.js";
+import Event from "./models/Event.js";
+import Activity from "./models/Activity.js";
+import TeamMember from "./models/TeamMember.js";
+import Contributor from "./models/Contributor.js";
 
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const PORT = process.env.PORT || 5000;
+// Port 5001 avoids macOS AirPlay receiver conflict on 5000
+const PORT = process.env.PORT || 5001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
+
+// Serve static uploaded files
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// === Multer Setup for Image Uploads ===
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, "uploads"));
+    },
+    filename: (req, file, cb) => {
+        // Create unique string
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
+
+app.post("/api/upload", upload.single("image"), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "No image provided" });
+        }
+        // Return relative path so the frontend can prepend the BACKEND_URL
+        const imageUrl = `/uploads/${req.file.filename}`;
+        res.status(200).json({ imageUrl });
+    } catch (error) {
+        res.status(500).json({ message: "Upload failed", error: error.message });
+    }
+});
+
+
+// Base Route for testing
+app.get("/", (req, res) => {
+    res.json({ message: "AI Club Hub API is running successfully!" });
+});
 
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -21,118 +73,86 @@ mongoose.connect(MONGODB_URI)
     .then(() => console.log("Connected to MongoDB Atlas"))
     .catch((err) => console.error("MongoDB connection error:", err));
 
-// Routes
-
-// Get all GDs
-app.get("/api/gds", async (req, res) => {
-    try {
-        const gds = await GD.find().sort({ date: -1 }); // Sort by newest
-        res.json(gds);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// Seed default GDs (helper route)
-app.post("/api/gds/seed", async (req, res) => {
-    try {
-        const count = await GD.countDocuments();
-        if (count > 0) return res.json({ message: "Database already seeded" });
-
-        const DEFAULT_GDS = [
-            {
-                title: 'AI Ethics & Bias',
-                description: 'Explored the ethical implications of AI systems and how bias can creep into machine learning models. Discussed real-world examples and mitigation strategies.',
-                image: 'https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=600&h=400&fit=crop',
-                date: '2025-10-15',
-                link: 'https://example.com/ai-ethics'
-            },
-            {
-                title: 'Future of LLMs',
-                description: 'Deep dive into Large Language Models, their architecture evolution, and what the future holds for generative AI in production systems.',
-                image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=400&fit=crop',
-                date: '2025-10-22'
-            },
-            {
-                title: 'Computer Vision Workshop',
-                description: 'Hands-on session covering image classification, object detection, and the latest advances in vision transformers.',
-                image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
-                date: '2025-11-01'
-            }
-        ];
-
-        await GD.insertMany(DEFAULT_GDS);
-        res.json({ message: "Seeded successfully!" });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// Add a new GD
-app.post("/api/gds", async (req, res) => {
-    try {
-        const newGD = new GD(req.body);
-        const savedGD = await newGD.save();
-        res.status(201).json(savedGD);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
-
-// Update a GD
-app.put("/api/gds/:id", async (req, res) => {
-    try {
-        const updatedGD = await GD.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!updatedGD) return res.status(404).json({ message: "GD not found" });
-        res.json(updatedGD);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
-
-// Delete a GD
-app.delete("/api/gds/:id", async (req, res) => {
-    try {
-        const deletedGD = await GD.findByIdAndDelete(req.params.id);
-        if (!deletedGD) return res.status(404).json({ message: "GD not found" });
-        res.json({ message: "Deleted successfully" });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// Admin Login
-app.post("/api/admin/login", async (req, res) => {
+// ==========================================
+// Admin Login (Hardcoded as requested)
+// ==========================================
+app.post("/api/admin/login", (req, res) => {
     try {
         const { username, password } = req.body;
-        const admin = await Admin.findOne({ username });
+        // Check environment variables first, fallback to hardcoded strings
+        const adminUsername = process.env.ADMIN_USERNAME || "admin";
+        const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
 
-        if (!admin || admin.password !== password) {
-            return res.status(401).json({ message: "Invalid credentials" });
+        if (username === adminUsername && password === adminPassword) {
+            res.json({ message: "Login successful", username: adminUsername });
+        } else {
+            res.status(401).json({ message: "Invalid credentials" });
         }
-        res.json({ message: "Login successful", username: admin.username });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 });
 
-// Seed Admin Helper
-app.post("/api/admin/seed", async (req, res) => {
-    try {
-        const count = await Admin.countDocuments();
-        if (count > 0) return res.json({ message: "Admin already exists" });
 
-        const defaultAdmin = new Admin({
-            username: "admin",
-            password: "password123" // Note: plain text for simplicity per request, but should be hashed in prod
-        });
+// ==========================================
+// Generic CRUD Generator
+// ==========================================
+const createCrudRoutes = (model, routeName) => {
+    // Get all
+    app.get(`/api/${routeName}`, async (req, res) => {
+        try {
+            const items = await model.find().sort({ createdAt: -1 });
+            res.json(items);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    });
 
-        await defaultAdmin.save();
-        res.json({ message: "Admin seeded successfully!" });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
+    // Create
+    app.post(`/api/${routeName}`, async (req, res) => {
+        try {
+            const newItem = new model(req.body);
+            const savedItem = await newItem.save();
+            res.status(201).json(savedItem);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    });
+
+    // Update
+    app.put(`/api/${routeName}/:id`, async (req, res) => {
+        try {
+            const updatedItem = await model.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            if (!updatedItem) return res.status(404).json({ message: "Item not found" });
+            res.json(updatedItem);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    });
+
+    // Delete
+    app.delete(`/api/${routeName}/:id`, async (req, res) => {
+        try {
+            const deletedItem = await model.findByIdAndDelete(req.params.id);
+            if (!deletedItem) return res.status(404).json({ message: "Item not found" });
+            res.json({ message: "Deleted successfully" });
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    });
+};
+
+// Generate CRUD routes for all models
+createCrudRoutes(SiteContent, "site-content");
+createCrudRoutes(Event, "events");
+createCrudRoutes(Activity, "activities");
+createCrudRoutes(TeamMember, "team-members");
+createCrudRoutes(Contributor, "contributors");
+
+// ==========================================
+// GD Routes (Keeping backward compatibility)
+// ==========================================
+createCrudRoutes(GD, "gds");
 
 // Start server
 app.listen(PORT, () => {

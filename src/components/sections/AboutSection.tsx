@@ -4,9 +4,13 @@ import { useRef } from "react";
 import { Users, Zap, Target, MessageSquare, FileText } from "lucide-react";
 import { SplineScene } from "@/components/ui/spline-scene";
 
+import { useSiteContent } from "@/hooks/useSiteContent";
+
 const AboutSection = () => {
+    const { content, isLoading } = useSiteContent();
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
+
 
     const features = [
         {
@@ -91,15 +95,15 @@ const AboutSection = () => {
                     >
 
                         <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
-                            AI Club is a student-driven community for anyone curious about artificial intelligence and how it actually works in the real world. Instead of just focusing on theory, we regularly conduct group discussions where members explore current AI trends, share ideas, and break down complex topics in a simple way.
+                            {content.about_p1 || "AI Club is a student-driven community for anyone curious about artificial intelligence and how it actually works in the real world. Instead of just focusing on theory, we regularly conduct group discussions where members explore current AI trends, share ideas, and break down complex topics in a simple way."}
                         </p>
 
                         <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
-                            We also organize practical events, workshops, and hands-on sessions to help members understand tools and technologies step by step. What makes our club different is that it provides a space for students who are interested in research whether it's exploring new ideas, working on problem statements, or understanding how real-world AI systems are built.
+                            {content.about_p2 || "We also organize practical events, workshops, and hands-on sessions to help members understand tools and technologies step by step. What makes our club different is that it provides a space for students who are interested in research whether it's exploring new ideas, working on problem statements, or understanding how real-world AI systems are built."}
                         </p>
 
                         <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
-                            The club is open to learners at all levels. If you're someone who likes asking questions, discussing new tech, or experimenting with ideas, this is a place where you can actively learn, contribute, and grow with others who share the same interest.
+                            {content.about_p3 || "The club is open to learners at all levels. If you're someone who likes asking questions, discussing new tech, or experimenting with ideas, this is a place where you can actively learn, contribute, and grow with others who share the same interest."}
                         </p>
 
                         {/* Mission points with animated reveal */}

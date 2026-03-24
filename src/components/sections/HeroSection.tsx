@@ -10,8 +10,12 @@ import { GlitchText } from "@/components/ui/GlitchText";
 import { TypewriterText } from "@/components/ui/TypewriterText";
 import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
 
+import { useSiteContent } from "@/hooks/useSiteContent";
+
 const HeroSection = () => {
+    const { content, isLoading } = useSiteContent();
     const [hasEntered, setHasEntered] = useState(false);
+
     const { scrollY } = useScroll();
 
     useEffect(() => {
@@ -68,18 +72,17 @@ const HeroSection = () => {
                                     as="h1"
                                     className="text-2xl md:text-3xl lg:text-4xl font-black leading-tight text-foreground font-display tracking-tight"
                                 >
-                                    AI CLUB
+                                    {content.hero_title || "AI CLUB"}
                                 </GlitchText>
                             </div>
 
                             {/* Clean subheading */}
                             <div className="text-xl md:text-2xl font-semibold mb-4 text-foreground/90">
-                                Innovate. Build. Deploy.
+                                {content.hero_subtitle || "Innovate. Build. Deploy."}
                             </div>
 
                             <p className="text-base text-muted-foreground max-w-lg mb-8 leading-relaxed">
-                                Join a community of passionate innovators, developers, and AI enthusiasts.
-                                We explore cutting-edge technologies, brainstrom about current AI trends and shape the future together.
+                                {content.hero_description || "Join a community of passionate innovators, developers, and AI enthusiasts. We explore cutting-edge technologies, brainstrom about current AI trends and shape the future together."}
                             </p>
 
                             <div className="flex flex-wrap gap-4">
@@ -114,7 +117,7 @@ const HeroSection = () => {
                                                 COMMUNITY PULSE
                                             </div>
                                             <div className="text-xl md:text-2xl font-bold text-white mb-6">
-                                                We are a Community of 50+ Innovators
+                                                We are a Community of {content.hero_innovators_count || "50+"} Innovators
                                             </div>
                                         </div>
 

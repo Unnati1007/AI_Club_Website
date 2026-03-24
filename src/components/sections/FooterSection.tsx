@@ -2,8 +2,12 @@ import { motion } from "framer-motion";
 import { Linkedin, Instagram, MessageCircle, Mail, MapPin, Heart } from "lucide-react";
 import { ParticleField } from "@/components/ui/ParticleField";
 
+import { useSiteContent } from "@/hooks/useSiteContent";
+
 const FooterSection = () => {
+    const { content } = useSiteContent();
     const socialLinks = [
+
         {
             icon: Linkedin,
             label: "LinkedIn",
@@ -79,7 +83,8 @@ const FooterSection = () => {
                             </div>
                         </div>
                         <p className="text-muted-foreground text-sm leading-relaxed mb-4 max-w-xs">
-                            A community of passionate learners exploring the frontiers of artificial intelligence through collaboration and hands-on projects.
+
+                            {content.footer_description || "A community of passionate learners exploring the frontiers of artificial intelligence through collaboration and hands-on projects."}
                         </p>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground bg-primary/5 px-4 py-2 rounded-lg border border-primary/10 w-fit">
                             <MapPin className="w-4 h-4 text-primary" />
@@ -157,11 +162,11 @@ const FooterSection = () => {
                         {/* Email with fancy styling */}
                         <div className="mb-6">
                             <a
-                                href="mailto:aiclubmits@gmail.com"
+                                href={`mailto:${content.contact_email || "aiclubmits@gmail.com"}`}
                                 className="inline-flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-all duration-300 group bg-primary/5 px-4 py-2.5 rounded-xl border border-primary/10 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
                             >
                                 <Mail className="w-4 h-4 group-hover:text-primary transition-colors group-hover:scale-110" />
-                                <span className="font-mono">aiclubmits@gmail.com</span>
+                                <span className="font-mono">{content.contact_email || "aiclubmits@gmail.com"}</span>
                             </a>
                         </div>
 

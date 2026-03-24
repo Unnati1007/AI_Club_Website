@@ -3,6 +3,36 @@ import { useRef, useState } from "react";
 import { Calendar, ChevronDown, ChevronUp, Sparkles, Award, Users, TrendingUp, Globe, Zap, Brain, Gamepad2, MessageSquare, Cpu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { useCMSData } from "@/hooks/useCMSData";
+
+export interface Event {
+    _id: string;
+    title: string;
+    description: string;
+    date: string;
+    type: string;
+    image?: string;
+    iconName?: string;
+    accent?: string;
+}
+
+
+const iconMap: Record<string, any> = {
+    Sparkles,
+    Award,
+    Users,
+    TrendingUp,
+    Globe
+};
+
+const accentMap: Record<number, string> = {
+    0: "from-cyan-400 to-blue-500",
+    1: "from-violet-400 to-indigo-500",
+    2: "from-blue-400 to-indigo-500",
+    3: "from-emerald-400 to-teal-500",
+    4: "from-fuchsia-400 to-pink-500",
+};
+
 const EVENT_IMAGES = [
     "/Photos/Event1.jpeg",
     "/Photos/Event2.jpeg",
@@ -12,48 +42,6 @@ const EVENT_IMAGES = [
     "/Photos/Event6.png",
 ];
 
-const EVENTS = [
-    {
-        date: "FEB 2026",
-        title: "Aarunya Stall 2026: Bot and Roll",
-        description: "An AI-themed stall featuring 6 interactive games designed to make learning fun and engaging. Students participated in quick challenges, explored simple AI concepts, and won exciting prizes instantly, making it one of the most lively attractions of the fest.",
-        tag: "Stall",
-        accent: "from-cyan-400 to-blue-500",
-        icon: Sparkles,
-    },
-    { 
-        date: "FEB 2026",
-        title: "AIQ Battle 2.0",
-        description: "A 3-round competitive event inspired by a Shark Tank-style format, where participants presented ideas, solved AI-based challenges, and competed for top positions. The event combined creativity, innovation, and problem-solving with exciting rewards.",
-        tag: "Competition",
-        accent: "from-violet-400 to-indigo-500",
-        icon: Award,
-    },
-    {
-        date: "FEB 2026",
-        title: "Orientation Session",
-        description: "A welcoming session for new members where they got introduced to the club, interacted with the team, and participated in fun activities. It also included basic AI discussions to understand their interests and encourage participation.",
-        tag: "Session",
-        accent: "from-blue-400 to-indigo-500",
-        icon: Users,
-    },
-    {
-        date: "FEB 2026",
-        title: "AIQ Battle",
-        description: "A multi-round event focused on AI-related tasks and idea sharing. Participants collaborated, solved challenges, and explored different approaches to real-world problems in an interactive setting.",
-        tag: "Competition",
-        accent: "from-emerald-400 to-teal-500",
-        icon: TrendingUp,
-    },
-    {
-        date: "FEB 2026",
-        title: "AI Exhibition – Aarunya 2025",
-        description: "A competitive exhibition where students showcased their AI models and projects. It provided a platform to demonstrate practical skills, with the best project being awarded exciting prizes.",
-        tag: "Exhibition",
-        accent: "from-fuchsia-400 to-pink-500",
-        icon: Globe,
-    }
-];
 
 // Floating particles for background effect
 const FloatingParticle = ({ delay }: { delay: number }) => (
@@ -127,19 +115,20 @@ const FloatingLabel = ({ text, icon: Icon, position, color, delay }: {
 
 export default function EventsSection() {
     const ref = useRef(null);
+    const { data: events, isLoading } = useCMSData<Event>('events');
     const isInView = useInView(ref, { once: true, margin: "-100px" });
     const [showAll, setShowAll] = useState(false);
-    const [expandedCards, setExpandedCards] = useState<Record<number, boolean>>({});
-    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
+    const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
 
-    const toggleCard = (index: number) => {
+    const toggleCard = (id: string) => {
         setExpandedCards(prev => ({
             ...prev,
-            [index]: !prev[index]
+            [id]: !prev[id]
         }));
     };
 
-    const displayedEvents = showAll ? EVENTS : EVENTS.slice(0, 3);
+    const displayedEvents = showAll ? events : events.slice(0, 3);
 
     // Create array of particles
     const particles = Array.from({ length: 20 }, (_, i) => i);
@@ -261,14 +250,19 @@ export default function EventsSection() {
                 {/* Events Grid with enhanced cards */}
                 <motion.div layout className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <AnimatePresence mode="popLayout">
+                        {isLoading && (
+                            <div className="col-span-full flex justify-center py-12">
+                                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                            </div>
+                        )}
                         {displayedEvents.map((event, index) => {
-                            const actualIndex = EVENTS.findIndex(e => e.title === event.title);
-                            const isExpanded = expandedCards[actualIndex];
-                            const Icon = event.icon;
+                            const isExpanded = expandedCards[event._id];
+                            const Icon = iconMap[event.iconName] || Sparkles;
+                            const accent = event.accent || accentMap[index % 5];
 
                             return (
                                 <motion.div
-                                    key={event.title}
+                                    key={event._id}
                                     layout
                                     initial={{ opacity: 0, y: 50, rotateX: -15 }}
                                     animate={{ opacity: 1, y: 0, rotateX: 0 }}
@@ -284,7 +278,7 @@ export default function EventsSection() {
                                         scale: 1.02,
                                         transition: { duration: 0.2 }
                                     }}
-                                    onHoverStart={() => setHoveredIndex(actualIndex)}
+                                    onHoverStart={() => setHoveredIndex(event._id)}
                                     onHoverEnd={() => setHoveredIndex(null)}
                                     className="group relative cursor-pointer clay-card overflow-hidden transition-all duration-500"
                                 >
@@ -292,7 +286,7 @@ export default function EventsSection() {
                                     <motion.div
                                         className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent"
                                         animate={{
-                                            x: hoveredIndex === actualIndex ? ["-100%", "100%"] : "-100%"
+                                            x: hoveredIndex === event._id ? ["-100%", "100%"] : "-100%"
                                         }}
                                         transition={{ duration: 1.5, ease: "linear" }}
                                     />
@@ -302,7 +296,7 @@ export default function EventsSection() {
                                         {/* Top accent with icon */}
                                         <div className="flex justify-between items-start">
                                             <div className="flex items-center gap-3">
-                                                <div className={`p-3 rounded-xl bg-gradient-to-br ${event.accent} bg-opacity-10`}>
+                                                <div className={`p-3 rounded-xl bg-gradient-to-br ${accent} bg-opacity-10`}>
                                                     <Icon className="w-5 h-5 text-white" />
                                                 </div>
                                                 {event.date && (
@@ -314,10 +308,10 @@ export default function EventsSection() {
                                             </div>
 
                                             <motion.span
-                                                className={`px-4 py-1.5 text-xs font-medium bg-gradient-to-r ${event.accent} text-white rounded-full shadow-lg font-sans`}
+                                                className={`px-4 py-1.5 text-xs font-medium bg-gradient-to-r ${accent} text-white rounded-full shadow-lg font-sans`}
                                                 whileHover={{ scale: 1.05 }}
                                             >
-                                                {event.tag}
+                                                {event.type}
                                             </motion.span>
                                         </div>
 
@@ -337,13 +331,13 @@ export default function EventsSection() {
                                             {!isExpanded && (
                                                 <motion.div
                                                     initial={{ opacity: 0 }}
-                                                    animate={{ opacity: hoveredIndex === actualIndex ? 1 : 0 }}
+                                                    animate={{ opacity: hoveredIndex === event._id ? 1 : 0 }}
                                                     className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none"
                                                 />
                                             )}
 
                                             <motion.button
-                                                onClick={() => toggleCard(actualIndex)}
+                                                onClick={() => toggleCard(event._id)}
                                                 className="text-xs text-primary mt-3 flex items-center gap-1 font-medium hover:gap-2 transition-all font-sans"
                                                 whileHover={{ x: 5 }}
                                             >
@@ -351,19 +345,21 @@ export default function EventsSection() {
                                                 <ChevronDown className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
                                             </motion.button>
                                         </div>
-
-                                        {/* Interactive glow effect */}
-                                        <motion.div
-                                            className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                                            style={{
-                                                background: `radial-gradient(circle at ${hoveredIndex === actualIndex ? '50%' : '0%'} 50%, rgba(0,212,255,0.1), transparent 70%)`
-                                            }}
-                                        />
                                     </div>
+
+                                    {/* Interactive glow effect */}
+                                    <motion.div
+                                        className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                                        style={{
+                                            background: `radial-gradient(circle at ${hoveredIndex === event._id ? '50%' : '0%'} 50%, rgba(0,212,255,0.1), transparent 70%)`
+                                        }}
+                                    />
                                 </motion.div>
+
                             );
                         })}
                     </AnimatePresence>
+
                 </motion.div>
 
                 {/* Enhanced View More Button */}
