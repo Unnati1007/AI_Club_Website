@@ -96,10 +96,10 @@ const GDSection = () => {
                     </motion.div>
 
                     <h2 className="text-4xl md:text-5xl font-bold mb-4 font-display tracking-tight">
-                        AI <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">Round Table</span>
+                        AI <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">ROUND TABLE</span>
                     </h2>
                     <p className="text-muted-foreground text-lg">
-                        Weekly brainstorming sessions where ideas collide and innovation sparks
+                        Monthly brainstorming sessions where ideas collide and innovation sparks
                     </p>
                 </motion.div>
             </div>

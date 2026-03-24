@@ -21,7 +21,8 @@ const EVENTS = [
         accent: "from-cyan-400 to-blue-500",
         icon: Sparkles,
     },
-    {
+    { 
+        date: "FEB 2026",
         title: "AIQ Battle 2.0",
         description: "A 3-round competitive event inspired by a Shark Tank-style format, where participants presented ideas, solved AI-based challenges, and competed for top positions. The event combined creativity, innovation, and problem-solving with exciting rewards.",
         tag: "Competition",
@@ -29,6 +30,7 @@ const EVENTS = [
         icon: Award,
     },
     {
+        date: "FEB 2026",
         title: "Orientation Session",
         description: "A welcoming session for new members where they got introduced to the club, interacted with the team, and participated in fun activities. It also included basic AI discussions to understand their interests and encourage participation.",
         tag: "Session",
@@ -36,6 +38,7 @@ const EVENTS = [
         icon: Users,
     },
     {
+        date: "FEB 2026",
         title: "AIQ Battle",
         description: "A multi-round event focused on AI-related tasks and idea sharing. Participants collaborated, solved challenges, and explored different approaches to real-world problems in an interactive setting.",
         tag: "Competition",
@@ -43,6 +46,7 @@ const EVENTS = [
         icon: TrendingUp,
     },
     {
+        date: "FEB 2026",
         title: "AI Exhibition – Aarunya 2025",
         description: "A competitive exhibition where students showcased their AI models and projects. It provided a platform to demonstrate practical skills, with the best project being awarded exciting prizes.",
         tag: "Exhibition",
@@ -203,7 +207,7 @@ export default function EventsSection() {
                             </div>
                         </h2>
 
-                        <motion.p
+                        {/* <motion.p
                             className="text-muted-foreground text-lg max-w-2xl relative z-10 font-light"
                             initial={{ opacity: 0 }}
                             animate={isInView ? { opacity: 1 } : {}}
@@ -211,7 +215,7 @@ export default function EventsSection() {
                         >
                             Join our group discussions, events and sessions to level up your AI skills.
                             <span className="block mt-2 text-sm text-primary/70 font-medium">✨ Exciting prizes distributed ✨</span>
-                        </motion.p>
+                        </motion.p> */}
                     </div>
                 </motion.div>
 

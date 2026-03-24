@@ -27,12 +27,12 @@ const TeamSection = () => {
             { name: "Samarth Agrawal", role: "Jr. Co-ordinator", image: "./Photos/Samarth.png" },
         ],
         leads: [
-            { name: "Shashwat Verma", role: "Tech Head", image: "./Photos/Shashwat verma.JPG" },
+            { name: "Shashwat Verma", role: "Technical Head", image: "./Photos/Shashwat verma.JPG" },
             { name: "Devansh Mishra", role: "PR & Marketing Head", image: "./Photos/devansh mishra.jpeg" },
             { name: "Akash Rathore", role: "Treasurer", image: "./Photos/Akash Rathore.jpg" },
             { name: "Kushagra Malviya", role: "Logistics Head", image: "./Photos/Kushagra Malviya.jpg" },
             { name: "Chanpreet Singh Chitrath", role: "Digital Creators Head", image: "./Photos/Chanpreet.jpeg" },
-            { name: "Suyash Khare", role: "R&D Head", image: "./Photos/Suyash.jpg" },
+            { name: "Suyash Khare", role: "Research and Development Head", image: "./Photos/Suyash.jpg" },
         ],
         coleads: [
             { name: "Akriti Kushwaha", role: "Logistics Co-Lead", image: "./Photos/Akriti.jpeg" },
@@ -218,7 +218,7 @@ const TeamSection = () => {
                         <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
                     <h2 className="text-xl md:text-3xl font-bold mb-4 font-display tracking-tight">
-                        Meet Our <span className="text-primary">Leaders</span>
+                        Meet Our <span className="text-primary">Team</span>
                     </h2>
                     <p className="text-muted-foreground text-lg">
                         Dedicated leaders driving innovation and building our thriving community

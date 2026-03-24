@@ -13,13 +13,13 @@ const FooterSection = () => {
         {
             icon: Instagram,
             label: "Instagram",
-            href: "https://www.instagram.com/aiclub.mits?igsh=MWV0d2lrNjR4N2dmeQ==",
+            href: "https://www.instagram.com/aiclub.mits",
             color: "hover:text-pink-400 hover:bg-pink-400/10"
         },
         {
             icon: MessageCircle,
-            label: "Discord",
-            href: "#",
+            label: "Whatsapp",
+            href: "https://chat.whatsapp.com/IjAtEygQcln2CrXLQeuOKf",
             color: "hover:text-indigo-400 hover:bg-indigo-400/10"
         },
     ];
