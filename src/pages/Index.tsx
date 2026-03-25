@@ -11,7 +11,13 @@ import LenisProvider from "@/components/providers/LenisProvider";
 const Index = () => {
     return (
         <LenisProvider>
-            <div className="w-full bg-background text-foreground overflow-x-hidden">
+            <div className="w-full bg-background text-foreground overflow-x-hidden relative">
+                <div className="page-atmosphere">
+                    <div className="aurora aurora-primary" />
+                    <div className="aurora aurora-secondary" />
+                    <div className="grid-overlay" />
+                    <div className="starfield" />
+                </div>
                 <div className="bg-noise" />
                 <Navbar />
                 <main>

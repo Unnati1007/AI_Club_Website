@@ -38,11 +38,13 @@ const HeroSection = () => {
             <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[120px] animate-float-slow" style={{ animationDelay: '-4s' }} />
 
             <div className="container mx-auto px-3 relative z-10">
-                <Card className="w-full clay-panel transition-colors relative overflow-hidden min-h-[500px] lg:min-h-[600px]">
+                <Card className="w-full clay-panel hero-shell transition-colors relative overflow-hidden min-h-[500px] lg:min-h-[600px]">
                     <Spotlight
                         className="-top-40 left-0 md:left-60 md:-top-20"
                         fill="hsl(var(--primary))"
                     />
+
+                    <div className="absolute inset-0 pointer-events-none holographic-mask" />
 
                     {/* Decorative corner accents */}
                     <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-primary/20 rounded-tl-lg" />
@@ -92,7 +94,7 @@ const HeroSection = () => {
                                     asChild
                                 >
                                     <a href="#events">
-                                        Explores Events
+                                        Explore Events
                                         <Sparkles className="ml-2 w-4 h-4" />
                                     </a>
                                 </Button>
