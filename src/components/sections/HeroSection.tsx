@@ -27,7 +27,7 @@ const HeroSection = () => {
     const isInView = useInView(sectionRef, { margin: "0px 0px -100px 0px" });
 
     return (
-        <section id="hero" className="min-h-screen flex items-start relative overflow-hidden pt-18 md:pt-24" ref={sectionRef}>
+        <section id="hero" className="min-h-screen flex items-start relative overflow-hidden pt-20 md:pt-24" ref={sectionRef}>
             {/* Particle Background */}
             <div className="absolute inset-0 z-0">
                 <ParticleField particleCount={60} connectionDistance={130} />
@@ -109,7 +109,7 @@ const HeroSection = () => {
                                 transition={{ delay: 0.6 }}
                             >
                                 {/* Community Pulse Card */}
-                                <div className="relative group overflow-hidden clay-card p-6 flex-1 min-w-[240px]">
+                                <div className="relative group overflow-hidden clay-card p-6 flex-1 min-w-[200px]">
                                     {/* Neon border glow effect */}
                                     <div className="absolute -inset-px bg-gradient-to-r from-teal-500/0 via-teal-500/40 to-teal-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
