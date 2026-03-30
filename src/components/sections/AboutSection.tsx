@@ -68,9 +68,9 @@ const AboutSection = () => {
 
                 {/* Hero area with Spline */}
                 <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
-                    <div className="h-[400px] lg:h-[500px] relative">
+                    <div className="hidden lg:block h-[400px] lg:h-[500px] relative">
                             <motion.div
-                                className="hidden lg:block relative h-full clay-card overflow-hidden"
+                                className="relative h-full clay-card overflow-hidden"
                             initial={{ opacity: 0, x: -50 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ duration: 0.8 }}
@@ -120,7 +120,7 @@ const AboutSection = () => {
                                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                                     transition={{ delay: 0.4 + i * 0.1 }}
                                 >
-                                    <div className="w-8 h-8 clay-card flex items-center justify-center transition-all duration-300">
+                                    <div className="w-8 h-8 shrink-0 clay-card flex items-center justify-center transition-all duration-300">
                                         <point.icon className="w-4 h-4 text-primary" />
                                     </div>
                                     <span className="text-foreground font-medium text-sm md:text-base">{point.text}</span>
