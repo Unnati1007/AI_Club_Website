@@ -42,7 +42,6 @@ const EVENT_IMAGES = [
     "/Photos/Event6.png",
 ];
 
-
 // Floating particles for background effect
 const FloatingParticle = ({ delay }: { delay: number }) => (
     <motion.div

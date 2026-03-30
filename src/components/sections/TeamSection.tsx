@@ -27,8 +27,6 @@ const TeamSection = () => {
     const jrCoordinators = teamMembers.filter(m => m.hierarchyLevel === 'junior');
     const leads = teamMembers.filter(m => m.hierarchyLevel === 'lead');
     const coleads = teamMembers.filter(m => m.hierarchyLevel === 'coleads' || m.hierarchyLevel === 'colead');
-
-
     const TeamMemberCard = ({ member, delay, size = "medium" }: { member: TeamMember; delay: number; size?: "large" | "medium" | "small" }) => {
         const sizeClasses = {
             large: "w-36 h-36",
