@@ -22,4 +22,15 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          spline: ['@splinetool/react-spline', '@splinetool/runtime'],
+          vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion']
+        }
+      }
+    }
+  }
 }));
+
