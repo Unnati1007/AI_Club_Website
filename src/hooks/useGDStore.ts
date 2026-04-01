@@ -9,7 +9,7 @@ export interface GDItem {
     link?: string;
 }
 
-const API_URL = 'http://localhost:5001/api/gds';
+const API_URL = '/api/gds';
 
 export function useGDStore() {
     const [gds, setGDs] = useState<GDItem[]>([]);

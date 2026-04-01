@@ -4,11 +4,6 @@ import { motion } from "framer-motion";
 import { Cpu, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const ADMIN_CREDENTIALS = {
-    username: "admin",
-    password: "aiclub@2025",
-};
-
 const AdminLogin = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
@@ -17,20 +12,33 @@ const AdminLogin = () => {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
         setIsLoading(true);
 
-        setTimeout(() => {
-            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+        try {
+            const response = await fetch("/api/admin/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
                 sessionStorage.setItem("ai-club-admin", "true");
                 navigate("/admin/dashboard");
             } else {
-                setError("Invalid credentials. Access denied.");
+                setError(data.message || "Invalid credentials. Access denied.");
             }
+        } catch (err) {
+            setError("Connection to server failed. Please try again later.");
+        } finally {
             setIsLoading(false);
-        }, 800);
+        }
     };
 
     return (
