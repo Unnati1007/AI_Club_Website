@@ -162,7 +162,7 @@ const HeroSection = () => {
                                         <div className="w-12 h-12 rounded-full bg-purple-500/20 mb-4 flex items-center justify-center">
                                             <Sparkles className="w-6 h-6 text-[#b026ff]" />
                                         </div>
-                                        <div className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight"
+                                        <div className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight">
                                             Conducted Many Events<br />& Group Discussions
                                     </div>
                                 </div>

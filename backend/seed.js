@@ -144,10 +144,12 @@ const seedData = async () => {
 
         // === Contributors ===
         const contributors = [
-            { name: "Naitik Jain", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face", contributions: 47, projects: ["Course Hero", "Write"], github: "#", linkedin: "#", rank: 1 },
-            { name: "Naitik Jain", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face", contributions: 32, projects: ["Course Hero", "Write"], github: "#", linkedin: "#", rank: 2 },
-            { name: "Arman", avatar: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop&crop=face", contributions: 28, projects: ["Karthik"], github: "#", linkedin: "#", rank: 3 },
-            { name: "Harshita", avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=300&h=300&fit=crop&crop=face", contributions: 56, projects: ["Developers"], github: "#", linkedin: "#", rank: 4 }
+            { name: "Naitik Jain", avatar: "./Photos/naitik_air.PNG", contributions: 47, projects: ["Course Hero", "Write"], github: "https://github.com/Naitikk-J", linkedin: "https://www.linkedin.com/in/naitik-jain-9290b8324?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"},
+            { name: "Naitik Jain", avatar: "./Photos/naitik_jain_ec.jpeg", contributions: 32, projects: ["Course Hero", "Write"], github: "https://github.com/jnaitik", linkedin: "https://www.linkedin.com/in/naitik-jain-522095328" },
+            { name: "Arman", avatar: "./Photos/arman.jpeg", contributions: 28, projects: ["Devlopers"], github: "https://github.com/armansinghh", linkedin: "https://www.linkedin.com/in/armansingh24"},
+            { name: "Kartik", avatar: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop&crop=face", contributions: 28, projects: ["Developers"], github: "#", linkedin: "#"},
+            { name: "Harshita", avatar: "./Photos/harshita.jpeg", contributions: 28, projects: ["Developers"], github: "https://github.com/Harshita-043", linkedin: "https://www.linkedin.com/in/harshita-gupta-1a7124326?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"},
+            { name: "Ojas", avatar: "./Photos/Ojas.jpeg", contributions: 56, projects: ["Developers"], github: "https://github.com/ojaswii333", linkedin: "https://www.linkedin.com/in/ojaswi-anand-sharma-7080b434a?utm_source=share_via&utm_content=profile&utm_medium=member_android"}
         ];
         await Contributor.insertMany(contributors);
         console.log("Seeded Contributors.");
