@@ -47,10 +47,10 @@ const AboutSection = () => {
                 transition={{ duration: 1.5, delay: 0.5 }}
             />
 
-            <div className="container mx-auto px-6 relative z-10">
+            <div className="container mx-auto px-3 sm:px-6 relative z-10">
                 {/* Section Heading */}
                 <motion.div
-                    className="text-center max-w-2xl mx-auto mb-16"
+                    className="text-center max-w-2xl mx-auto mb-12 sm:mb-16"
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
@@ -58,19 +58,19 @@ const AboutSection = () => {
                     <div className="flex items-center justify-center gap-2 mb-4">
                         <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
-                    <h2 className="text-xl md:text-3xl font-bold mb-4 font-display tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 font-display tracking-tight">
                         About <span className="text-primary">AI Club</span>
                     </h2>
-                    <p className="text-muted-foreground text-lg">
+                    <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">
                         Empowering the Next Generation of AI Innovators
                     </p>
                 </motion.div>
 
                 {/* Hero area with Spline */}
-                <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
-                    <div className="hidden lg:block h-[400px] lg:h-[500px] relative">
-                            <motion.div
-                                className="relative h-full clay-card overflow-hidden"
+                <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 sm:mb-20">
+                    <div className="h-[300px] sm:h-[400px] lg:h-[500px] relative">
+                        <motion.div
+                            className="hidden lg:block relative h-full clay-card overflow-hidden"
                             initial={{ opacity: 0, x: -50 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ duration: 0.8 }}
@@ -94,20 +94,20 @@ const AboutSection = () => {
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
 
-                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
+                        <p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed mb-4 sm:mb-6">
                             {content.about_p1 || "AI Club is a student-driven community for anyone curious about artificial intelligence and how it actually works in the real world. Instead of just focusing on theory, we regularly conduct group discussions where members explore current AI trends, share ideas, and break down complex topics in a simple way."}
                         </p>
 
-                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
+                        <p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed mb-4 sm:mb-6">
                             {content.about_p2 || "We also organize practical events, workshops, and hands-on sessions to help members understand tools and technologies step by step. What makes our club different is that it provides a space for students who are interested in research whether it's exploring new ideas, working on problem statements, or understanding how real-world AI systems are built."}
                         </p>
 
-                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
+                        <p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed mb-4 sm:mb-6">
                             {content.about_p3 || "The club is open to learners at all levels. If you're someone who likes asking questions, discussing new tech, or experimenting with ideas, this is a place where you can actively learn, contribute, and grow with others who share the same interest."}
                         </p>
 
                         {/* Mission points with animated reveal */}
-                        <div className="space-y-4">
+                        <div className="space-y-3 sm:space-y-4">
                             {[
                                 { icon: Zap, text: "Foster innovation through collaborative learning" },
                                 { icon: Target, text: "Bridge the gap between theory and practical application" },
@@ -120,10 +120,10 @@ const AboutSection = () => {
                                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                                     transition={{ delay: 0.4 + i * 0.1 }}
                                 >
-                                    <div className="w-8 h-8 shrink-0 clay-card flex items-center justify-center transition-all duration-300">
+                                    <div className="w-8 h-8 clay-card flex items-center justify-center transition-all duration-300 flex-shrink-0">
                                         <point.icon className="w-4 h-4 text-primary" />
                                     </div>
-                                    <span className="text-foreground font-medium text-sm md:text-base">{point.text}</span>
+                                    <span className="text-foreground font-medium text-xs sm:text-sm md:text-base">{point.text}</span>
                                 </motion.div>
                             ))}
                         </div>
@@ -131,11 +131,11 @@ const AboutSection = () => {
                 </div>
 
                 {/* Feature cards grid */}
-                <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {features.map((feature, i) => (
                         <motion.div
                             key={i}
-                            className="group relative p-6 clay-card hover:-translate-y-2 transition-all duration-500 cursor-pointer overflow-hidden"
+                            className="group relative p-4 sm:p-6 clay-card hover:-translate-y-2 transition-all duration-500 cursor-pointer overflow-hidden"
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ delay: 0.6 + i * 0.1 }}
@@ -145,14 +145,14 @@ const AboutSection = () => {
                             <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-[0.05] transition-opacity duration-500 rounded-2xl`} />
 
                             {/* Icon */}
-                            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} bg-opacity-10 flex items-center justify-center mb-4 group-hover:shadow-lg group-hover:shadow-primary/10 transition-all duration-500`}>
-                                <feature.icon className="w-6 h-6 text-white" />
+                            <div className={`w-10 sm:w-12 h-10 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br ${feature.color} bg-opacity-10 flex items-center justify-center mb-3 sm:mb-4 group-hover:shadow-lg group-hover:shadow-primary/10 transition-all duration-500`}>
+                                <feature.icon className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
                             </div>
 
-                            <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors duration-300">
+                            <h3 className="text-base sm:text-lg font-bold mb-2 group-hover:text-primary transition-colors duration-300">
                                 {feature.title}
                             </h3>
-                            <p className="text-sm text-muted-foreground leading-relaxed">
+                            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                                 {feature.description}
                             </p>
 

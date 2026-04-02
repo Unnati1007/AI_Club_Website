@@ -47,10 +47,10 @@ const ContributorsSection = () => {
                 ))}
             </div>
 
-            <div className="container mx-auto px-6 relative z-10">
+            <div className="container mx-auto px-3 sm:px-6 relative z-10">
                 {/* Header */}
                 <motion.div
-                    className="text-center max-w-2xl mx-auto mb-16"
+                    className="text-center max-w-2xl mx-auto mb-12 sm:mb-16"
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
@@ -68,10 +68,10 @@ const ContributorsSection = () => {
                     <div className="flex items-center justify-center gap-2 mb-4">
                         <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse" />
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4 font-display tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 font-display tracking-tight">
                         Our <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">Developers</span>
                     </h2>
-                    <p className="text-muted-foreground text-lg">
+                    <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">
                         The brilliant minds who contribute to our projects and make AI Club thrive
                     </p>
                 </motion.div>
@@ -82,7 +82,7 @@ const ContributorsSection = () => {
                         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                     </div>
                 )}
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                     {contributors.map((contributor, i) => (
                         <motion.div
                             key={i}
@@ -155,7 +155,7 @@ const ContributorsSection = () => {
                                 ))}
                             </motion.div>
 
-                            <div className="p-6 flex flex-col items-center text-center relative z-20">
+                            <div className="p-4 sm:p-6 flex flex-col items-center text-center relative z-20">
                                 {/* Avatar with enhanced hover */}
                                 <div className="relative mb-4">
                                     {/* Multiple glow rings */}
@@ -186,7 +186,7 @@ const ContributorsSection = () => {
                                     <motion.img
                                         src={contributor.avatar}
                                         alt={contributor.name}
-                                        className="relative w-20 h-20 rounded-full object-cover border-2 border-border/50 group-hover:border-primary/50 transition-all duration-500"
+                                        className="relative w-16 sm:w-20 h-16 sm:h-20 rounded-full object-cover border-2 border-border/50 group-hover:border-primary/50 transition-all duration-500"
                                         onError={(e) => {
                                             e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(contributor.name)}&background=random`;
                                         }}

@@ -62,28 +62,28 @@ const Navbar = () => {
                 />
             )}
 
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-3 sm:px-6">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
-                    <a href="#" className="flex items-center gap-3 group">
-                        <div className="relative flex items-center justify-center">
-                            <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-12 h-12 md:w-14 md:h-14 object-contain z-10 group-hover:scale-105 transition-transform duration-300" />
+                    <a href="#" className="flex items-center gap-2 sm:gap-3 group">
+                        <div className="relative flex items-center justify-center flex-shrink-0">
+                            <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-contain z-10 group-hover:scale-105 transition-transform duration-300" />
                             <div className="absolute -inset-1 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 blur-sm opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
-                        <span className="font-display text-xl md:text-2xl font-bold tracking-wider bg-gradient-to-r from-primary to-foreground bg-clip-text text-transparent">
+                        <span className="font-display text-lg sm:text-xl md:text-2xl font-bold tracking-wider bg-gradient-to-r from-primary to-foreground bg-clip-text text-transparent">
                             AI CLUB
                         </span>
                     </a>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-1">
                         {navLinks.map((link) => {
                             const isActive = activeSection === link.href.replace("#", "");
                             return (
                                 <a
                                     key={link.label}
                                     href={link.href}
-                                    className={`relative px-5 py-2 text-base font-semibold tracking-wide transition-all duration-300 rounded-lg ${isActive
+                                    className={`relative px-3 lg:px-5 py-2 text-sm lg:text-base font-semibold tracking-wide transition-all duration-300 rounded-lg ${isActive
                                         ? "text-primary bg-primary/10"
                                         : "text-muted-foreground hover:text-foreground hover:bg-foreground/5 hover:scale-105"
                                         }`}
@@ -125,7 +125,7 @@ const Navbar = () => {
                         exit={{ opacity: 0, y: -10, height: 0 }}
                         transition={{ duration: 0.3 }}
                     >
-                        <div className="container mx-auto px-6 py-4 space-y-1">
+                        <div className="container mx-auto px-3 sm:px-6 py-3 space-y-1">
                             {navLinks.map((link, i) => (
                                 <motion.a
                                     key={link.label}
@@ -133,10 +133,10 @@ const Navbar = () => {
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: i * 0.05 }}
-                                    className="block py-3 px-4 rounded-lg text-muted-foreground hover:text-foreground hover:bg-primary/5 transition-all duration-300 font-medium"
+                                    className="block py-3 px-3 sm:px-4 rounded-lg text-muted-foreground hover:text-foreground hover:bg-primary/5 transition-all duration-300 font-medium text-sm sm:text-base"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
-                                    <span className="text-primary font-mono text-xs mr-3">0{i + 1}</span>
+                                    <span className="text-primary font-mono text-xs mr-2 sm:mr-3">0{i + 1}</span>
                                     {link.label}
                                 </motion.a>
                             ))}

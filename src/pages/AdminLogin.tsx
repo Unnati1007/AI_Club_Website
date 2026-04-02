@@ -42,11 +42,11 @@ const AdminLogin = () => {
     };
 
     return (
-        <div className="min-h-screen bg-background flex items-center justify-center px-6 relative overflow-hidden">
+        <div className="min-h-screen bg-background flex items-center justify-center px-4 sm:px-6 relative overflow-hidden">
             {/* Background */}
             <div className="absolute inset-0 hex-pattern opacity-20" />
-            <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
-            <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-secondary/5 rounded-full blur-[100px]" />
+            <div className="absolute top-1/4 left-1/4 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-primary/5 rounded-full blur-[100px]" />
+            <div className="absolute bottom-1/4 right-1/4 w-[250px] sm:w-[300px] h-[250px] sm:h-[300px] bg-secondary/5 rounded-full blur-[100px]" />
 
             <motion.div
                 className="w-full max-w-md relative z-10"
@@ -55,45 +55,45 @@ const AdminLogin = () => {
                 transition={{ duration: 0.6 }}
             >
                 {/* Logo */}
-                <div className="flex items-center justify-center gap-3 mb-8">
-                    <div className="flex items-center justify-center relative">
-                        <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-12 h-12 object-contain relative z-10" />
+                <div className="flex items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
+                    <div className="flex items-center justify-center relative flex-shrink-0">
+                        <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-10 sm:w-12 h-10 sm:h-12 object-contain relative z-10" />
                     </div>
-                    <span className="font-display text-xl font-bold tracking-wider text-gradient">AI CLUB</span>
+                    <span className="font-display text-lg sm:text-xl font-bold tracking-wider text-gradient">AI CLUB</span>
                 </div>
 
                 {/* Login Card */}
-                <div className="glass rounded-2xl p-8 border-border/30">
+                <div className="glass rounded-xl sm:rounded-2xl p-6 sm:p-8 border-border/30">
                     {/* Header */}
-                    <div className="text-center mb-8">
-                        <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-4">
-                            <Lock className="w-7 h-7 text-primary" />
+                    <div className="text-center mb-6 sm:mb-8">
+                        <div className="w-12 sm:w-16 h-12 sm:h-16 rounded-xl sm:rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                            <Lock className="w-5 sm:w-7 h-5 sm:h-7 text-primary" />
                         </div>
-                        <h1 className="text-2xl font-bold mb-2">Admin Access</h1>
-                        <p className="text-sm text-muted-foreground font-mono">Restricted area — authorized personnel only</p>
+                        <h1 className="text-xl sm:text-2xl font-bold mb-2">Admin Access</h1>
+                        <p className="text-xs sm:text-sm text-muted-foreground font-mono">Restricted area — authorized personnel only</p>
                     </div>
 
                     {/* Error */}
                     {error && (
                         <motion.div
-                            className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm mb-6"
+                            className="flex items-center gap-2 p-2 sm:p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-xs sm:text-sm mb-6"
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                         >
-                            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                            <AlertCircle className="w-3 sm:w-4 h-3 sm:h-4 flex-shrink-0" />
                             {error}
                         </motion.div>
                     )}
 
                     {/* Form */}
-                    <form onSubmit={handleLogin} className="space-y-5">
+                    <form onSubmit={handleLogin} className="space-y-4 sm:space-y-5">
                         <div>
                             <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2 block">Username</label>
                             <input
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 text-sm"
+                                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl bg-muted/30 border border-border/50 text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 text-sm"
                                 placeholder="Enter username"
                                 required
                             />
@@ -106,14 +106,14 @@ const AdminLogin = () => {
                                     type={showPassword ? "text" : "password"}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full px-4 py-3 pr-12 rounded-xl bg-muted/30 border border-border/50 text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 text-sm"
+                                    className="w-full px-3 sm:px-4 py-2 sm:py-3 pr-10 sm:pr-12 rounded-lg sm:rounded-xl bg-muted/30 border border-border/50 text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 text-sm"
                                     placeholder="Enter password"
                                     required
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                    className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
                                 >
                                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
@@ -122,7 +122,7 @@ const AdminLogin = () => {
 
                         <Button
                             type="submit"
-                            className="w-full py-6 rounded-xl bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-secondary text-primary-foreground font-semibold transition-all duration-500"
+                            className="w-full py-5 sm:py-6 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-secondary text-primary-foreground font-semibold transition-all duration-500 text-sm sm:text-base"
                             disabled={isLoading}
                         >
                             {isLoading ? (
@@ -136,7 +136,7 @@ const AdminLogin = () => {
                         </Button>
                     </form>
 
-                    <div className="mt-6 text-center">
+                    <div className="mt-4 sm:mt-6 text-center">
                         <a href="/" className="text-xs text-muted-foreground hover:text-primary transition-colors font-mono">
                             ← Back to website
                         </a>
@@ -144,7 +144,7 @@ const AdminLogin = () => {
                 </div>
 
                 {/* Security note */}
-                <p className="text-center text-[10px] text-muted-foreground/40 mt-6 font-mono">
+                <p className="text-center text-[9px] sm:text-[10px] text-muted-foreground/40 mt-4 sm:mt-6 font-mono">
                     Secure admin panel • Session-based authentication
                 </p>
             </motion.div>

@@ -144,7 +144,7 @@ export default function EventsSection() {
     return (
         <section
             id="events"
-            className="w-full py-32 px-6 font-sans relative overflow-hidden bg-gradient-to-b from-background via-background/95 to-background"
+            className="w-full py-16 sm:py-24 md:py-32 px-3 sm:px-6 font-sans relative overflow-hidden bg-gradient-to-b from-background via-background/95 to-background"
             ref={ref}
         >
             {/* Animated background particles */}
@@ -164,7 +164,7 @@ export default function EventsSection() {
             <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header Section with floating labels */}
                 <motion.div
-                    className="flex flex-col items-center text-center mb-20 relative"
+                    className="flex flex-col items-center text-center mb-12 sm:mb-20 relative"
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.8, type: "spring" }}
@@ -176,13 +176,13 @@ export default function EventsSection() {
                             initial={{ scale: 0 }}
                             animate={isInView ? { scale: 1 } : {}}
                             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                            className="mb-6 relative"
+                            className="mb-4 sm:mb-6 relative"
                         >
                             <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-pulse" />
-                            <Zap className="w-16 h-16 text-primary relative z-10 mx-auto" />
+                            <Zap className="w-12 sm:w-16 h-12 sm:h-16 text-primary relative z-10 mx-auto" />
                         </motion.div>
 
-                        <h2 className="text-5xl md:text-7xl font-bold mb-6 font-display tracking-tight relative">
+                        <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 font-display tracking-tight relative">
                             <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent relative z-10 font-serif">
                                 Events
                             </span>
@@ -194,33 +194,23 @@ export default function EventsSection() {
                                 ))}
                             </div>
                         </h2>
-
-                        {/* <motion.p
-                            className="text-muted-foreground text-lg max-w-2xl relative z-10 font-light"
-                            initial={{ opacity: 0 }}
-                            animate={isInView ? { opacity: 1 } : {}}
-                            transition={{ delay: 0.4 }}
-                        >
-                            Join our group discussions, events and sessions to level up your AI skills.
-                            <span className="block mt-2 text-sm text-primary/70 font-medium">✨ Exciting prizes distributed ✨</span>
-                        </motion.p> */}
                     </div>
                 </motion.div>
 
                 {/* Enhanced Image Marquee with 3D effect */}
-                <div className="relative w-full overflow-hidden py-12 mb-24">
-                    <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
-                    <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
+                <div className="relative w-full overflow-hidden py-6 sm:py-12 mb-12 sm:mb-24">
+                    <div className="absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-background to-transparent z-10" />
+                    <div className="absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-background to-transparent z-10" />
 
                     <motion.div
-                        className="flex gap-8 whitespace-nowrap"
-                        animate={{ x: [0, -((384 + 32) * EVENT_IMAGES.length)] }}
+                        className="flex gap-4 sm:gap-8 whitespace-nowrap"
+                        animate={{ x: [0, -((320 + 16) * EVENT_IMAGES.length)] }}
                         transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
                     >
                         {[...EVENT_IMAGES, ...EVENT_IMAGES, ...EVENT_IMAGES].map((src, index) => (
                             <motion.div
                                 key={index}
-                                className="h-72 w-96 flex-shrink-0 overflow-hidden clay-card group relative transform-gpu"
+                                className="h-40 sm:h-56 md:h-72 w-56 sm:w-80 md:w-96 flex-shrink-0 overflow-hidden clay-card group relative transform-gpu"
                                 whileHover={{
                                     scale: 1.05,
                                     rotateY: 5,

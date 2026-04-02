@@ -47,10 +47,10 @@ const GDSection = () => {
                 ))}
             </div>
 
-            <div className="container mx-auto px-6 relative z-10">
+            <div className="container mx-auto px-3 sm:px-6 relative z-10">
                 {/* Header */}
                 <motion.div
-                    className="text-center max-w-2xl mx-auto mb-12"
+                    className="text-center max-w-2xl mx-auto mb-8 sm:mb-12"
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
@@ -65,10 +65,10 @@ const GDSection = () => {
                         <MessageSquare className="w-12 h-12 text-primary relative z-10 mx-auto" />
                     </motion.div>
 
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 font-display tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 font-display tracking-tight">
                         AI <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">ROUND TABLE</span>
                     </h2>
-                    <p className="text-muted-foreground text-lg">
+                    <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">
                         Monthly brainstorming sessions where ideas collide and innovation sparks
                     </p>
                 </motion.div>
@@ -77,12 +77,12 @@ const GDSection = () => {
             {/* Horizontal scrolling cards — full width */}
             <div className="relative">
                 {/* Fade masks */}
-                <div className="absolute top-0 bottom-0 left-0 w-16 md:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-                <div className="absolute top-0 bottom-0 right-0 w-16 md:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+                <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 md:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+                <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 md:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
                 <div
                     ref={scrollContainerRef}
-                    className="flex gap-6 overflow-x-auto px-6 md:px-12 pb-8 scrollbar-hide cursor-grab active:cursor-grabbing"
+                    className="flex gap-4 sm:gap-6 overflow-x-auto px-3 sm:px-6 md:px-12 pb-8 scrollbar-hide cursor-grab active:cursor-grabbing"
                     style={{
                         scrollbarWidth: 'none',
                         msOverflowStyle: 'none',
@@ -93,14 +93,14 @@ const GDSection = () => {
                         const isExpanded = expandedCards[gd._id];
                         // Extract month and year from string date if possible
                         const dateObj = new Date(gd.date);
-                        const monthYear = !isNaN(dateObj.getTime()) 
+                        const monthYear = !isNaN(dateObj.getTime())
                             ? dateObj.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()
                             : gd.date;
 
                         return (
                             <motion.div
                                 key={gd._id}
-                                className="group flex-shrink-0 w-[340px] md:w-[380px] clay-card transition-all duration-500 overflow-hidden cursor-pointer relative"
+                                className="group flex-shrink-0 w-[85vw] sm:w-[320px] md:w-[360px] clay-card transition-all duration-500 overflow-hidden cursor-pointer relative"
                                 initial={{ opacity: 0, x: 40, y: 20 }}
                                 animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
                                 transition={{ delay: 0.1 + i * 0.08, duration: 0.5 }}
@@ -150,15 +150,15 @@ const GDSection = () => {
                                 </div>
 
                                 {/* Content */}
-                                <div className="p-5">
-                                    <h3 className="text-lg font-bold mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple-500 transition-all duration-300">
+                                <div className="p-4 sm:p-5">
+                                    <h3 className="text-base sm:text-lg font-bold mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple-500 transition-all duration-300">
                                         {gd.title}
                                     </h3>
 
                                     <div className="relative">
                                         <motion.p
                                             layout
-                                            className={`text-sm text-muted-foreground leading-relaxed transition-all duration-500 ${isExpanded ? '' : 'line-clamp-3'
+                                            className={`text-xs sm:text-sm text-muted-foreground leading-relaxed transition-all duration-500 ${isExpanded ? '' : 'line-clamp-3'
                                                 }`}
                                         >
                                             {gd.description}

@@ -52,7 +52,7 @@ const HeroSection = () => {
 
                     <div className="grid lg:grid-cols-2 gap-8 h-full">
                         <motion.div
-                            className="p-8 lg:p-12 flex flex-col justify-center relative z-10"
+                            className="p-4 sm:p-6 md:p-8 lg:p-12 flex flex-col justify-center relative z-10"
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8 }}
@@ -72,18 +72,18 @@ const HeroSection = () => {
                             <div className="mb-2">
                                 <GlitchText
                                     as="h1"
-                                    className="text-2xl md:text-3xl lg:text-4xl font-black leading-tight text-foreground font-display tracking-tight"
+                                    className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black leading-tight text-foreground font-display tracking-tight"
                                 >
                                     {content.hero_title || "AI CLUB"}
                                 </GlitchText>
                             </div>
 
                             {/* Clean subheading */}
-                            <div className="text-xl md:text-2xl font-semibold mb-4 text-foreground/90">
+                            <div className="text-lg sm:text-xl md:text-2xl font-semibold mb-4 text-foreground/90">
                                 {content.hero_subtitle || "Innovate. Build. Deploy."}
                             </div>
 
-                            <p className="text-base text-muted-foreground max-w-lg mb-8 leading-relaxed">
+                            <p className="text-sm sm:text-base text-muted-foreground max-w-lg mb-8 leading-relaxed">
                                 {content.hero_description || "Join a community of passionate innovators, developers, and AI enthusiasts. We explore cutting-edge technologies, brainstrom about current AI trends and shape the future together."}
                             </p>
 
@@ -109,7 +109,7 @@ const HeroSection = () => {
                                 transition={{ delay: 0.6 }}
                             >
                                 {/* Community Pulse Card */}
-                                <div className="relative group overflow-hidden clay-card p-6 flex-1 min-w-[200px]">
+                                <div className="relative group overflow-hidden clay-card p-4 sm:p-6 flex-1 min-w-[180px] sm:min-w-[240px]">
                                     {/* Neon border glow effect */}
                                     <div className="absolute -inset-px bg-gradient-to-r from-teal-500/0 via-teal-500/40 to-teal-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -118,7 +118,7 @@ const HeroSection = () => {
                                             <div className="text-[10px] font-bold tracking-[0.2em] text-[#00e5ff] uppercase mb-2">
                                                 COMMUNITY PULSE
                                             </div>
-                                            <div className="text-xl md:text-2xl font-bold text-white mb-6">
+                                            <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white mb-4 sm:mb-6">
                                                 We are a Community of {content.hero_innovators_count || "50+"} Innovators
                                             </div>
                                         </div>
@@ -162,42 +162,42 @@ const HeroSection = () => {
                                         <div className="w-12 h-12 rounded-full bg-purple-500/20 mb-4 flex items-center justify-center">
                                             <Sparkles className="w-6 h-6 text-[#b026ff]" />
                                         </div>
-                                        <div className="text-lg md:text-xl font-bold text-white leading-tight">
+                                        <div className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight"
                                             Conducted Many Events<br />& Group Discussions
-                                        </div>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </div>
                         </motion.div>
+                    </motion.div>
 
-                        {/* Spline Robot */}
-                        <motion.div
-                            className="hidden md:block h-[350px] lg:h-full relative will-change-transform"
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8, delay: 0.3 }}
-                        >
-                            {isInView && (
-                                <SplineScene
-                                    scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                                    className="w-full h-full"
-                                />
-                            )}
-                        </motion.div>
-                    </div>
-                </Card>
+                    {/* Spline Robot */}
+                    <motion.div
+                        className="hidden md:block h-[350px] lg:h-full relative will-change-transform"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                    >
+                        {isInView && (
+                            <SplineScene
+                                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                                className="w-full h-full"
+                            />
+                        )}
+                    </motion.div>
             </div>
+        </Card>
+            </div >
 
-            {/* Scroll indicator */}
-            <motion.div
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+    {/* Scroll indicator */ }
+    < motion.div
+className = "absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+animate = {{ y: [0, 8, 0] }}
+transition = {{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
                 <span className="text-[10px] font-mono text-muted-foreground/50 uppercase tracking-[0.3em]">Scroll</span>
                 <ChevronDown className="w-4 h-4 text-primary/40" />
-            </motion.div>
-        </section>
+            </motion.div >
+        </section >
     );
 };
 

@@ -148,43 +148,43 @@ const AdminDashboard = () => {
         <div className="min-h-screen bg-background">
             {/* Top bar */}
             <div className="glass-strong border-b border-border/30 sticky top-0 z-50">
-                <div className="container mx-auto px-6 py-3 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center relative">
-                            <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-8 h-8 object-contain relative z-10" />
+                <div className="container mx-auto px-3 sm:px-6 py-2 sm:py-3 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                        <div className="flex items-center justify-center relative flex-shrink-0">
+                            <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-6 sm:w-8 h-6 sm:h-8 object-contain relative z-10" />
                         </div>
-                        <div>
-                            <span className="font-display text-sm font-bold tracking-wider text-gradient">AI CLUB</span>
-                            <span className="text-muted-foreground text-xs font-mono ml-2">/ Admin Panel</span>
+                        <div className="min-w-0">
+                            <span className="font-display text-xs sm:text-sm font-bold tracking-wider text-gradient block">AI CLUB</span>
+                            <span className="text-muted-foreground text-[10px] sm:text-xs font-mono">Admin Panel</span>
                         </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                        <a href="/" className="text-xs text-muted-foreground hover:text-primary transition-colors font-mono">
+                    <div className="flex items-center gap-2">
+                        <a href="/" className="text-[10px] sm:text-xs text-muted-foreground hover:text-primary transition-colors font-mono hidden sm:inline">
                             View Site
                         </a>
                         <Button
                             variant="outline"
                             size="sm"
                             onClick={handleLogout}
-                            className="gap-2 border-border/50 hover:border-destructive/50 hover:text-destructive"
+                            className="gap-1 sm:gap-2 border-border/50 hover:border-destructive/50 hover:text-destructive text-xs"
                         >
-                            <LogOut className="w-3.5 h-3.5" />
-                            Logout
+                            <LogOut className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+                            <span className="hidden sm:inline">Logout</span>
                         </Button>
                     </div>
                 </div>
             </div>
 
-            <div className="container mx-auto px-6 py-8">
+            <div className="container mx-auto px-3 sm:px-6 py-6 sm:py-8">
                 {/* Storage Error Alert */}
                 {(backendError || localError) && (
                     <motion.div
-                        className="flex items-center gap-3 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm mb-8"
+                        className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs sm:text-sm mb-6 sm:mb-8"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                        <div>
+                        <AlertCircle className="w-4 sm:w-5 h-4 sm:h-5 flex-shrink-0" />
+                        <div className="min-w-0">
                             <p className="font-bold">Error</p>
                             <p className="opacity-90">{localError || backendError}</p>
                         </div>
@@ -192,43 +192,43 @@ const AdminDashboard = () => {
                 )}
 
                 {/* Header */}
-                <div className="flex items-center justify-between mb-8">
-                    <div>
-                        <h1 className="text-2xl font-bold mb-1">Manage Group Discussions</h1>
-                        <p className="text-sm text-muted-foreground font-mono">{gds.length} GDs total</p>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
+                    <div className="min-w-0">
+                        <h1 className="text-xl sm:text-2xl font-bold mb-1">Manage GDs</h1>
+                        <p className="text-xs sm:text-sm text-muted-foreground font-mono">{gds.length} total</p>
                     </div>
                     <Button
                         onClick={openAddModal}
-                        className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-secondary text-primary-foreground"
+                        className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-secondary text-primary-foreground text-xs sm:text-sm w-full sm:w-auto"
                     >
-                        <Plus className="w-4 h-4" />
+                        <Plus className="w-3 sm:w-4 h-3 sm:h-4" />
                         Add GD
                     </Button>
                 </div>
 
                 {/* GD Grid */}
                 {gds.length === 0 ? (
-                    <div className="text-center py-20 glass rounded-2xl">
-                        <MessageSquare className="w-16 h-16 mx-auto mb-4 text-muted-foreground/20" />
-                        <p className="text-muted-foreground font-mono text-sm mb-4">No group discussions yet</p>
-                        <Button onClick={openAddModal} variant="outline" className="gap-2">
-                            <Plus className="w-4 h-4" />
+                    <div className="text-center py-12 sm:py-20 glass rounded-xl sm:rounded-2xl">
+                        <MessageSquare className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-3 sm:mb-4 text-muted-foreground/20" />
+                        <p className="text-muted-foreground font-mono text-xs sm:text-sm mb-3 sm:mb-4">No group discussions yet</p>
+                        <Button onClick={openAddModal} variant="outline" className="gap-2 text-xs sm:text-sm">
+                            <Plus className="w-3 sm:w-4 h-3 sm:h-4" />
                             Create your first GD
                         </Button>
                     </div>
                 ) : (
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                         {gds.map((gd, i) => (
                             <motion.div
                                 key={gd._id}
-                                className="group rounded-2xl glass border-border/30 overflow-hidden hover:border-primary/20 transition-all duration-300"
+                                className="group rounded-lg sm:rounded-2xl glass border-border/30 overflow-hidden hover:border-primary/20 transition-all duration-300"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.05 }}
                                 layout
                             >
                                 {/* Image */}
-                                <div className="relative h-44 overflow-hidden">
+                                <div className="relative h-32 sm:h-44 overflow-hidden">
                                     <img
                                         src={gd.image}
                                         alt={gd.title}
@@ -237,26 +237,26 @@ const AdminDashboard = () => {
                                     <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
 
                                     {/* Date */}
-                                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-background/70 backdrop-blur-md border border-border/30 text-[10px] font-mono text-muted-foreground">
+                                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 px-2 py-1 sm:px-2.5 sm:py-1 rounded-full bg-background/70 backdrop-blur-md border border-border/30 text-[8px] sm:text-[10px] font-mono text-muted-foreground">
                                         {new Date(gd.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                     </div>
                                 </div>
 
                                 {/* Content */}
-                                <div className="p-5">
-                                    <h3 className="font-bold text-base mb-2 line-clamp-1">{gd.title}</h3>
-                                    <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{gd.description}</p>
+                                <div className="p-3 sm:p-5">
+                                    <h3 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 line-clamp-1">{gd.title}</h3>
+                                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-3 sm:mb-4">{gd.description}</p>
 
                                     {/* Actions */}
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-1 sm:gap-2">
                                         <Button
                                             variant="outline"
                                             size="sm"
                                             onClick={() => openEditModal(gd)}
-                                            className="flex-1 gap-1.5 border-border/50 hover:border-primary/50 hover:bg-primary/5 text-xs"
+                                            className="flex-1 gap-1 border-border/50 hover:border-primary/50 hover:bg-primary/5 text-[11px] sm:text-xs py-1 sm:py-2"
                                         >
                                             <Pencil className="w-3 h-3" />
-                                            Edit
+                                            <span className="hidden sm:inline">Edit</span>
                                         </Button>
                                         {deleteConfirm === gd._id ? (
                                             <div className="flex gap-1">
@@ -264,17 +264,17 @@ const AdminDashboard = () => {
                                                     variant="destructive"
                                                     size="sm"
                                                     onClick={() => handleDelete(gd._id)}
-                                                    className="text-xs px-3"
+                                                    className="text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-2"
                                                 >
-                                                    Confirm
+                                                    OK
                                                 </Button>
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
                                                     onClick={() => setDeleteConfirm(null)}
-                                                    className="text-xs px-3"
+                                                    className="text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-2"
                                                 >
-                                                    Cancel
+                                                    No
                                                 </Button>
                                             </div>
                                         ) : (
@@ -282,7 +282,7 @@ const AdminDashboard = () => {
                                                 variant="outline"
                                                 size="sm"
                                                 onClick={() => setDeleteConfirm(gd._id)}
-                                                className="gap-1.5 border-border/50 hover:border-destructive/50 hover:text-destructive text-xs"
+                                                className="gap-1 border-border/50 hover:border-destructive/50 hover:text-destructive text-[11px] sm:text-xs py-1 sm:py-2 px-2"
                                             >
                                                 <Trash2 className="w-3 h-3" />
                                             </Button>
