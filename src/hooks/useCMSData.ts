@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const API_BASE_URL = '/api';
+const BASE_URL = import.meta.env.VITE_API_URL || '';
+const API_BASE_URL = `${BASE_URL}/api`;
 
 export function useCMSData<T>(endpoint: string) {
     const [data, setData] = useState<T[]>([]);
