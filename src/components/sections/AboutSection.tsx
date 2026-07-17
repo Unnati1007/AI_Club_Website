@@ -34,7 +34,7 @@ const AboutSection = () => {
     ];
 
     return (
-        <section id="about" className="py-24 relative overflow-hidden" ref={ref}>
+        <section id="about" className="py-16 relative overflow-hidden" ref={ref}>
             {/* Background elements */}
             <div className="absolute inset-0 hex-pattern opacity-20" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
@@ -58,26 +58,23 @@ const AboutSection = () => {
                     <div className="flex items-center justify-center gap-2 mb-4">
                         <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 font-display tracking-tight">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 font-display tracking-tight">
                         About <span className="text-primary">AI Club</span>
                     </h2>
-                    <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">
+                    <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
                         Empowering the Next Generation of AI Innovators
                     </p>
                 </motion.div>
 
                 {/* Hero area with Spline */}
-                <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 sm:mb-20">
-                    <div className="h-[300px] sm:h-[400px] lg:h-[500px] relative">
+                <div className="grid lg:grid-cols-[45%_55%] gap-8 lg:gap-8 items-center mb-12 sm:mb-16">
+                    <div className="hidden lg:block h-[250px] sm:h-[350px] lg:h-[400px] relative">
                         <motion.div
-                            className="hidden lg:block relative h-full clay-card overflow-hidden"
+                            className="relative h-full overflow-hidden"
                             initial={{ opacity: 0, x: -50 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ duration: 0.8 }}
                         >
-                            {/* Corner decorations */}
-                            <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-primary/30 rounded-tl-2xl z-10" />
-                            <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-secondary/30 rounded-br-2xl z-10 pointer-events-none" />
 
                             {isInView && (
                                 <SplineScene
@@ -145,11 +142,11 @@ const AboutSection = () => {
                             <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-[0.05] transition-opacity duration-500 rounded-2xl`} />
 
                             {/* Icon */}
-                            <div className={`w-10 sm:w-12 h-10 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br ${feature.color} bg-opacity-10 flex items-center justify-center mb-3 sm:mb-4 group-hover:shadow-lg group-hover:shadow-primary/10 transition-all duration-500`}>
-                                <feature.icon className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
+                            <div className={`w-8 sm:w-10 h-8 sm:h-10 rounded-lg bg-gradient-to-br ${feature.color} bg-opacity-10 flex items-center justify-center mb-2 sm:mb-3 group-hover:shadow-lg group-hover:shadow-primary/10 transition-all duration-500`}>
+                                <feature.icon className="w-4 sm:w-5 h-4 sm:h-5 text-white" />
                             </div>
 
-                            <h3 className="text-base sm:text-lg font-bold mb-2 group-hover:text-primary transition-colors duration-300">
+                            <h3 className="text-sm sm:text-base font-bold mb-1.5 group-hover:text-primary transition-colors duration-300">
                                 {feature.title}
                             </h3>
                             <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">

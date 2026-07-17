@@ -11,27 +11,36 @@ const Navbar = () => {
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
-
-            // Detect active section
-            const sections = ["hero", "about", "events", "gds", "team", "contributors"];
-            let current = "";
-            for (const section of sections) {
-                const el = document.getElementById(section);
-                if (el) {
-                    const rect = el.getBoundingClientRect();
-                    // Detect if the section is crossing the middle of the viewport
-                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-                        current = section;
-                    }
-                }
-            }
-            setActiveSection(current);
         };
 
         window.addEventListener("scroll", handleScroll, { passive: true });
-        handleScroll(); // Initial check
+        handleScroll();
 
-        return () => window.removeEventListener("scroll", handleScroll);
+        // Intersection Observer for active section detection
+        const sections = ["hero", "about", "events", "gds", "team", "contributors"];
+        const observerOptions = {
+            root: null,
+            rootMargin: '-40% 0px -40% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActiveSection(entry.target.id);
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach((section) => {
+            const el = document.getElementById(section);
+            if (el) observer.observe(el);
+        });
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            observer.disconnect();
+        };
     }, []);
 
     const navLinks = [
@@ -45,8 +54,8 @@ const Navbar = () => {
     return (
         <motion.nav
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-                ? "bg-background/80 backdrop-blur-xl py-2"
-                : "py-3 bg-transparent"
+                ? "bg-background/95 py-2.5 shadow-md shadow-primary/5"
+                : "py-4 bg-transparent"
                 }`}
             initial={{ y: -100 }}
             animate={{ y: 0 }}
@@ -62,15 +71,15 @@ const Navbar = () => {
                 />
             )}
 
-            <div className="container mx-auto px-3 sm:px-6">
+            <div className="w-full mx-auto px-4 sm:px-8 lg:px-12 max-w-[1600px]">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
-                    <a href="#" className="flex items-center gap-2 sm:gap-3 group">
+                    <a href="#" className="flex items-center gap-2 sm:gap-2.5 group">
                         <div className="relative flex items-center justify-center flex-shrink-0">
-                            <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-contain z-10 group-hover:scale-105 transition-transform duration-300" />
+                            <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-contain z-10 group-hover:scale-105 transition-transform duration-300" />
                             <div className="absolute -inset-1 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 blur-sm opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
-                        <span className="font-display text-lg sm:text-xl md:text-2xl font-bold tracking-wider bg-gradient-to-r from-primary to-foreground bg-clip-text text-transparent">
+                        <span className="font-display text-base sm:text-lg md:text-xl font-bold tracking-wider bg-gradient-to-r from-primary to-foreground bg-clip-text text-transparent">
                             AI CLUB
                         </span>
                     </a>
@@ -83,7 +92,7 @@ const Navbar = () => {
                                 <a
                                     key={link.label}
                                     href={link.href}
-                                    className={`relative px-3 lg:px-5 py-2 text-sm lg:text-base font-semibold tracking-wide transition-all duration-300 rounded-lg ${isActive
+                                    className={`relative px-4 lg:px-5 py-2 text-sm lg:text-base font-semibold tracking-wide transition-all duration-300 rounded-lg ${isActive
                                         ? "text-primary bg-primary/10"
                                         : "text-muted-foreground hover:text-foreground hover:bg-foreground/5 hover:scale-105"
                                         }`}

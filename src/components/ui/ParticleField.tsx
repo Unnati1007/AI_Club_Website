@@ -131,17 +131,21 @@ export function ParticleField({
             }
 
             // Draw connections
+            const connectionDistanceSq = connectionDistance * connectionDistance;
             for (let i = 0; i < particles.length; i++) {
+                const p1 = particles[i];
                 for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const p2 = particles[j];
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const distSq = dx * dx + dy * dy;
 
-                    if (dist < connectionDistance) {
+                    if (distSq < connectionDistanceSq) {
+                        const dist = Math.sqrt(distSq);
                         const opacity = (1 - dist / connectionDistance) * 0.15;
                         ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
                         ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
                         ctx.lineWidth = 0.5;
                         ctx.stroke();
@@ -207,7 +211,7 @@ export function ParticleField({
         <canvas
             ref={canvasRef}
             className={`absolute inset-0 pointer-events-auto ${className}`}
-            style={{ zIndex: 0 }}
+            style={{ zIndex: 0, transform: 'translateZ(0)' }}
         />
     );
 }

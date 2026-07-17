@@ -29,8 +29,8 @@ const accentMap: Record<number, string> = {
     0: "from-cyan-400 to-blue-500",
     1: "from-violet-400 to-indigo-500",
     2: "from-blue-400 to-indigo-500",
-    3: "from-emerald-400 to-teal-500",
-    4: "from-fuchsia-400 to-pink-500",
+    3: "from-cyan-500 to-indigo-500",
+    4: "from-indigo-400 to-purple-500",
 };
 
 const EVENT_IMAGES = [
@@ -61,56 +61,6 @@ const FloatingParticle = ({ delay }: { delay: number }) => (
     />
 );
 
-// Floating label component
-const FloatingLabel = ({ text, icon: Icon, position, color, delay }: {
-    text: string;
-    icon: any;
-    position: string;
-    color: string;
-    delay: number;
-}) => {
-    const getPositionStyles = () => {
-        switch (position) {
-            case 'top-left':
-                return { top: '-40px', left: '-100px' };
-            case 'top-right':
-                return { top: '-50px', right: '-120px' };
-            case 'middle-left':
-                return { top: '20px', left: '-140px' };
-            case 'middle-right':
-                return { top: '10px', right: '-160px' };
-            case 'bottom-left':
-                return { top: '70px', left: '-110px' };
-            case 'bottom-right':
-                return { top: '60px', right: '-130px' };
-            default:
-                return {};
-        }
-    };
-
-    return (
-        <motion.div
-            className={`absolute hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r ${color} text-white font-medium text-sm shadow-[0_0_20px_rgba(168,85,247,0.2)] backdrop-blur-sm border border-white/10`}
-            style={getPositionStyles()}
-            initial={{ opacity: 0, scale: 0, x: position.includes('left') ? -50 : 50 }}
-            animate={{
-                opacity: 1,
-                scale: 1,
-                x: 0,
-                y: [0, -8, 0],
-            }}
-            transition={{
-                opacity: { duration: 0.5, delay },
-                scale: { duration: 0.5, delay },
-                y: { duration: 3, delay, repeat: Infinity, ease: "easeInOut" }
-            }}
-            whileHover={{ scale: 1.1, rotate: 3 }}
-        >
-            <Icon className="w-4 h-4" />
-            <span className="font-display tracking-wide">{text}</span>
-        </motion.div>
-    );
-};
 
 export default function EventsSection() {
     const ref = useRef(null);
@@ -132,19 +82,11 @@ export default function EventsSection() {
     // Create array of particles
     const particles = Array.from({ length: 20 }, (_, i) => i);
 
-    // Floating labels data - proper case formatting & purple/blue colors only
-    const floatingLabels = [
-        { text: "Activities", icon: Gamepad2, position: "top-left", color: "from-blue-600 to-indigo-600", delay: 0.2 },
-        { text: "Sessions", icon: MessageSquare, position: "top-right", color: "from-indigo-500 to-purple-500", delay: 0.4 },
-        { text: "Games", icon: Gamepad2, position: "middle-left", color: "from-violet-500 to-purple-600", delay: 0.6 },
-        { text: "AI", icon: Brain, position: "middle-right", color: "from-purple-600 to-blue-500", delay: 0.8 },
-        { text: "Tech", icon: Cpu, position: "bottom-left", color: "from-blue-500 to-cyan-500", delay: 1.0 },
-    ];
 
     return (
         <section
             id="events"
-            className="w-full py-16 sm:py-24 md:py-32 px-3 sm:px-6 font-sans relative overflow-hidden bg-gradient-to-b from-background via-background/95 to-background"
+            className="w-full py-12 sm:py-16 md:py-20 px-3 sm:px-6 font-sans relative overflow-hidden bg-gradient-to-b from-background via-background/95 to-background"
             ref={ref}
         >
             {/* Animated background particles */}
@@ -163,38 +105,22 @@ export default function EventsSection() {
 
             <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header Section with floating labels */}
+                {/* Header Section */}
                 <motion.div
-                    className="flex flex-col items-center text-center mb-12 sm:mb-20 relative"
+                    className="text-center max-w-2xl mx-auto mb-12 sm:mb-16"
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.8, type: "spring" }}
+                    transition={{ duration: 0.6 }}
                 >
-                    {/* Floating labels container */}
-                    <div className="relative inline-block">
-                        {/* Main heading with zap icon */}
-                        <motion.div
-                            initial={{ scale: 0 }}
-                            animate={isInView ? { scale: 1 } : {}}
-                            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                            className="mb-4 sm:mb-6 relative"
-                        >
-                            <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-pulse" />
-                            <Zap className="w-12 sm:w-16 h-12 sm:h-16 text-primary relative z-10 mx-auto" />
-                        </motion.div>
-
-                        <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 font-display tracking-tight relative">
-                            <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent relative z-10 font-serif">
-                                Events
-                            </span>
-
-                            {/* Floating labels - only visible on large screens */}
-                            <div className="absolute inset-0 w-full h-full">
-                                {floatingLabels.map((label, index) => (
-                                    <FloatingLabel key={index} {...label} />
-                                ))}
-                            </div>
-                        </h2>
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                        <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 font-display tracking-tight">
+                        Our <span className="text-primary">Events</span>
+                    </h2>
+                    <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
+                        Explore our upcoming and past activities
+                    </p>
                 </motion.div>
 
                 {/* Enhanced Image Marquee with 3D effect */}
@@ -210,7 +136,7 @@ export default function EventsSection() {
                         {[...EVENT_IMAGES, ...EVENT_IMAGES, ...EVENT_IMAGES].map((src, index) => (
                             <motion.div
                                 key={index}
-                                className="h-40 sm:h-56 md:h-72 w-56 sm:w-80 md:w-96 flex-shrink-0 overflow-hidden clay-card group relative transform-gpu"
+                                className="h-32 sm:h-44 md:h-56 w-48 sm:w-64 md:w-80 flex-shrink-0 overflow-hidden clay-card group relative transform-gpu"
                                 whileHover={{
                                     scale: 1.05,
                                     rotateY: 5,
@@ -253,35 +179,23 @@ export default function EventsSection() {
                                 <motion.div
                                     key={event._id}
                                     layout
-                                    initial={{ opacity: 0, y: 50, rotateX: -15 }}
-                                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                                    exit={{ opacity: 0, y: -50, rotateX: 15 }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -20 }}
                                     transition={{
-                                        duration: 0.6,
-                                        delay: index * 0.1,
-                                        type: "spring",
-                                        stiffness: 100
+                                        duration: 0.3,
+                                        delay: (index % 3) * 0.1
                                     }}
                                     whileHover={{
-                                        y: -12,
-                                        scale: 1.02,
+                                        y: -5,
                                         transition: { duration: 0.2 }
                                     }}
                                     onHoverStart={() => setHoveredIndex(event._id)}
                                     onHoverEnd={() => setHoveredIndex(null)}
-                                    className="group relative cursor-pointer clay-card overflow-hidden transition-all duration-500"
+                                    className="group relative cursor-pointer clay-card overflow-hidden transition-all duration-500 h-full"
                                 >
-                                    {/* Animated gradient border */}
-                                    <motion.div
-                                        className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent"
-                                        animate={{
-                                            x: hoveredIndex === event._id ? ["-100%", "100%"] : "-100%"
-                                        }}
-                                        transition={{ duration: 1.5, ease: "linear" }}
-                                    />
-
                                     {/* Card content */}
-                                    <div className="relative flex flex-col gap-6 p-8 h-full">
+                                    <div className="relative flex flex-col gap-4 p-6 h-full">
                                         {/* Top accent with icon */}
                                         <div className="flex justify-between items-start">
                                             <div className="flex items-center gap-3">
@@ -304,7 +218,7 @@ export default function EventsSection() {
                                             </motion.span>
                                         </div>
 
-                                        <h3 className="font-serif text-2xl font-bold text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple-500 transition-all duration-300">
+                                        <h3 className="font-serif text-xl sm:text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
                                             {event.title}
                                         </h3>
 
@@ -336,13 +250,6 @@ export default function EventsSection() {
                                         </div>
                                     </div>
 
-                                    {/* Interactive glow effect */}
-                                    <motion.div
-                                        className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                                        style={{
-                                            background: `radial-gradient(circle at ${hoveredIndex === event._id ? '50%' : '0%'} 50%, rgba(0,212,255,0.1), transparent 70%)`
-                                        }}
-                                    />
                                 </motion.div>
 
                             );
@@ -359,22 +266,11 @@ export default function EventsSection() {
                     transition={{ delay: 0.8 }}
                 >
                     <Button
-                        variant="outline"
+                        variant="secondary"
                         size="lg"
-                        className="group relative overflow-hidden px-8 py-6 text-lg font-medium font-sans"
+                        className="group px-8 py-6 text-lg font-medium font-sans"
                         onClick={() => setShowAll(!showAll)}
                     >
-                        <motion.span
-                            className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-purple-500/10"
-                            animate={{
-                                x: ["-100%", "100%"],
-                            }}
-                            transition={{
-                                duration: 3,
-                                repeat: Infinity,
-                                ease: "linear",
-                            }}
-                        />
                         <span className="relative z-10 flex items-center">
                             {showAll ? "Show less events" : "Explore all events"}
                             {showAll ? (

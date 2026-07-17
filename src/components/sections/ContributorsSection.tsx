@@ -21,7 +21,7 @@ const ContributorsSection = () => {
     const { data: contributors, isLoading } = useCMSData<Contributor>('contributors');
 
     return (
-        <section id="contributors" className="py-24 relative overflow-hidden" ref={ref}>
+        <section id="contributors" className="py-16 relative overflow-hidden" ref={ref}>
             <div className="absolute inset-0 hex-pattern opacity-15" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
             <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
@@ -36,13 +36,13 @@ const ContributorsSection = () => {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                 >
-                    <Code2 className="w-12 h-12 text-primary mx-auto mb-4" />
-
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                        Our <span className="text-primary">Developers</span>
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                        <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
+                    </div>
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 font-display tracking-tight">
+                        Our <span className="text-primary">Contributors</span>
                     </h2>
-
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
                         The brilliant minds who contribute to our projects
                     </p>
                 </motion.div>
@@ -55,11 +55,11 @@ const ContributorsSection = () => {
                 )}
 
                 {/* Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-6">
                     {contributors.map((contributor, i) => (
                         <motion.div
                             key={i}
-                            className="group clay-card p-6 text-center"
+                            className="group clay-card p-4 sm:p-5 text-center flex flex-col items-center"
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ delay: i * 0.1 }}
@@ -69,19 +69,13 @@ const ContributorsSection = () => {
                             <img
                                 src={contributor.avatar}
                                 alt={contributor.name}
-                                className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-3 object-cover shadow-lg border-2 border-primary/20"
                             />
 
                             {/* Name */}
-                            <h3 className="font-semibold text-lg mb-1">
+                            <h3 className="font-semibold text-base mb-1">
                                 {contributor.name}
                             </h3>
-
-                            {/* Contributions */}
-                            <div className="flex items-center justify-center gap-1 text-sm text-muted-foreground mb-3">
-                                <GitCommit className="w-4 h-4" />
-                                {contributor.contributions} contributions
-                            </div>
 
                             {/* Projects */}
                             <div className="flex flex-wrap justify-center gap-2 mb-4">

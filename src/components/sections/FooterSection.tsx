@@ -41,7 +41,7 @@ const FooterSection = () => {
     ];
 
     return (
-        <footer id="contact" className="relative overflow-hidden bg-gradient-to-b from-background via-background to-primary/5">
+        <footer id="contact" className="relative overflow-hidden bg-gradient-to-b from-background via-background to-primary/5 mt-16 sm:mt-24">
             {/* Particle strip background */}
             <div className="absolute inset-0 opacity-20">
                 <ParticleField particleCount={30} connectionDistance={100} interactive={false} />
@@ -55,9 +55,9 @@ const FooterSection = () => {
 
             <div className="absolute inset-0 bg-gradient-to-t from-primary/[0.02] via-transparent to-transparent" />
 
-            <div className="container mx-auto px-3 sm:px-6 relative z-10 py-12 sm:py-16">
+            <div className="container mx-auto px-3 sm:px-6 relative z-10 pt-8 pb-4 sm:pt-10 sm:pb-6">
                 {/* Main Footer Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 mb-12 sm:mb-16">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-12 gap-6 sm:gap-8 mb-8 sm:mb-10">
                     {/* Brand - Larger column */}
                     <motion.div
                         className="col-span-2 sm:col-span-2 lg:col-span-4"
@@ -66,20 +66,16 @@ const FooterSection = () => {
                         viewport={{ once: true }}
                     >
                         <div className="flex items-center gap-2 sm:gap-3 mb-4">
-                            {/* AI Club Logo - Same as navbar */}
-                            <div className="relative w-8 sm:w-10 h-8 sm:h-10 flex-shrink-0">
-                                <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-primary rounded-lg opacity-20 blur-sm"></div>
-                                <div className="relative w-full h-full bg-gradient-to-br from-primary/20 via-secondary/20 to-primary/20 rounded-lg border border-primary/30 flex items-center justify-center backdrop-blur-sm">
-                                    <span className="text-sm sm:text-lg font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-
-                                    </span>
-                                </div>
+                            {/* AI Club Logo */}
+                            <div className="relative flex items-center justify-center flex-shrink-0">
+                                <img src="/logo/AI CLUB LOGO DU.png" alt="AI Club Logo" className="w-12 h-12 sm:w-14 sm:h-14 object-contain z-10 group-hover:scale-105 transition-transform duration-300" />
+                                <div className="absolute -inset-1 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 blur-sm opacity-50" />
                             </div>
                             <div>
-                                <span className="font-display text-base sm:text-xl font-bold tracking-wider bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                                <span className="font-display text-sm sm:text-lg font-bold tracking-wider bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                                     AI CLUB
                                 </span>
-                                <p className="text-[10px] sm:text-xs text-muted-foreground font-mono">MITS-DU · Est. 2024</p>
+                                <p className="text-[9px] sm:text-[11px] text-muted-foreground font-mono">MITS-DU · Est. 2024</p>
                             </div>
                         </div>
                         <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed mb-4 max-w-xs">
@@ -178,7 +174,7 @@ const FooterSection = () => {
                                     href={social.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={`w-9 sm:w-12 h-9 sm:h-12 clay-btn flex items-center justify-center transition-all duration-300 group hover:scale-110 ${social.color}`}
+                                    className={`w-8 sm:w-10 h-8 sm:h-10 clay-btn flex items-center justify-center transition-all duration-300 group hover:scale-110 ${social.color}`}
                                     aria-label={social.label}
                                 >
                                     <social.icon className="w-4 sm:w-5 h-4 sm:h-5 text-muted-foreground group-hover:text-inherit transition-colors duration-300" />
@@ -194,24 +190,26 @@ const FooterSection = () => {
 
                 {/* Bottom bar with updated text */}
                 <motion.div
-                    className="mt-8 sm:mt-12 lg:mt-16 pt-6 sm:pt-8 border-t border-border/30 flex flex-col md:flex-row justify-between items-center gap-4 relative"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 }}
+                    className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-border/30 flex flex-col md:flex-row justify-between items-center gap-4 relative"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "0px 0px -20px 0px" }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
                 >
                     {/* Decorative element */}
                     <div className="absolute left-1/2 -translate-x-1/2 -top-[1px] w-32 h-[2px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
+                    <p className="text-sm text-muted-foreground">
+                        © {new Date().getFullYear()} AI Club MITS-DU
+                    </p>
+
                     <p className="text-sm text-muted-foreground flex items-center gap-2">
-                        © {new Date().getFullYear()} Developed by
+                        Developed by
                         <span className="flex items-center gap-1 text-primary font-semibold">
                             TEAM AI Club
                             <Heart className="w-3.5 h-3.5 fill-primary text-primary animate-pulse" />
                         </span>
                     </p>
-
-
                 </motion.div>
             </div>
         </footer>

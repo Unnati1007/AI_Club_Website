@@ -29,14 +29,14 @@ const TeamSection = () => {
     const coleads = teamMembers.filter(m => m.hierarchyLevel === 'coleads' || m.hierarchyLevel === 'colead');
     const TeamMemberCard = ({ member, delay, size = "medium" }: { member: TeamMember; delay: number; size?: "large" | "medium" | "small" }) => {
         const sizeClasses = {
-            large: "w-36 h-36",
-            medium: "w-28 h-28",
-            small: "w-24 h-24",
+            large: "w-40 h-40 sm:w-48 sm:h-48",
+            medium: "w-32 h-32 sm:w-40 sm:h-40",
+            small: "w-24 h-24 sm:w-32 sm:h-32",
         };
         const textSizeClasses = {
-            large: "text-base",
-            medium: "text-sm",
-            small: "text-xs",
+            large: "text-base sm:text-lg",
+            medium: "text-sm sm:text-base",
+            small: "text-xs sm:text-sm",
         };
 
         return (
@@ -90,7 +90,7 @@ const TeamSection = () => {
                 transition={{ duration: 0.3 }}
             >
                 {/* Professional frame */}
-                <div className="relative w-64 h-72">
+                <div className="relative w-56 h-64 sm:w-64 sm:h-72">
                     {/* Elegant border frame */}
                     <div className="absolute inset-0 border-2 border-primary/30 rounded-lg" />
 
@@ -138,7 +138,7 @@ const TeamSection = () => {
                 transition={{ delay: delay + 0.1 }}
             >
                 <motion.h3
-                    className="text-2xl font-bold text-foreground"
+                    className="text-xl font-bold text-foreground"
                     whileHover={{ color: '#3b82f6' }}
                     transition={{ duration: 0.2 }}
                 >
@@ -147,7 +147,7 @@ const TeamSection = () => {
 
                 <div className="space-y-1">
                     <motion.p
-                        className="text-primary font-semibold text-lg"
+                        className="text-primary font-semibold text-base"
                         whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.2 }}
                     >
@@ -155,7 +155,7 @@ const TeamSection = () => {
                     </motion.p>
 
                     <motion.p
-                        className="text-muted-foreground text-base"
+                        className="text-muted-foreground text-sm"
                         whileHover={{ color: '#fff' }}
                         transition={{ duration: 0.2 }}
                     >
@@ -175,7 +175,7 @@ const TeamSection = () => {
     );
 
     return (
-        <section id="team" className="py-24 relative overflow-hidden" ref={ref}>
+        <section id="team" className="py-16 relative overflow-hidden" ref={ref}>
             {/* Bg */}
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/[0.03] to-transparent" />
             <div className="absolute inset-0 hex-pattern opacity-15" />
@@ -183,7 +183,7 @@ const TeamSection = () => {
 
             <div className="container mx-auto px-6 relative z-10">
                 <motion.div
-                    className="text-center max-w-2xl mx-auto mb-16"
+                    className="text-center max-w-2xl mx-auto mb-6 sm:mb-8"
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
@@ -191,10 +191,10 @@ const TeamSection = () => {
                     <div className="flex items-center justify-center gap-2 mb-4">
                         <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
-                    <h2 className="text-xl md:text-3xl font-bold mb-4 font-display tracking-tight">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 font-display tracking-tight">
                         Meet Our <span className="text-primary">Team</span>
                     </h2>
-                    <p className="text-muted-foreground text-lg">
+                    <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
                         Dedicated leaders driving innovation and building our thriving community
                     </p>
                 </motion.div>
@@ -208,7 +208,7 @@ const TeamSection = () => {
 
                 {facultyCoordinator && (
                     <motion.div
-                        className="max-w-4xl mx-auto mb-24"
+                        className="max-w-4xl mx-auto mb-8"
                         initial={{ opacity: 0, y: 30 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.6, delay: 0.1 }}
@@ -233,7 +233,7 @@ const TeamSection = () => {
 
                 {/* Rest of the team hierarchy */}
                 {!isLoading && (
-                    <div className="max-w-6xl mx-auto space-y-10">
+                    <div className="max-w-7xl mx-auto space-y-4">
                         {/* President */}
                         {president && (
                             <div className="flex justify-center">
@@ -250,7 +250,7 @@ const TeamSection = () => {
 
                         {/* Vice Presidents */}
                         {vicepresidents.length > 0 && (
-                            <div className="flex flex-wrap justify-center gap-12">
+                            <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
                                 {vicepresidents.map((vp, i) => (
                                     <TeamMemberCard key={vp._id} member={vp} delay={0.2 + i * 0.1} size="large" />
                                 ))}

@@ -22,7 +22,7 @@ const GDSection = () => {
     };
 
     return (
-        <section id="gds" className="py-24 relative overflow-hidden" ref={ref}>
+        <section id="gds" className="py-8 sm:py-12 relative overflow-hidden" ref={ref}>
             {/* Background */}
             <div className="absolute inset-0 hex-pattern opacity-15" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-secondary/20 to-transparent" />
@@ -50,44 +50,27 @@ const GDSection = () => {
             <div className="container mx-auto px-3 sm:px-6 relative z-10">
                 {/* Header */}
                 <motion.div
-                    className="text-center max-w-2xl mx-auto mb-8 sm:mb-12"
+                    className="text-center max-w-2xl mx-auto mb-12 sm:mb-16"
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                 >
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        animate={isInView ? { scale: 1 } : {}}
-                        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                        className="mb-6 relative"
-                    >
-                        <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-pulse" />
-                        <MessageSquare className="w-12 h-12 text-primary relative z-10 mx-auto" />
-                    </motion.div>
-
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 font-display tracking-tight">
-                        AI <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">ROUND TABLE</span>
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                        <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
+                    </div>
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 font-display tracking-tight">
+                        Group <span className="text-primary">Discussions</span>
                     </h2>
-                    <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">
+                    <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
                         Monthly brainstorming sessions where ideas collide and innovation sparks
                     </p>
                 </motion.div>
             </div>
 
-            {/* Horizontal scrolling cards — full width */}
-            <div className="relative">
-                {/* Fade masks */}
-                <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 md:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-                <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 md:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-
+            {/* Grid Layout */}
+            <div className="container mx-auto px-3 sm:px-6 relative z-10">
                 <div
-                    ref={scrollContainerRef}
-                    className="flex gap-4 sm:gap-6 overflow-x-auto px-3 sm:px-6 md:px-12 pb-8 scrollbar-hide cursor-grab active:cursor-grabbing"
-                    style={{
-                        scrollbarWidth: 'none',
-                        msOverflowStyle: 'none',
-                        WebkitOverflowScrolling: 'touch',
-                    }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-8"
                 >
                     {gds.map((gd, i) => {
                         const isExpanded = expandedCards[gd._id];
@@ -100,29 +83,19 @@ const GDSection = () => {
                         return (
                             <motion.div
                                 key={gd._id}
-                                className="group flex-shrink-0 w-[85vw] sm:w-[320px] md:w-[360px] clay-card transition-all duration-500 overflow-hidden cursor-pointer relative"
-                                initial={{ opacity: 0, x: 40, y: 20 }}
-                                animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
+                                className="group flex flex-col h-full clay-card transition-all duration-500 overflow-hidden cursor-pointer relative"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={isInView ? { opacity: 1, y: 0 } : {}}
                                 transition={{ delay: 0.1 + i * 0.08, duration: 0.5 }}
-                                whileHover={{ y: -8, scale: 1.02 }}
+                                whileHover={{ y: -5 }}
                                 onHoverStart={() => setHoveredIndex(gd._id)}
                                 onHoverEnd={() => setHoveredIndex(null)}
-                                onClick={() => toggleCard(gd._id)}
+                                onClick={() => setSelectedGD(gd)}
                             >
-                                {/* Animated gradient border */}
-                                <motion.div
-                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent rounded-2xl"
-                                    animate={{
-                                        x: hoveredIndex === gd._id ? ["-100%", "100%"] : "-100%"
-                                    }}
-                                    transition={{ duration: 1.5, ease: "linear" }}
-                                />
 
-                                {/* Top accent line */}
-                                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-purple-500 to-pink-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-10" />
 
                                 {/* Image */}
-                                <div className="relative h-48 overflow-hidden">
+                                <div className="relative h-40 overflow-hidden">
                                     <img
                                         src={gd.image}
                                         alt={gd.title}
@@ -134,13 +107,7 @@ const GDSection = () => {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent" />
 
-                                    {/* Shine effect on hover */}
-                                    <motion.div
-                                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-                                        initial={{ x: "-100%" }}
-                                        whileHover={{ x: "100%" }}
-                                        transition={{ duration: 0.8 }}
-                                    />
+
 
                                     {/* Date badge */}
                                     <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-primary/20 text-xs font-bold text-primary">
@@ -151,59 +118,36 @@ const GDSection = () => {
 
                                 {/* Content */}
                                 <div className="p-4 sm:p-5">
-                                    <h3 className="text-base sm:text-lg font-bold mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple-500 transition-all duration-300">
+                                    <h3 className="text-sm sm:text-base font-bold mb-1.5 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple-500 transition-all duration-300">
                                         {gd.title}
                                     </h3>
 
                                     <div className="relative">
                                         <motion.p
                                             layout
-                                            className={`text-xs sm:text-sm text-muted-foreground leading-relaxed transition-all duration-500 ${isExpanded ? '' : 'line-clamp-3'
-                                                }`}
+                                            className="text-xs sm:text-sm text-muted-foreground leading-relaxed transition-all duration-500 line-clamp-3"
                                         >
                                             {gd.description}
                                         </motion.p>
 
-                                        {!isExpanded && (
-                                            <motion.div
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: hoveredIndex === gd._id ? 1 : 0 }}
-                                                className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-card/90 to-transparent pointer-events-none"
-                                            />
-                                        )}
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: hoveredIndex === gd._id ? 1 : 0 }}
+                                            className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-card/90 to-transparent pointer-events-none"
+                                        />
 
                                         <motion.button
-                                            onClick={(e) => { e.stopPropagation(); toggleCard(gd._id); }}
+                                            onClick={(e) => { e.stopPropagation(); setSelectedGD(gd); }}
                                             className="text-xs text-primary mt-2 flex items-center gap-1 font-medium hover:gap-2 transition-all"
                                             whileHover={{ x: 5 }}
                                         >
-                                            {isExpanded ? "Read less" : "Read more"}
-                                            {isExpanded ? (
-                                                <ChevronUp className="w-3 h-3" />
-                                            ) : (
-                                                <ChevronDown className="w-3 h-3" />
-                                            )}
+                                            Read more
+                                            <ExternalLink className="w-3 h-3" />
                                         </motion.button>
                                     </div>
                                 </div>
 
-                                {/* View details button */}
-                                <motion.button
-                                    onClick={(e) => { e.stopPropagation(); setSelectedGD(gd); }}
-                                    className="absolute bottom-5 right-5 w-8 h-8 clay-btn rounded-full flex items-center justify-center transition-colors duration-300"
-                                    whileHover={{ scale: 1.1, rotate: 90 }}
-                                >
-                                    <ExternalLink className="w-4 h-4 text-primary" />
-                                </motion.button>
-
-                                {/* Glow effect on hover */}
-                                <motion.div
-                                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                                    style={{
-                                        background: `radial-gradient(circle at ${hoveredIndex === gd._id ? '50%' : '0%'} 50%, rgba(59,130,246,0.1), transparent 70%)`
-                                    }}
-                                />
-                            </motion.div>
+                                </motion.div>
                         );
                     })}
 
@@ -240,27 +184,11 @@ const GDSection = () => {
                 </div>
             </div>
 
-            {/* Scroll hint with animation */}
-            <motion.div
-                className="flex justify-center mt-8"
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.6 }}
-            >
-                <motion.div
-                    className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground/40 uppercase tracking-[0.3em]"
-                    animate={{ x: [0, 10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                >
-                    <span>←</span>
-                    <span>Scroll to explore</span>
-                    <span>→</span>
-                </motion.div>
-            </motion.div>
+
 
             {/* GD Details Dialog */}
             <Dialog open={!!selectedGD} onOpenChange={(open) => !open && setSelectedGD(null)}>
-                <DialogContent className="sm:max-w-2xl clay-panel border-primary/20">
+                <DialogContent className="sm:max-w-4xl lg:max-w-5xl clay-panel border-primary/20">
                     <DialogHeader>
                         <div className="flex items-center gap-2 text-primary text-sm mb-2">
                             <Calendar className="w-4 h-4" />
@@ -271,24 +199,24 @@ const GDSection = () => {
                         </DialogTitle>
                     </DialogHeader>
 
-                    {selectedGD?.image && (
-                        <div className="w-full h-56 rounded-xl overflow-hidden mt-2 relative group">
-                            <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent z-10" />
-                            <img
-                                src={selectedGD.image}
-                                alt={selectedGD.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                            />
-                        </div>
-                    )}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2">
+                        {selectedGD?.image && (
+                            <div className="w-full h-48 sm:h-56 lg:h-full min-h-[200px] lg:min-h-[300px] rounded-xl overflow-hidden relative group bg-black/20 flex items-center justify-center">
+                                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent z-10 pointer-events-none" />
+                                <img
+                                    src={selectedGD.image}
+                                    alt={selectedGD.title}
+                                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 p-2"
+                                />
+                            </div>
+                        )}
 
-                    <div className="mt-4 space-y-4">
-                        <div className="bg-gradient-to-br from-primary/5 to-transparent p-5 rounded-xl border border-primary/10">
+                        <div className="bg-gradient-to-br from-primary/5 to-transparent p-5 sm:p-6 rounded-xl border border-primary/10 h-full overflow-y-auto">
                             <h4 className="text-sm font-mono text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
                                 <MessageSquare className="w-4 h-4" />
                                 Discussion Highlights
                             </h4>
-                            <p className="text-foreground/90 whitespace-pre-wrap leading-relaxed">
+                            <p className="text-foreground/90 whitespace-pre-wrap leading-relaxed text-sm sm:text-base">
                                 {selectedGD?.description}
                             </p>
                         </div>

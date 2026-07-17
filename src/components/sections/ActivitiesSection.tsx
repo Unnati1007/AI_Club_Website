@@ -47,19 +47,18 @@ const ActivitiesSection = () => {
 
             <div className="container mx-auto px-6 relative z-10">
                 <motion.div
-                    className="text-center max-w-2xl mx-auto mb-16"
+                    className="text-center max-w-2xl mx-auto mb-12 sm:mb-16"
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                 >
                     <div className="flex items-center justify-center gap-2 mb-4">
-                        <span className="text-primary font-mono text-sm">// ACTIVITIES</span>
-                        <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse" />
+                        <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                        What We <span className="text-gradient neon-text">Do</span>
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 font-display tracking-tight">
+                        Our <span className="text-primary">Activities</span>
                     </h2>
-                    <p className="text-muted-foreground text-lg">
+                    <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
                         Explore our diverse range of activities designed to foster learning and collaboration
                     </p>
                 </motion.div>
