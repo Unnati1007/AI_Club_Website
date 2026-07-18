@@ -1,78 +1,102 @@
 # AI Club Website
 
-A modern, responsive web application for an AI Club, built using React, Vite, TypeScript, and Tailwind CSS. The site features smooth scrolling, dynamic animations, and an admin dashboard for managing club sessions and activities.
+A modern, responsive, full-stack web application for the AI Club, built using React, Vite, TypeScript, Tailwind CSS, Node.js, Express, and MongoDB. The site features a 3D interactive hero section (Spline), smooth scrolling, dynamic animations, and an admin dashboard for managing club events, team members, and activities.
+
+## Live Links
+
+- **Frontend:** [https://ai-club-website-beta.vercel.app](https://ai-club-website-beta.vercel.app) (Soon to be aiclubmits.in)
+- **Backend API:** [https://ai-club-website-71x4.vercel.app](https://ai-club-website-71x4.vercel.app)
 
 ## Tech Stack
 
+### Frontend
 - **Framework**: React 18 with Vite
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS & Framer Motion
 - **UI Components**: shadcn/ui (Radix UI)
-- **Routing**: React Router DOM
+- **3D Graphics**: Spline Tool
 - **Animations**: GSAP, Framer Motion, Lenis (for smooth scrolling)
-- **State Management**: React Query, Custom Hooks (e.g., `useGDStore` with LocalStorage)
+
+### Backend
+- **Framework**: Node.js & Express.js (ES Modules)
+- **Database**: MongoDB (Mongoose ODM)
+- **Environment Variables**: dotenv
+- **CORS**: cors
+- **File Uploads**: multer
 
 ## Project Structure
 
-The project follows a modular and clean architecture:
+The project follows a full-stack monorepo-style structure:
 
 ```text
-src/
-├── components/
-│   ├── layout/       # Global layout components like Navbar
-│   ├── providers/    # Context providers (e.g., LenisProvider for smooth scrolling)
-│   ├── sections/     # Modular homepage sections (Hero, About, Events, Team, etc.)
-│   └── ui/           # Reusable UI components from shadcn/ui
-├── hooks/            # Custom React hooks (e.g., useGDStore for local storage management)
-├── lib/              # Utility functions (e.g., Tailwind class merger utils.ts)
-├── pages/            # Page components for React Router
-│   ├── Index.tsx           # Main landing page
-│   ├── AdminLogin.tsx      # Admin authentication page
-│   ├── AdminDashboard.tsx  # Dashboard for managing GDs (Group Discussions)
-│   └── NotFound.tsx        # 404 Error page
-├── App.tsx           # Application root and router configuration
-├── main.tsx          # React entry point
-└── index.css         # Global stylesheets and Tailwind directives
+AI_Club_Website/
+├── backend/               # Express.js REST API & MongoDB models
+│   ├── models/            # Mongoose schemas (Event, TeamMember, GD, etc.)
+│   ├── package.json       # Backend dependencies
+│   ├── seed.js            # Database seeding script
+│   ├── server.js          # Main Express server and API routes
+│   └── vercel.json        # Vercel serverless deployment config
+│
+├── src/                   # React Frontend
+│   ├── components/        # UI and layout components
+│   │   ├── sections/      # Modular homepage sections (Hero, About, Events, etc.)
+│   │   └── ui/            # Reusable shadcn/ui components
+│   ├── hooks/             # Custom React hooks (useCMSData, useGDStore)
+│   ├── pages/             # Page components (Index, Admin Dashboard)
+│   ├── App.tsx            # Application root
+│   └── main.tsx           # React entry point
+│
+├── package.json           # Frontend dependencies
+└── vite.config.ts         # Vite configuration with proxy for local development
 ```
 
 ## Key Features
 
-- **Landing Page**: A comprehensive, animated single-page experience highlighting the club's hero section, about details, events, team members, and contributors.
-- **Admin Dashboard**: A protected route for administrators to manage Group Discussions (GD Items). It uses a local storage-based store (`useGDStore`) to add, update, and delete sessions without requiring a backend.
-- **Smooth Scrolling**: Implemented using Lenis for a premium user experience.
-- **Component Library**: Integrates beautifully designed, accessible components from shadcn/ui.
+- **Dynamic 3D Hero**: Uses Spline for an interactive 3D robot scene.
+- **Full-Stack Admin Dashboard**: A protected route (`/admin`) for administrators to manage all website content (Events, Team Members, Activities, GDs) in real-time, backed by MongoDB.
+- **Mobile Responsive**: Fully fluid design that adapts seamlessly to desktop, tablet, and mobile screens.
+- **Premium Aesthetics**: Glassmorphism, smooth gradients, hover effects, and modern typography.
 
-## Getting Started
+## Getting Started Locally
 
 ### Prerequisites
-Make sure you have Node.js and a package manager like `npm` or `bun` installed.
+Make sure you have Node.js installed, and a MongoDB Atlas cluster (or local MongoDB) running.
 
-### Installation
-
-1. Clone the repository and navigate to the project directory:
-   ```bash
-   cd AI_Club_Website
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-### Running the Development Server
+### 1. Setup Backend
+```bash
+cd backend
+npm install
+```
+Create a `.env` file in the `backend` folder:
+```env
+MONGODB_URI=your_mongodb_connection_string
+PORT=5001
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=your_secure_password
+```
+Start the backend server:
 ```bash
 npm run dev
 ```
-The application will be accessible at `http://localhost:5173`.
 
-### Building for Production
+### 2. Setup Frontend
+Open a new terminal window:
 ```bash
-npm run build
+# From the root AI_Club_Website directory
+npm install
 ```
+Start the frontend Vite server:
+```bash
+npm run dev
+```
+The application will be accessible at `http://localhost:8081`. The Vite proxy automatically routes `/api` requests to `http://localhost:5001`.
 
-## Available Scripts
+## Deployment
 
-- `npm run dev` - Starts the Vite development server.
-- `npm run build` - Builds the app for production to the `dist` folder.
-- `npm run lint` - Runs ESLint to check for code quality issues.
-- `npm run preview` - Previews the production build locally.
-- `npm run test` - Runs the Vitest test suite.
+### Backend Deployment (Vercel)
+The backend is configured for Vercel using the `vercel.json` file. It exports the Express app as a serverless function. 
+*   **Environment Variables needed in Vercel:** `MONGODB_URI`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`
+
+### Frontend Deployment (Vercel)
+Deploy the root folder to Vercel. 
+*   **Environment Variables needed in Vercel:** `VITE_API_URL` (Set this to the deployed backend URL, e.g., `https://ai-club-website-71x4.vercel.app`)
