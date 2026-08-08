@@ -17,7 +17,7 @@ const Navbar = () => {
         handleScroll();
 
         // Intersection Observer for active section detection
-        const sections = ["hero", "about", "events", "gds", "team", "contributors"];
+        const sections = ["hero", "about", "events", "gds", "resources", "team", "contributors"];
         const observerOptions = {
             root: null,
             rootMargin: '-40% 0px -40% 0px',
@@ -47,6 +47,7 @@ const Navbar = () => {
         { label: "About", href: "#about" },
         { label: "Events", href: "#events" },
         { label: "GDs", href: "#gds" },
+        { label: "Resources", href: "#resources" },
         { label: "Team", href: "#team" },
         { label: "Contributors", href: "#contributors" },
     ];

@@ -92,7 +92,7 @@ const AboutSection = () => {
                     >
 
                         <p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed mb-4 sm:mb-6">
-                            {content.about_p1 || "AI Club is a student-driven community for anyone curious about artificial intelligence and how it actually works in the real world. Instead of just focusing on theory, we regularly conduct group discussions where members explore current AI trends, share ideas, and break down complex topics in a simple way."}
+                            {content.about_p1 || "AI Club is a student-driven community for anyone curious about artificial intelligence and how it actually works in the real world, we focus on theory as well as practical applications of Artificial Intelligence in day-to-day life. We regularly conduct group discussions where members explore current AI trends, share ideas, and break down complex topics in a simple way."}
                         </p>
 
                         <p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed mb-4 sm:mb-6">

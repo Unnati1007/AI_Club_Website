@@ -119,7 +119,7 @@ const HeroSection = () => {
                                                 COMMUNITY PULSE
                                             </div>
                                             <div className="text-sm sm:text-base md:text-lg font-bold text-white mb-3 sm:mb-4">
-                                                We are a Community of {content.hero_innovators_count || "50+"} Innovators
+                                                A Community of {content.hero_innovators_count || "50+"} Innovators
                                             </div>
                                         </div>
 
@@ -163,33 +163,33 @@ const HeroSection = () => {
                                             <Sparkles className="w-5 h-5 text-[#b026ff]" />
                                         </div>
                                         <div className="text-xs sm:text-sm md:text-base font-bold text-white leading-tight">
-                                            Conducted Many Events<br />& Group Discussions
+                                            Monthy Group Discussions <br />& Events
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         </motion.div>
-                    </motion.div>
 
-                    {/* Spline Robot */}
-                    <motion.div
-                        className="hidden md:block h-[350px] lg:h-full relative will-change-transform"
-                        style={{ transform: 'translateZ(0)' }}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.3 }}
-                    >
-                        {isInView && (
-                            <SplineScene
-                                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                                className="w-full h-full"
-                            />
-                        )}
-                    </motion.div>
+                        {/* Spline Robot */}
+                        <motion.div
+                            className="hidden md:block h-[350px] lg:h-full relative will-change-transform"
+                            style={{ transform: 'translateZ(0)' }}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.8, delay: 0.3 }}
+                        >
+                            {isInView && (
+                                <SplineScene
+                                    scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                                    className="w-full h-full"
+                                />
+                            )}
+                        </motion.div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        {/* Scroll indicator */}
+            {/* Scroll indicator */}
             <motion.div
                 className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
                 animate={{ y: [0, 8, 0] }}

@@ -46,7 +46,7 @@ const seedData = async () => {
             { key: "hero_subtitle", value: "Innovate. Build. Deploy.", category: "Hero" },
             { key: "hero_description", value: "Join a community of passionate innovators, developers, and AI enthusiasts. We explore cutting-edge technologies, brainstorm about current AI trends and shape the future together.", category: "Hero" },
             { key: "about_title", value: "Empowering the Next Generation of AI Innovators", category: "About" },
-            { key: "about_p1", value: "AI Club is a student-driven community for anyone curious about artificial intelligence and how it actually works in the real world. Instead of just focusing on theory, we regularly conduct group discussions where members explore current AI trends, share ideas, and break down complex topics in a simple way.", category: "About" },
+            { key: "about_p1", value: "AI Club is a student-driven community for every individual curious about Artificial Intelligence and how it actually works in the real world, we focus on theory as well as practical applications of Artificial Intelligence in day-to-day life .We regularly conduct group discussions where members explore current AI trends, share ideas, and break down complex topics in a simple way.", category: "About" },
             { key: "about_p2", value: "We also organize practical events, workshops, and hands-on sessions to help members understand tools and technologies step by step. What makes our club different is that it provides a space for students who are interested in research whether it's exploring new ideas, working on problem statements, or understanding how real-world AI systems are built.", category: "About" },
             { key: "about_p3", value: "The club is open to learners at all levels. If you're someone who likes asking questions, discussing new tech, or experimenting with ideas, this is a place where you can actively learn, contribute, and grow with others who share the same interest.", category: "About" }
 
@@ -90,7 +90,7 @@ const seedData = async () => {
                 description: "An AI-themed stall featuring 6 interactive games designed to make learning fun and engaging. Students participated in quick challenges, explored simple AI concepts, and won exciting prizes instantly, making it one of the most lively attractions of the fest.",
                 image: "/Photos/Event1.jpeg"
             },
-            { 
+            {
                 title: "AIQ Battle 2.0",
                 type: "Competition",
                 date: "February 2026",
@@ -144,12 +144,12 @@ const seedData = async () => {
 
         // === Contributors ===
         const contributors = [
-            { name: "Naitik Jain", avatar: "./Photos/naitik_air.PNG", contributions: 47, projects: ["Course Hero", "Write"], github: "https://github.com/Naitikk-J", linkedin: "https://www.linkedin.com/in/naitik-jain-9290b8324?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"},
-            { name: "Naitik Jain", avatar: "./Photos/naitik_jain_ec.jpeg", contributions: 32, projects: ["Course Hero", "Write"], github: "https://github.com/jnaitik", linkedin: "https://www.linkedin.com/in/naitik-jain-522095328" },
-            { name: "Arman", avatar: "./Photos/arman.jpeg", contributions: 28, projects: ["Devlopers"], github: "https://github.com/armansinghh", linkedin: "https://www.linkedin.com/in/armansingh24"},
-            { name: "Kartik singh", avatar: "./Photos/Kartik_singh.jpeg", contributions: 28, projects: ["Developers"], github: "https://github.com/mrcodex13", linkedin: "www.linkedin.com/in/kartik-singh-a03446378"},
-            { name: "Harshita", avatar: "./Photos/harshita.jpeg", contributions: 28, projects: ["Developers"], github: "https://github.com/Harshita-043", linkedin: "https://www.linkedin.com/in/harshita-gupta-1a7124326?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"},
-            { name: "Ojas", avatar: "./Photos/Ojas.jpeg", contributions: 56, projects: ["Developers"], github: "https://github.com/ojaswii333", linkedin: "https://www.linkedin.com/in/ojaswi-anand-sharma-7080b434a?utm_source=share_via&utm_content=profile&utm_medium=member_android"}
+            { name: "Naitik Jain", avatar: "/Photos/naitik_air.PNG", contributions: 47, projects: ["Course Hero", "Write"], github: "https://github.com/Naitikk-J", linkedin: "https://www.linkedin.com/in/naitik-jain-9290b8324?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" },
+            { name: "Naitik Jain", avatar: "/Photos/naitik_jain_ec.jpeg", contributions: 32, projects: ["Course Hero", "Write"], github: "https://github.com/jnaitik", linkedin: "https://www.linkedin.com/in/naitik-jain-522095328" },
+            { name: "Arman", avatar: "/Photos/arman.jpeg", contributions: 28, projects: ["Devlopers"], github: "https://github.com/armansinghh", linkedin: "https://www.linkedin.com/in/armansingh24" },
+            { name: "Kartik singh", avatar: "/Photos/Kartik_singh.png", contributions: 28, projects: ["Developers"], github: "https://github.com/mrcodex13", linkedin: "www.linkedin.com/in/kartik-singh-a03446378" },
+            { name: "Harshita", avatar: "/Photos/harshita.jpeg", contributions: 28, projects: ["Developers"], github: "https://github.com/Harshita-043", linkedin: "https://www.linkedin.com/in/harshita-gupta-1a7124326?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
+            { name: "Ojas", avatar: "/Photos/Ojas.jpeg", contributions: 56, projects: ["Developers"], github: "https://github.com/ojaswii333", linkedin: "https://www.linkedin.com/in/ojaswi-anand-sharma-7080b434a?utm_source=share_via&utm_content=profile&utm_medium=member_android" }
         ];
         await Contributor.insertMany(contributors);
         console.log("Seeded Contributors.");
