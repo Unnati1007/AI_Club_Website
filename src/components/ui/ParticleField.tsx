@@ -19,9 +19,9 @@ interface ParticleFieldProps {
 
 export function ParticleField({
     className = '',
-    particleCount = 80,
-    connectionDistance = 120,
-    interactive = true,
+    particleCount = 25,
+    connectionDistance = 100,
+    interactive = false,
 }: ParticleFieldProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const mouseRef = useRef({ x: -1000, y: -1000 });
@@ -32,7 +32,7 @@ export function ParticleField({
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { alpha: true });
         if (!ctx) return;
 
         const colors = [
@@ -53,14 +53,15 @@ export function ParticleField({
 
         const initParticles = () => {
             particlesRef.current = [];
-            for (let i = 0; i < particleCount; i++) {
+            const count = Math.min(particleCount, window.innerWidth < 768 ? 15 : particleCount);
+            for (let i = 0; i < count; i++) {
                 particlesRef.current.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
-                    size: Math.random() * 2 + 0.5,
-                    opacity: Math.random() * 0.5 + 0.2,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    size: Math.random() * 1.8 + 0.6,
+                    opacity: Math.random() * 0.4 + 0.2,
                     color: colors[Math.floor(Math.random() * colors.length)],
                 });
             }
@@ -87,29 +88,26 @@ export function ParticleField({
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             const particles = particlesRef.current;
             const mouse = mouseRef.current;
+            const len = particles.length;
 
             // Update & draw particles
-            for (let i = 0; i < particles.length; i++) {
+            for (let i = 0; i < len; i++) {
                 const p = particles[i];
 
-                // Mouse interaction
-                if (interactive) {
+                if (interactive && mouse.x > 0) {
                     const dx = mouse.x - p.x;
                     const dy = mouse.y - p.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 150) {
+                    const distSq = dx * dx + dy * dy;
+                    if (distSq < 150 * 150) {
+                        const dist = Math.sqrt(distSq);
                         const force = (150 - dist) / 150;
-                        p.vx -= (dx / dist) * force * 0.02;
-                        p.vy -= (dy / dist) * force * 0.02;
+                        p.vx -= (dx / dist) * force * 0.015;
+                        p.vy -= (dy / dist) * force * 0.015;
                     }
                 }
 
                 p.x += p.vx;
                 p.y += p.vy;
-
-                // Damping
-                p.vx *= 0.999;
-                p.vy *= 0.999;
 
                 // Wrap around
                 if (p.x < 0) p.x = canvas.width;
@@ -117,54 +115,32 @@ export function ParticleField({
                 if (p.y < 0) p.y = canvas.height;
                 if (p.y > canvas.height) p.y = 0;
 
-                // Draw particle
+                // Draw particle dot
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fillStyle = p.color + p.opacity + ')';
                 ctx.fill();
-
-                // Draw glow
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
-                ctx.fillStyle = p.color + (p.opacity * 0.1) + ')';
-                ctx.fill();
             }
 
-            // Draw connections
+            // Draw connections efficiently
             const connectionDistanceSq = connectionDistance * connectionDistance;
-            for (let i = 0; i < particles.length; i++) {
+            for (let i = 0; i < len; i++) {
                 const p1 = particles[i];
-                for (let j = i + 1; j < particles.length; j++) {
+                for (let j = i + 1; j < len; j++) {
                     const p2 = particles[j];
                     const dx = p1.x - p2.x;
                     const dy = p1.y - p2.y;
+                    
+                    if (Math.abs(dx) > connectionDistance || Math.abs(dy) > connectionDistance) continue;
+                    
                     const distSq = dx * dx + dy * dy;
-
                     if (distSq < connectionDistanceSq) {
                         const dist = Math.sqrt(distSq);
-                        const opacity = (1 - dist / connectionDistance) * 0.15;
+                        const opacity = (1 - dist / connectionDistance) * 0.12;
                         ctx.beginPath();
                         ctx.moveTo(p1.x, p1.y);
                         ctx.lineTo(p2.x, p2.y);
                         ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            // Mouse attraction lines
-            if (interactive && mouse.x > 0 && mouse.y > 0) {
-                for (const p of particles) {
-                    const dx = mouse.x - p.x;
-                    const dy = mouse.y - p.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 200) {
-                        const opacity = (1 - dist / 200) * 0.2;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(mouse.x, mouse.y);
-                        ctx.strokeStyle = `rgba(139, 92, 246, ${opacity})`;
                         ctx.lineWidth = 0.5;
                         ctx.stroke();
                     }
@@ -178,8 +154,8 @@ export function ParticleField({
         initParticles();
 
         if (interactive) {
-            canvas.addEventListener('mousemove', handleMouseMove);
-            canvas.addEventListener('mouseleave', handleMouseLeave);
+            canvas.addEventListener('mousemove', handleMouseMove, { passive: true });
+            canvas.addEventListener('mouseleave', handleMouseLeave, { passive: true });
         }
 
         const resizeObserver = new ResizeObserver(resize);
@@ -187,10 +163,9 @@ export function ParticleField({
             resizeObserver.observe(canvas.parentElement);
         }
 
-        // Intersection Observer to pause animation when not visible
         const intersectionObserver = new IntersectionObserver((entries) => {
             isVisible = entries[0].isIntersecting;
-        }, { threshold: 0.1 });
+        }, { threshold: 0.05 });
 
         intersectionObserver.observe(canvas);
 
@@ -210,8 +185,8 @@ export function ParticleField({
     return (
         <canvas
             ref={canvasRef}
-            className={`absolute inset-0 pointer-events-auto ${className}`}
-            style={{ zIndex: 0, transform: 'translateZ(0)' }}
+            className={`absolute inset-0 pointer-events-none ${className}`}
+            style={{ zIndex: 0 }}
         />
     );
 }

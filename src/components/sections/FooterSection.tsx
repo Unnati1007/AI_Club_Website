@@ -28,16 +28,16 @@ const FooterSection = () => {
         },
     ];
 
-    const quickLinks = [
+    const quickLinksLeft = [
         { label: "About", href: "#about" },
         { label: "Events", href: "#events" },
         { label: "Group Discussions", href: "#gds" },
-        { label: "Our Team", href: "#team" },
-        { label: "Contributors", href: "#contributors" },
     ];
 
-    const resources = [
+    const quickLinksRight = [
         { label: "Resources", href: "#resources" },
+        { label: "Our Team", href: "#team" },
+        { label: "Contributors", href: "#contributors" },
     ];
 
     return (
@@ -88,9 +88,9 @@ const FooterSection = () => {
                         </div>
                     </motion.div>
 
-                    {/* Quick Links */}
+                    {/* Quick Links Column (Spans 4 columns with 2 inner sub-columns) */}
                     <motion.div
-                        className="lg:col-span-2"
+                        className="col-span-2 sm:col-span-2 lg:col-span-4"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -100,46 +100,34 @@ const FooterSection = () => {
                             <span className="w-1 h-3 sm:h-4 bg-primary rounded-full" />
                             Quick Links
                         </h4>
-                        <ul className="space-y-2">
-                            {quickLinks.map((link, i) => (
-                                <li key={i}>
-                                    <a
-                                        href={link.href}
-                                        className="text-muted-foreground hover:text-primary transition-all duration-300 text-xs sm:text-sm flex items-center gap-2 group py-1"
-                                    >
-                                        <span className="text-primary/40 font-mono text-[8px] sm:text-[10px] group-hover:text-primary group-hover:translate-x-1 transition-all">→</span>
-                                        {link.label}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </motion.div>
-
-                    {/* Resources */}
-                    <motion.div
-                        className="lg:col-span-2"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.15 }}
-                    >
-                        <h4 className="font-semibold mb-3 sm:mb-4 text-foreground text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2">
-                            <span className="w-1 h-3 sm:h-4 bg-secondary rounded-full" />
-                            Resources
-                        </h4>
-                        <ul className="space-y-2">
-                            {resources.map((link, i) => (
-                                <li key={i}>
-                                    <a
-                                        href={link.href}
-                                        className="text-muted-foreground hover:text-secondary transition-all duration-300 text-xs sm:text-sm flex items-center gap-2 group py-1"
-                                    >
-                                        <span className="text-secondary/40 font-mono text-[8px] sm:text-[10px] group-hover:text-secondary group-hover:translate-x-1 transition-all">→</span>
-                                        {link.label}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
+                        <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
+                            <ul className="space-y-2">
+                                {quickLinksLeft.map((link, i) => (
+                                    <li key={i}>
+                                        <a
+                                            href={link.href}
+                                            className="text-muted-foreground hover:text-primary transition-all duration-300 text-xs sm:text-sm flex items-center gap-2 group py-1"
+                                        >
+                                            <span className="text-primary/40 font-mono text-[8px] sm:text-[10px] group-hover:text-primary group-hover:translate-x-1 transition-all">→</span>
+                                            {link.label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                            <ul className="space-y-2">
+                                {quickLinksRight.map((link, i) => (
+                                    <li key={i}>
+                                        <a
+                                            href={link.href}
+                                            className="text-muted-foreground hover:text-primary transition-all duration-300 text-xs sm:text-sm flex items-center gap-2 group py-1"
+                                        >
+                                            <span className="text-primary/40 font-mono text-[8px] sm:text-[10px] group-hover:text-primary group-hover:translate-x-1 transition-all">→</span>
+                                            {link.label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </motion.div>
 
                     {/* Contact & Social - Larger column */}

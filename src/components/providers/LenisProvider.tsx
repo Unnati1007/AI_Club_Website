@@ -6,22 +6,28 @@ const LenisProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         const lenis = new Lenis({
-            duration: 1.2,
+            duration: 0.8,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            lerp: 0.1,
-            infinite: false,
+            orientation: "vertical",
+            gestureOrientation: "vertical",
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            touchMultiplier: 1.5,
         });
 
         lenisRef.current = lenis;
 
+        let animationFrameId: number;
+
         function raf(time: number) {
             lenis.raf(time);
-            requestAnimationFrame(raf);
+            animationFrameId = requestAnimationFrame(raf);
         }
 
-        requestAnimationFrame(raf);
+        animationFrameId = requestAnimationFrame(raf);
 
         return () => {
+            cancelAnimationFrame(animationFrameId);
             lenis.destroy();
         };
     }, []);
