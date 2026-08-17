@@ -52,6 +52,28 @@ const Navbar = () => {
         { label: "Contributors", href: "#contributors" },
     ];
 
+    const handleMobileLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        e.preventDefault();
+        setIsMobileMenuOpen(false);
+
+        setTimeout(() => {
+            const targetId = href.replace("#", "");
+            const element = document.getElementById(targetId);
+            if (element) {
+                const offset = 80; // Offset for fixed navbar
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = element.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        }, 200); // Wait for menu close transition to start
+    };
+
     return (
         <motion.nav
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
@@ -144,7 +166,7 @@ const Navbar = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: i * 0.05 }}
                                     className="block py-3 px-3 sm:px-4 rounded-lg text-muted-foreground hover:text-foreground hover:bg-primary/5 transition-all duration-300 font-medium text-sm sm:text-base"
-                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    onClick={(e) => handleMobileLinkClick(e, link.href)}
                                 >
                                     <span className="text-primary font-mono text-xs mr-2 sm:mr-3">0{i + 1}</span>
                                     {link.label}
