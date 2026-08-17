@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { GraduationCap, Award } from "lucide-react";
 
 import { useCMSData } from "@/hooks/useCMSData";
@@ -18,6 +18,9 @@ const TeamSection = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
     const { data: teamMembers, isLoading } = useCMSData<TeamMember>('team-members');
+    const [selectedBatch, setSelectedBatch] = useState("2025-26");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const batches = ["2025-26", "2026-27", "2027-28", "2028-29"];
 
     // Organize hierarchy from dynamic data
     const facultyCoordinator = teamMembers.find(m => m.hierarchyLevel === 'faculty');
@@ -194,17 +197,51 @@ const TeamSection = () => {
                     <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 font-display tracking-tight">
                         Meet Our <span className="text-primary">Team</span>
                     </h2>
-                    <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
+                    <p className="text-muted-foreground text-xs sm:text-sm lg:text-base mb-4">
                         Dedicated leaders driving innovation and building our thriving community
                     </p>
+
+                    {/* Batch Dropdown */}
+                    <div className="relative inline-block text-left z-30">
+                        <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="flex items-center justify-between gap-3 bg-secondary/20 hover:bg-secondary/40 border border-primary/30 text-foreground px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold focus:outline-none transition-all duration-300 shadow-md font-mono"
+                        >
+                            <span>Team: {selectedBatch}</span>
+                            <span className={`transform transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}>▼</span>
+                        </button>
+                        {isDropdownOpen && (
+                            <>
+                                <div className="fixed inset-0 z-10" onClick={() => setIsDropdownOpen(false)} />
+                                <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-48 rounded-xl bg-background/95 backdrop-blur-md border border-primary/20 shadow-xl z-20 overflow-hidden py-1">
+                                    {batches.map((batch) => (
+                                        <button
+                                            key={batch}
+                                            onClick={() => {
+                                                setSelectedBatch(batch);
+                                                setIsDropdownOpen(false);
+                                            }}
+                                            className={`w-full text-left px-4 py-2 text-xs sm:text-sm font-mono hover:bg-primary/10 transition-colors duration-200 ${
+                                                selectedBatch === batch ? 'text-primary font-bold bg-primary/5' : 'text-muted-foreground'
+                                            }`}
+                                        >
+                                            Team: {batch}
+                                        </button>
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </motion.div>
 
-                {/* Faculty Coordinator Section - Centered */}
-                {isLoading && (
-                    <div className="flex justify-center py-12">
-                        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                    </div>
-                )}
+                {selectedBatch === "2025-26" ? (
+                    <>
+                        {/* Faculty Coordinator Section - Centered */}
+                        {isLoading && (
+                            <div className="flex justify-center py-12">
+                                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                            </div>
+                        )}
 
                 {facultyCoordinator && (
                     <motion.div
@@ -318,6 +355,23 @@ const TeamSection = () => {
                             </div>
                         )}
                     </div>
+                )}
+                    </>
+                ) : (
+                    <motion.div
+                        className="text-center py-16 px-4 max-w-md mx-auto"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <div className="relative inline-flex items-center justify-center p-4 bg-primary/5 border border-primary/20 rounded-2xl mb-4">
+                            <span className="text-2xl">🚀</span>
+                        </div>
+                        <h3 className="text-lg font-bold text-foreground mb-2">Team {selectedBatch}</h3>
+                        <p className="text-muted-foreground text-sm leading-relaxed">
+                            Members and coordinators for the {selectedBatch} team will be updated here in the future. Stay tuned for applications!
+                        </p>
+                    </motion.div>
                 )}
             </div>
         </section>

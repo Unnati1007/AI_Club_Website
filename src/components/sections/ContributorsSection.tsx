@@ -20,6 +20,13 @@ const ContributorsSection = () => {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
     const { data: contributors, isLoading } = useCMSData<Contributor>('contributors');
 
+    // Sort to place Naitik Jain (Naitikk-J) at the very beginning (leftmost)
+    const sortedContributors = [...contributors].sort((a, b) => {
+        if (a.github?.toLowerCase() === "https://github.com/naitikk-j") return -1;
+        if (b.github?.toLowerCase() === "https://github.com/naitikk-j") return 1;
+        return 0;
+    });
+
     return (
         <section id="contributors" className="py-16 relative overflow-hidden" ref={ref}>
             <div className="absolute inset-0 hex-pattern opacity-15" />
@@ -56,7 +63,7 @@ const ContributorsSection = () => {
 
                 {/* Cards */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-6">
-                    {contributors.map((contributor, i) => (
+                    {sortedContributors.map((contributor, i) => (
                         <motion.div
                             key={i}
                             className="group clay-card p-4 sm:p-5 text-center flex flex-col items-center"

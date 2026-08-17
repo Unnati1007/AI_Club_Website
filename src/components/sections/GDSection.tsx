@@ -59,7 +59,7 @@ const GDSection = () => {
                         <span className="inline-block w-2 h-4 bg-primary animate-pulse" />
                     </div>
                     <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 font-display tracking-tight">
-                        Group <span className="text-primary">Discussions</span>
+                        AI RoundTable <span className="text-primary">- Group  Discussion</span>
                     </h2>
                     <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
                         Monthly brainstorming sessions where ideas collide and innovation sparks
@@ -147,7 +147,7 @@ const GDSection = () => {
                                     </div>
                                 </div>
 
-                                </motion.div>
+                            </motion.div>
                         );
                     })}
 

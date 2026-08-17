@@ -164,11 +164,11 @@ const seedData = async () => {
                 topic: "AI in Legal Decision-Making"
             },
             {
-                title: "AI's Loop: Is It Running the Internet?",
+                title: "AI Slope: Is It Running the Internet?",
                 description: "From the rise of low-quality AI-generated content to its profound impact on creativity and information trust, members shared thorough perspectives and debated real challenges shaping today's online world. The discussion examined how AI algorithms now curate our news feeds, recommend content, and even generate articles and art. Concerns about filter bubbles, misinformation, and the devaluation of human creativity were balanced against AI's ability to personalize experiences and democratize content creation. Members explored the paradox of AI both enabling and potentially undermining authentic human expression. The conversation concluded that while AI is indeed running significant portions of the internet, human oversight and ethical guidelines remain essential to maintain digital integrity and foster genuine innovation.",
                 image: "/Photos/GD2-NOV.png",
                 date: "2025-11-20",
-                topic: "AI's Loop: Is It Running the Internet?"
+                topic: "AI Slope: Is It Running the Internet?"
             },
             {
                 title: "The Future of Jobs: Will AI Create More Jobs Than It Replaces?",

@@ -377,11 +377,11 @@ const AdminDashboard = () => {
                                     <div className="flex items-center gap-2">
                                         <span className="text-[10px] text-muted-foreground/50 font-mono">or paste URL:</span>
                                         <input
-                                            type="url"
+                                            type="text"
                                             value={formImage.startsWith("data:") ? "" : formImage}
                                             onChange={(e) => { setFormImage(e.target.value); setPreviewImage(e.target.value); }}
                                             className="flex-1 px-3 py-1.5 rounded-lg bg-muted/30 border border-border/50 text-foreground placeholder:text-muted-foreground/30 focus:outline-none focus:border-primary/50 transition-all duration-300 text-xs"
-                                            placeholder="https://..."
+                                            placeholder="https://... or relative path"
                                         />
                                     </div>
                                 </div>
