@@ -1,15 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Cpu, Plus, Pencil, Trash2, LogOut, X, Save, Image, MessageSquare, AlertCircle } from "lucide-react";
+import { Cpu, Plus, Pencil, Trash2, LogOut, X, Save, Image, MessageSquare, AlertCircle, Calendar, MapPin, User, Link, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGDStore, GDItem } from "@/hooks/useGDStore";
+import { useEventStore, EventItem } from "@/hooks/useEventStore";
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
-    const { gds, addGD, updateGD, deleteGD, error: backendError, isLoading } = useGDStore();
+    const [activeTab, setActiveTab] = useState<"gds" | "events">("gds");
+
+    const { gds, addGD, updateGD, deleteGD, error: gdError, isLoading: isGdLoading } = useGDStore();
+    const { events, addEvent, updateEvent, deleteEvent, error: eventError, isLoading: isEventsLoading } = useEventStore();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingGD, setEditingGD] = useState<GDItem | null>(null);
+    const [editingEvent, setEditingEvent] = useState<EventItem | null>(null);
     const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
     const [localError, setLocalError] = useState<string | null>(null);
 
@@ -19,6 +25,10 @@ const AdminDashboard = () => {
     const [formImage, setFormImage] = useState("");
     const [formDate, setFormDate] = useState("");
     const [previewImage, setPreviewImage] = useState("");
+    
+    // Event specific form state
+    const [formEventType, setFormEventType] = useState("Workshop");
+
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Auth check
@@ -67,22 +77,44 @@ const AdminDashboard = () => {
 
     const openAddModal = () => {
         setEditingGD(null);
+        setEditingEvent(null);
         setFormTitle("");
         setFormDescription("");
         setFormImage("");
         setFormDate(new Date().toISOString().split("T")[0]);
         setPreviewImage("");
+
+        // Reset event specific fields
+        setFormEventType("Workshop");
+
         setLocalError(null);
         setIsModalOpen(true);
     };
 
-    const openEditModal = (gd: GDItem) => {
+    const openEditGDModal = (gd: GDItem) => {
         setEditingGD(gd);
+        setEditingEvent(null);
         setFormTitle(gd.title);
         setFormDescription(gd.description);
-        setFormImage(gd.image);
+        setFormImage(gd.image || "");
         setFormDate(gd.date);
-        setPreviewImage(gd.image);
+        setPreviewImage(gd.image || "");
+        setLocalError(null);
+        setIsModalOpen(true);
+    };
+
+    const openEditEventModal = (event: EventItem) => {
+        setEditingEvent(event);
+        setEditingGD(null);
+        setFormTitle(event.title);
+        setFormDescription(event.description);
+        setFormImage(event.image || "");
+        setFormDate(event.date);
+        setPreviewImage(event.image || "");
+
+        // Set event fields
+        setFormEventType(event.type || "Workshop");
+
         setLocalError(null);
         setIsModalOpen(true);
     };
@@ -110,20 +142,40 @@ const AdminDashboard = () => {
 
         try {
             let result;
-            if (editingGD) {
-                result = await updateGD(editingGD._id, {
-                    title: formTitle,
-                    description: formDescription,
-                    image: imageUrl,
-                    date: formDate,
-                });
+            if (activeTab === "gds") {
+                if (editingGD) {
+                    result = await updateGD(editingGD._id, {
+                        title: formTitle,
+                        description: formDescription,
+                        image: imageUrl,
+                        date: formDate,
+                    });
+                } else {
+                    result = await addGD({
+                        title: formTitle,
+                        description: formDescription,
+                        image: imageUrl,
+                        date: formDate,
+                    });
+                }
             } else {
-                result = await addGD({
-                    title: formTitle,
-                    description: formDescription,
-                    image: imageUrl,
-                    date: formDate,
-                });
+                if (editingEvent) {
+                    result = await updateEvent(editingEvent._id, {
+                        title: formTitle,
+                        type: formEventType,
+                        date: formDate,
+                        description: formDescription,
+                        image: imageUrl,
+                    });
+                } else {
+                    result = await addEvent({
+                        title: formTitle,
+                        type: formEventType,
+                        date: formDate,
+                        description: formDescription,
+                        image: imageUrl,
+                    });
+                }
             }
 
             if (result.success) {
@@ -137,13 +189,21 @@ const AdminDashboard = () => {
     };
 
     const handleDelete = async (id: string) => {
-        const result = await deleteGD(id);
+        let result;
+        if (activeTab === "gds") {
+            result = await deleteGD(id);
+        } else {
+            result = await deleteEvent(id);
+        }
         if (result.success) {
             setDeleteConfirm(null);
         } else {
             setLocalError(result.error || "Failed to delete");
         }
     };
+
+    const backendError = activeTab === "gds" ? gdError : eventError;
+    const isLoading = activeTab === "gds" ? isGdLoading : isEventsLoading;
 
     return (
         <div className="min-h-screen bg-background">
@@ -192,107 +252,204 @@ const AdminDashboard = () => {
                     </motion.div>
                 )}
 
+                {/* Tab selector */}
+                <div className="flex gap-2 p-1 bg-muted/40 border border-border/20 rounded-xl w-fit mb-6 sm:mb-8">
+                    <button
+                        onClick={() => { setActiveTab("gds"); setLocalError(null); }}
+                        className={`flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-mono rounded-lg transition-all duration-300 ${activeTab === "gds" ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground"}`}
+                    >
+                        <MessageSquare className="w-4 h-4" />
+                        GDs
+                    </button>
+                    <button
+                        onClick={() => { setActiveTab("events"); setLocalError(null); }}
+                        className={`flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-mono rounded-lg transition-all duration-300 ${activeTab === "events" ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground"}`}
+                    >
+                        <Calendar className="w-4 h-4" />
+                        Events
+                    </button>
+                </div>
+
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
                     <div className="min-w-0">
-                        <h1 className="text-xl sm:text-2xl font-bold mb-1">Manage GDs</h1>
-                        <p className="text-xs sm:text-sm text-muted-foreground font-mono">{gds.length} total</p>
+                        <h1 className="text-xl sm:text-2xl font-bold mb-1">
+                            {activeTab === "gds" ? "Manage GDs" : "Manage Events"}
+                        </h1>
+                        <p className="text-xs sm:text-sm text-muted-foreground font-mono">
+                            {activeTab === "gds" ? `${gds.length} total` : `${events.length} total`}
+                        </p>
                     </div>
                     <Button
                         onClick={openAddModal}
                         className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-secondary text-primary-foreground text-xs sm:text-sm w-full sm:w-auto"
                     >
                         <Plus className="w-3 sm:w-4 h-3 sm:h-4" />
-                        Add GD
+                        Add {activeTab === "gds" ? "GD" : "Event"}
                     </Button>
                 </div>
 
-                {/* GD Grid */}
-                {gds.length === 0 ? (
-                    <div className="text-center py-12 sm:py-20 glass rounded-xl sm:rounded-2xl">
-                        <MessageSquare className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-3 sm:mb-4 text-muted-foreground/20" />
-                        <p className="text-muted-foreground font-mono text-xs sm:text-sm mb-3 sm:mb-4">No group discussions yet</p>
-                        <Button onClick={openAddModal} variant="outline" className="gap-2 text-xs sm:text-sm">
-                            <Plus className="w-3 sm:w-4 h-3 sm:h-4" />
-                            Create your first GD
-                        </Button>
+                {/* Loading indicator */}
+                {isLoading ? (
+                    <div className="flex flex-col items-center justify-center py-20">
+                        <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+                        <p className="text-xs font-mono text-muted-foreground">Loading content...</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                        {gds.map((gd, i) => (
-                            <motion.div
-                                key={gd._id}
-                                className="group rounded-lg sm:rounded-2xl glass border-border/30 overflow-hidden hover:border-primary/20 transition-all duration-300"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.05 }}
-                                layout
-                            >
-                                {/* Image */}
-                                <div className="relative h-32 sm:h-44 overflow-hidden">
-                                    <img
-                                        src={gd.image}
-                                        alt={gd.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
-
-                                    {/* Date */}
-                                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 px-2 py-1 sm:px-2.5 sm:py-1 rounded-full bg-background/70 backdrop-blur-md border border-border/30 text-[8px] sm:text-[10px] font-mono text-muted-foreground">
-                                        {new Date(gd.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                                    </div>
+                    /* Content Grid */
+                    <>
+                        {activeTab === "gds" ? (
+                            /* GD Grid */
+                            gds.length === 0 ? (
+                                <div className="text-center py-12 sm:py-20 glass rounded-xl sm:rounded-2xl">
+                                    <MessageSquare className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-3 sm:mb-4 text-muted-foreground/20" />
+                                    <p className="text-muted-foreground font-mono text-xs sm:text-sm mb-3 sm:mb-4">No group discussions yet</p>
+                                    <Button onClick={openAddModal} variant="outline" className="gap-2 text-xs sm:text-sm">
+                                        <Plus className="w-3 sm:w-4 h-3 sm:h-4" />
+                                        Create your first GD
+                                    </Button>
                                 </div>
-
-                                {/* Content */}
-                                <div className="p-3 sm:p-5">
-                                    <h3 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 line-clamp-1">{gd.title}</h3>
-                                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-3 sm:mb-4">{gd.description}</p>
-
-                                    {/* Actions */}
-                                    <div className="flex gap-1 sm:gap-2">
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => openEditModal(gd)}
-                                            className="flex-1 gap-1 border-border/50 hover:border-primary/50 hover:bg-primary/5 text-[11px] sm:text-xs py-1 sm:py-2"
+                            ) : (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                                    {gds.map((gd, i) => (
+                                        <motion.div
+                                            key={gd._id}
+                                            className="group rounded-lg sm:rounded-2xl glass border-border/30 overflow-hidden hover:border-primary/20 transition-all duration-300"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: i * 0.05 }}
+                                            layout
                                         >
-                                            <Pencil className="w-3 h-3" />
-                                            <span className="hidden sm:inline">Edit</span>
-                                        </Button>
-                                        {deleteConfirm === gd._id ? (
-                                            <div className="flex gap-1">
-                                                <Button
-                                                    variant="destructive"
-                                                    size="sm"
-                                                    onClick={() => handleDelete(gd._id)}
-                                                    className="text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-2"
-                                                >
-                                                    OK
-                                                </Button>
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    onClick={() => setDeleteConfirm(null)}
-                                                    className="text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-2"
-                                                >
-                                                    No
-                                                </Button>
+                                            <div className="relative h-32 sm:h-44 overflow-hidden">
+                                                <img src={gd.image} alt={gd.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
+                                                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 px-2 py-1 sm:px-2.5 sm:py-1 rounded-full bg-background/70 backdrop-blur-md border border-border/30 text-[8px] sm:text-[10px] font-mono text-muted-foreground">
+                                                    {new Date(gd.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                                </div>
                                             </div>
-                                        ) : (
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => setDeleteConfirm(gd._id)}
-                                                className="gap-1 border-border/50 hover:border-destructive/50 hover:text-destructive text-[11px] sm:text-xs py-1 sm:py-2 px-2"
-                                            >
-                                                <Trash2 className="w-3 h-3" />
-                                            </Button>
-                                        )}
-                                    </div>
+                                            <div className="p-3 sm:p-5">
+                                                <h3 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 line-clamp-1">{gd.title}</h3>
+                                                <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-3 sm:mb-4">{gd.description}</p>
+                                                <div className="flex gap-1 sm:gap-2">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => openEditGDModal(gd)}
+                                                        className="flex-1 gap-1 border-border/50 hover:border-primary/50 hover:bg-primary/5 text-[11px] sm:text-xs py-1 sm:py-2"
+                                                    >
+                                                        <Pencil className="w-3 h-3" />
+                                                        <span className="hidden sm:inline">Edit</span>
+                                                    </Button>
+                                                    {deleteConfirm === gd._id ? (
+                                                        <div className="flex gap-1">
+                                                            <Button variant="destructive" size="sm" onClick={() => handleDelete(gd._id)} className="text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-2">OK</Button>
+                                                            <Button variant="outline" size="sm" onClick={() => setDeleteConfirm(null)} className="text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-2">No</Button>
+                                                        </div>
+                                                    ) : (
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() => setDeleteConfirm(gd._id)}
+                                                            className="gap-1 border-border/50 hover:border-destructive/50 hover:text-destructive text-[11px] sm:text-xs py-1 sm:py-2 px-2"
+                                                        >
+                                                            <Trash2 className="w-3 h-3" />
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    ))}
                                 </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                            )
+                        ) : (
+                            /* Event Grid */
+                            events.length === 0 ? (
+                                <div className="text-center py-12 sm:py-20 glass rounded-xl sm:rounded-2xl">
+                                    <Calendar className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-3 sm:mb-4 text-muted-foreground/20" />
+                                    <p className="text-muted-foreground font-mono text-xs sm:text-sm mb-3 sm:mb-4">No events scheduled yet</p>
+                                    <Button onClick={openAddModal} variant="outline" className="gap-2 text-xs sm:text-sm">
+                                        <Plus className="w-3 sm:w-4 h-3 sm:h-4" />
+                                        Create your first Event
+                                    </Button>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                                    {events.map((event, i) => (
+                                        <motion.div
+                                            key={event._id}
+                                            className="group rounded-lg sm:rounded-2xl glass border-border/30 overflow-hidden hover:border-primary/20 transition-all duration-300"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: i * 0.05 }}
+                                            layout
+                                        >
+                                            <div className="relative h-32 sm:h-44 overflow-hidden">
+                                                <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
+                                                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 px-2 py-1 sm:px-2.5 sm:py-1 rounded-full bg-background/70 backdrop-blur-md border border-border/30 text-[8px] sm:text-[10px] font-mono text-muted-foreground flex gap-1 items-center">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                                    {event.type}
+                                                </div>
+                                                <div className="absolute bottom-2 left-2 px-2 py-1 rounded bg-background/80 text-[10px] font-mono border border-border/30">
+                                                    {event.date}
+                                                </div>
+                                            </div>
+                                            <div className="p-3 sm:p-5">
+                                                <h3 className="font-bold text-sm sm:text-base mb-1 line-clamp-1">{event.title}</h3>
+                                                
+                                                <div className="flex flex-wrap gap-x-3 gap-y-1 mb-3 text-[10px] sm:text-xs text-muted-foreground font-mono">
+                                                    {event.speaker && (
+                                                        <span className="flex items-center gap-1"><User className="w-3.5 h-3.5" />{event.speaker}</span>
+                                                    )}
+                                                    {event.location && (
+                                                        <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{event.location}</span>
+                                                    )}
+                                                    {event.time && (
+                                                        <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{event.time}</span>
+                                                    )}
+                                                </div>
+
+                                                <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-3 sm:mb-4">{event.description}</p>
+                                                
+                                                {event.registrationLink && (
+                                                    <a href={event.registrationLink} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[10px] sm:text-xs text-primary hover:underline mb-4 font-mono">
+                                                        <Link className="w-3.5 h-3.5" /> Registration Link
+                                                    </a>
+                                                )}
+
+                                                <div className="flex gap-1 sm:gap-2">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => openEditEventModal(event)}
+                                                        className="flex-1 gap-1 border-border/50 hover:border-primary/50 hover:bg-primary/5 text-[11px] sm:text-xs py-1 sm:py-2"
+                                                    >
+                                                        <Pencil className="w-3 h-3" />
+                                                        <span className="hidden sm:inline">Edit</span>
+                                                    </Button>
+                                                    {deleteConfirm === event._id ? (
+                                                        <div className="flex gap-1">
+                                                            <Button variant="destructive" size="sm" onClick={() => handleDelete(event._id)} className="text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-2">OK</Button>
+                                                            <Button variant="outline" size="sm" onClick={() => setDeleteConfirm(null)} className="text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-2">No</Button>
+                                                        </div>
+                                                    ) : (
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() => setDeleteConfirm(event._id)}
+                                                            className="gap-1 border-border/50 hover:border-destructive/50 hover:text-destructive text-[11px] sm:text-xs py-1 sm:py-2 px-2"
+                                                        >
+                                                            <Trash2 className="w-3 h-3" />
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            )
+                        )}
+                    </>
                 )}
             </div>
 
@@ -306,10 +463,7 @@ const AdminDashboard = () => {
                         exit={{ opacity: 0 }}
                     >
                         {/* Backdrop */}
-                        <div
-                            className="absolute inset-0 bg-background/80 backdrop-blur-sm"
-                            onClick={() => setIsModalOpen(false)}
-                        />
+                        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
 
                         {/* Modal */}
                         <motion.div
@@ -323,7 +477,9 @@ const AdminDashboard = () => {
                             <div className="p-6 border-b border-border/30 flex items-center justify-between">
                                 <div>
                                     <h2 className="text-lg font-bold">
-                                        {editingGD ? "Edit GD" : "Add New GD"}
+                                        {activeTab === "gds" 
+                                            ? (editingGD ? "Edit GD Topic" : "Add New GD Topic") 
+                                            : (editingEvent ? "Edit Event" : "Create New Event")}
                                     </h2>
                                     {localError && (
                                         <p className="text-destructive text-[10px] font-mono mt-1 flex items-center gap-1">
@@ -332,10 +488,7 @@ const AdminDashboard = () => {
                                         </p>
                                     )}
                                 </div>
-                                <button
-                                    onClick={() => setIsModalOpen(false)}
-                                    className="w-8 h-8 rounded-lg hover:bg-muted/50 flex items-center justify-center transition-colors"
-                                >
+                                <button onClick={() => setIsModalOpen(false)} className="w-8 h-8 rounded-lg hover:bg-muted/50 flex items-center justify-center transition-colors">
                                     <X className="w-4 h-4" />
                                 </button>
                             </div>
@@ -346,26 +499,38 @@ const AdminDashboard = () => {
                                 <div>
                                     <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2 block">Image</label>
 
-                                    {previewImage ? (
-                                        <div className="relative rounded-xl overflow-hidden mb-3 h-44">
+                                    {/* Preview Container */}
+                                    {previewImage && (
+                                        <div className="relative rounded-xl overflow-hidden mb-3 h-44 border border-border/30">
                                             <img src={previewImage} alt="Preview" className="w-full h-full object-cover" />
                                             <button
                                                 type="button"
                                                 onClick={() => { setPreviewImage(""); setFormImage(""); }}
                                                 className="absolute top-2 right-2 w-7 h-7 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center hover:bg-destructive/20 transition-colors"
+                                                title="Remove Image"
                                             >
                                                 <X className="w-3.5 h-3.5" />
                                             </button>
                                         </div>
-                                    ) : (
-                                        <div
-                                            className="h-44 rounded-xl border-2 border-dashed border-border/50 hover:border-primary/30 flex flex-col items-center justify-center gap-3 cursor-pointer transition-colors mb-3"
-                                            onClick={() => fileInputRef.current?.click()}
-                                        >
-                                            <Image className="w-8 h-8 text-muted-foreground/40" />
-                                            <span className="text-xs text-muted-foreground font-mono">Click to upload image</span>
-                                        </div>
                                     )}
+
+                                    {/* Upload Trigger / Browse button */}
+                                    <div className="flex gap-3 items-center mb-3">
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={() => fileInputRef.current?.click()}
+                                            className="gap-2 text-xs border-border/50 hover:bg-muted/30"
+                                        >
+                                            <Image className="w-4 h-4 text-muted-foreground" />
+                                            Browse Image...
+                                        </Button>
+                                        {formImage && (
+                                            <span className="text-[10px] text-muted-foreground font-mono truncate max-w-[200px]">
+                                                {formImage.startsWith("data:") ? "Uploaded Local File" : formImage}
+                                            </span>
+                                        )}
+                                    </div>
 
                                     <input
                                         ref={fileInputRef}
@@ -375,6 +540,7 @@ const AdminDashboard = () => {
                                         className="hidden"
                                     />
 
+                                    {/* URL input fallback */}
                                     <div className="flex items-center gap-2">
                                         <span className="text-[10px] text-muted-foreground/50 font-mono">or paste URL:</span>
                                         <input
@@ -395,10 +561,44 @@ const AdminDashboard = () => {
                                         value={formTitle}
                                         onChange={(e) => setFormTitle(e.target.value)}
                                         className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 text-sm"
-                                        placeholder="GD Topic Title"
+                                        placeholder={activeTab === "gds" ? "GD Topic Title" : "Event Title"}
                                         required
                                     />
                                 </div>
+
+                                {/* Event Specific Fields */}
+                                {activeTab === "events" && (
+                                    <div>
+                                        <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2 block">Event Type *</label>
+                                        <select
+                                            value={formEventType}
+                                            onChange={(e) => setFormEventType(e.target.value)}
+                                            className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 text-sm"
+                                        >
+                                            <option value="Workshop">Workshop</option>
+                                            <option value="Competition">Competition</option>
+                                            <option value="Session">Session</option>
+                                            <option value="Exhibition">Exhibition</option>
+                                            <option value="Stall">Stall</option>
+                                            <option value="Talk">Talk</option>
+                                        </select>
+                                    </div>
+                                )}
+
+                                {/* Date */}
+                                <div>
+                                    <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2 block">
+                                        {activeTab === "gds" ? "Date" : "Date (e.g. February 2026 or YYYY-MM-DD)"}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={formDate}
+                                        onChange={(e) => setFormDate(e.target.value)}
+                                        className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 text-sm"
+                                        placeholder="e.g. February 2026"
+                                    />
+                                </div>
+
 
                                 {/* Description */}
                                 <div>
@@ -408,38 +608,21 @@ const AdminDashboard = () => {
                                         onChange={(e) => setFormDescription(e.target.value)}
                                         rows={4}
                                         className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 text-sm resize-none"
-                                        placeholder="Describe the group discussion topic..."
+                                        placeholder="Describe the topic/event details..."
                                         required
-                                    />
-                                </div>
-
-                                {/* Date */}
-                                <div>
-                                    <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2 block">Date</label>
-                                    <input
-                                        type="date"
-                                        value={formDate}
-                                        onChange={(e) => setFormDate(e.target.value)}
-                                        className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 text-sm"
                                     />
                                 </div>
 
                                 {/* Actions */}
                                 <div className="flex gap-3 pt-2">
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 border-border/50"
-                                    >
+                                    <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)} className="flex-1 border-border/50">
                                         Cancel
                                     </Button>
-                                    <Button
-                                        type="submit"
-                                        className="flex-1 gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-secondary text-primary-foreground"
-                                    >
+                                    <Button type="submit" className="flex-1 gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-secondary text-primary-foreground">
                                         <Save className="w-4 h-4" />
-                                        {editingGD ? "Save Changes" : "Add GD"}
+                                        {activeTab === "gds"
+                                            ? (editingGD ? "Save Changes" : "Add GD")
+                                            : (editingEvent ? "Save Changes" : "Create Event")}
                                     </Button>
                                 </div>
                             </form>

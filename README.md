@@ -54,7 +54,7 @@ AI_Club_Website/
 ## Key Features
 
 - **Dynamic 3D Hero**: Uses Spline for an interactive 3D robot scene.
-- **JWT-Protected Admin Dashboard**: A secure route (`/admin`) for administrators to manage website content (Events, Team Members, Activities, GDs) in real-time. Write operations (`POST`, `PUT`, `DELETE`) require a valid JWT token signed on the backend.
+- **JWT-Protected Admin Dashboard**: A secure route (`/admin`) for administrators to manage website content (both **Events** and **GDs**) dynamically via a unified tabbed interface in real-time. Write operations (`POST`, `PUT`, `DELETE`) require a valid JWT token signed on the backend.
 - **Mobile Responsive**: Fully fluid design that adapts seamlessly to desktop, tablet, and mobile screens.
 - **Premium Aesthetics**: Glassmorphism, smooth gradients, hover effects, and modern typography.
 
