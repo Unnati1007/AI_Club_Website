@@ -43,9 +43,13 @@ export function useGDStore() {
     const addGD = useCallback(async (gd: Omit<GDItem, '_id'>) => {
         setError(null);
         try {
+            const token = sessionStorage.getItem("ai-club-admin-token");
             const res = await fetch(API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token || ''}`
+                },
                 body: JSON.stringify(gd)
             });
             if (!res.ok) throw new Error('Failed to add GD');
@@ -61,9 +65,13 @@ export function useGDStore() {
     const updateGD = useCallback(async (id: string, updates: Partial<Omit<GDItem, '_id'>>) => {
         // Implementation for PUT
         try {
+            const token = sessionStorage.getItem("ai-club-admin-token");
             const res = await fetch(`${API_URL}/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token || ''}`
+                },
                 body: JSON.stringify(updates)
             });
             if (!res.ok) throw new Error('Failed to update GD');
@@ -78,7 +86,13 @@ export function useGDStore() {
 
     const deleteGD = useCallback(async (id: string) => {
         try {
-            const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            const token = sessionStorage.getItem("ai-club-admin-token");
+            const res = await fetch(`${API_URL}/${id}`, { 
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token || ''}`
+                }
+            });
             if (!res.ok) throw new Error('Failed to delete GD');
             setGDs(prev => prev.filter(gd => gd._id !== id));
             return { success: true };

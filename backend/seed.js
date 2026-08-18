@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 import SiteContent from "./models/SiteContent.js";
 import Event from "./models/Event.js";
 import Activity from "./models/Activity.js";
@@ -37,7 +38,8 @@ const seedData = async () => {
         // === Admin ===
         const adminUsername = process.env.ADMIN_USERNAME || "admin";
         const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
-        await Admin.create({ username: adminUsername, password: adminPassword });
+        const hashedPassword = await bcrypt.hash(adminPassword, 10);
+        await Admin.create({ username: adminUsername, password: hashedPassword });
         console.log("Seeded Admin.");
 
         // === SiteContent ===

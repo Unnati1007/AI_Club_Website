@@ -30,6 +30,7 @@ const AdminDashboard = () => {
 
     const handleLogout = () => {
         sessionStorage.removeItem("ai-club-admin");
+        sessionStorage.removeItem("ai-club-admin-token");
         navigate("/admin");
     };
 

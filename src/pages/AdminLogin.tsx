@@ -30,6 +30,9 @@ const AdminLogin = () => {
 
             if (response.ok) {
                 sessionStorage.setItem("ai-club-admin", "true");
+                if (data.token) {
+                    sessionStorage.setItem("ai-club-admin-token", data.token);
+                }
                 navigate("/admin/dashboard");
             } else {
                 setError(data.message || "Invalid credentials. Access denied.");

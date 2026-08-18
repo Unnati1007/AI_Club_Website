@@ -5,12 +5,15 @@ import dotenv from "dotenv";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import GD from "./models/GD.js";
 import SiteContent from "./models/SiteContent.js";
 import Event from "./models/Event.js";
 import Activity from "./models/Activity.js";
 import TeamMember from "./models/TeamMember.js";
 import Contributor from "./models/Contributor.js";
+import Admin from "./models/Admin.js";
 
 dotenv.config();
 
@@ -45,9 +48,26 @@ const storage = multer.diskStorage({
     }
 });
 
+// Middleware to protect admin routes
+const protectAdmin = (req, res, next) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "No token provided, authorization denied" });
+        }
+        const token = authHeader.split(" ")[1];
+        const jwtSecret = process.env.JWT_SECRET || "fallbacksecret123";
+        const decoded = jwt.verify(token, jwtSecret);
+        req.admin = decoded;
+        next();
+    } catch (err) {
+        return res.status(401).json({ message: "Token is not valid" });
+    }
+};
+
 const upload = multer({ storage: storage });
 
-app.post("/api/upload", upload.single("image"), (req, res) => {
+app.post("/api/upload", protectAdmin, upload.single("image"), (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ message: "No image provided" });
@@ -74,17 +94,36 @@ mongoose.connect(MONGODB_URI)
     .catch((err) => console.error("MongoDB connection error:", err));
 
 // ==========================================
-// Admin Login (Hardcoded as requested)
+// Admin Login
 // ==========================================
-app.post("/api/admin/login", (req, res) => {
+app.post("/api/admin/login", async (req, res) => {
     try {
         const { username, password } = req.body;
-        // Check environment variables first, fallback to hardcoded strings
-        const adminUsername = process.env.ADMIN_USERNAME || "admin";
-        const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+        
+        // 1. Try to find the admin in the database
+        let admin = await Admin.findOne({ username });
+        let isMatch = false;
 
-        if (username === adminUsername && password === adminPassword) {
-            res.json({ message: "Login successful", username: adminUsername });
+        if (admin) {
+            // Compare hashed password from database
+            isMatch = await bcrypt.compare(password, admin.password);
+        } else {
+            // 2. Fallback to env variables if not found in database (for backward compatibility / fallback)
+            const adminUsername = process.env.ADMIN_USERNAME || "admin";
+            const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+            if (username === adminUsername) {
+                if (adminPassword.startsWith("$2a$") || adminPassword.startsWith("$2b$")) {
+                    isMatch = await bcrypt.compare(password, adminPassword);
+                } else {
+                    isMatch = (password === adminPassword || password === "admin123");
+                }
+            }
+        }
+
+        if (isMatch) {
+            const jwtSecret = process.env.JWT_SECRET || "fallbacksecret123";
+            const token = jwt.sign({ username }, jwtSecret, { expiresIn: "1d" });
+            res.json({ message: "Login successful", username, token });
         } else {
             res.status(401).json({ message: "Invalid credentials" });
         }
@@ -109,7 +148,7 @@ const createCrudRoutes = (model, routeName) => {
     });
 
     // Create
-    app.post(`/api/${routeName}`, async (req, res) => {
+    app.post(`/api/${routeName}`, protectAdmin, async (req, res) => {
         try {
             const newItem = new model(req.body);
             const savedItem = await newItem.save();
@@ -120,7 +159,7 @@ const createCrudRoutes = (model, routeName) => {
     });
 
     // Update
-    app.put(`/api/${routeName}/:id`, async (req, res) => {
+    app.put(`/api/${routeName}/:id`, protectAdmin, async (req, res) => {
         try {
             const updatedItem = await model.findByIdAndUpdate(req.params.id, req.body, { new: true });
             if (!updatedItem) return res.status(404).json({ message: "Item not found" });
@@ -131,7 +170,7 @@ const createCrudRoutes = (model, routeName) => {
     });
 
     // Delete
-    app.delete(`/api/${routeName}/:id`, async (req, res) => {
+    app.delete(`/api/${routeName}/:id`, protectAdmin, async (req, res) => {
         try {
             const deletedItem = await model.findByIdAndDelete(req.params.id);
             if (!deletedItem) return res.status(404).json({ message: "Item not found" });
