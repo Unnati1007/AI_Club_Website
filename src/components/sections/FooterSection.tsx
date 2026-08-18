@@ -191,12 +191,19 @@ const FooterSection = () => {
                         © {new Date().getFullYear()} AI Club MITS-DU
                     </p>
 
-                    <p className="text-sm text-muted-foreground flex items-center gap-2">
-                        Developed by
-                        <span className="flex items-center gap-1 text-primary font-semibold">
-                            TEAM AI Club
-                            <Heart className="w-3.5 h-3.5 fill-primary text-primary animate-pulse" />
-                        </span>
+                    <p className="text-sm text-muted-foreground flex flex-wrap items-center justify-center gap-1.5">
+                        Developed & Led by
+                        <a
+                            href="https://linkedin.com/in/unnati-jadon-a22b7a250"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-primary font-semibold hover:underline"
+                        >
+                            Unnati Jadon
+                        </a>
+                        <span>&</span>
+                        <span className="text-muted-foreground/80">Team AI Club</span>
+                        <Heart className="w-3.5 h-3.5 fill-primary text-primary animate-pulse ml-0.5" />
                     </p>
                 </motion.div>
             </div>

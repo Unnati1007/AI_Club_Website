@@ -54,6 +54,52 @@ const ContributorsSection = () => {
                     </p>
                 </motion.div>
 
+                {/* Project Lead */}
+                <div className="flex justify-center mb-12 sm:mb-16">
+                    <motion.div
+                        className="group relative clay-card p-6 sm:p-8 text-center flex flex-col items-center max-w-sm w-full border border-primary/30 shadow-[0_0_30px_rgba(6,182,212,0.15)] bg-gradient-to-b from-card/85 via-card/75 to-card/65"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ duration: 0.8 }}
+                        whileHover={{ scale: 1.03, boxShadow: "0 0 40px rgba(6,182,212,0.25)" }}
+                    >
+                        {/* Glowing ring under avatar */}
+                        <div className="absolute top-6 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-primary/20 blur-xl opacity-75 group-hover:scale-110 transition-transform duration-500" />
+                        
+                        {/* Avatar */}
+                        <img
+                            src="./Photos/unnati.jpeg"
+                            alt="Unnati Jadon"
+                            className="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover shadow-2xl border-[3px] border-primary relative z-10"
+                        />
+
+                        {/* Name */}
+                        <h3 className="font-display font-extrabold text-lg sm:text-xl mb-1 text-gradient">
+                            Unnati Jadon
+                        </h3>
+
+                        {/* Role Tag */}
+                        <span className="text-xs font-mono font-bold px-3 py-1 bg-primary/10 border border-primary/20 text-primary rounded-full mb-4 shadow-[0_0_15px_rgba(6,182,212,0.1)]">
+                            Project Lead & Core Developer
+                        </span>
+
+                        {/* Description */}
+                        <p className="text-xs sm:text-sm text-muted-foreground/80 leading-relaxed mb-6 font-sans">
+                            Designed the database architecture, implemented JWT secure authentication endpoints, and led the core engineering of the platforms.
+                        </p>
+
+                        {/* Social Links */}
+                        <div className="flex justify-center gap-4">
+                            <a href="https://github.com/Unnati1007" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                                <Github className="w-5 h-5" />
+                            </a>
+                            <a href="https://linkedin.com/in/unnati-jadon-a22b7a250" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                                <Linkedin className="w-5 h-5" />
+                            </a>
+                        </div>
+                    </motion.div>
+                </div>
+
                 {/* Loading */}
                 {isLoading && (
                     <div className="flex justify-center py-12">
