@@ -114,3 +114,8 @@ The backend is configured for Vercel using the `vercel.json` file. It exports th
 Deploy the root folder to Vercel. 
 *   **Environment Variables needed in Vercel:** `VITE_API_URL` (Set this to the deployed backend URL, e.g., `https://ai-club-website-71x4.vercel.app`)
 
+## Credits
+
+- **Developed & Led by:** Unnati Jadon
+
+

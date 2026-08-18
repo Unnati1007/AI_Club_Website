@@ -201,9 +201,6 @@ const FooterSection = () => {
                         >
                             Unnati Jadon
                         </a>
-                        <span>&</span>
-                        <span className="text-muted-foreground/80">Team AI Club</span>
-                        <Heart className="w-3.5 h-3.5 fill-primary text-primary animate-pulse ml-0.5" />
                     </p>
                 </motion.div>
             </div>
