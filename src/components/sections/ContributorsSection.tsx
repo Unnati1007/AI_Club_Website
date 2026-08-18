@@ -70,30 +70,30 @@ const ContributorsSection = () => {
                         <img
                             src="./Photos/unnati.jpeg"
                             alt="Unnati Jadon"
-                            className="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover shadow-2xl border-[3px] border-primary relative z-10"
+                            className="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-3 object-cover shadow-2xl border-[3px] border-primary relative z-10"
                         />
 
                         {/* Name */}
-                        <h3 className="font-display font-extrabold text-lg sm:text-xl mb-1 text-gradient">
+                        <h3 className="font-semibold text-base mb-1 relative z-10">
                             Unnati Jadon
                         </h3>
 
-                        {/* Role Tag */}
-                        <span className="text-xs font-mono font-bold px-3 py-1 bg-primary/10 border border-primary/20 text-primary rounded-full mb-4 shadow-[0_0_15px_rgba(6,182,212,0.1)]">
-                            Project Lead & Core Developer
-                        </span>
-
-                        {/* Description */}
-                        <p className="text-xs sm:text-sm text-muted-foreground/80 leading-relaxed mb-6 font-sans">
-                            Designed the database architecture, implemented JWT secure authentication endpoints, and led the core engineering of the platforms.
-                        </p>
+                        {/* Projects */}
+                        <div className="flex flex-wrap justify-center gap-2 mb-4 relative z-10">
+                            <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full border border-primary/20">
+                                Project Lead
+                            </span>
+                            <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full border border-primary/20">
+                                Lead Developer
+                            </span>
+                        </div>
 
                         {/* Social Links */}
-                        <div className="flex justify-center gap-4">
+                        <div className="flex justify-center gap-4 relative z-10">
                             <a href="https://github.com/Unnati1007" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                                 <Github className="w-5 h-5" />
                             </a>
-                            <a href="https://linkedin.com/in/unnati-jadon-a22b7a250" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                            <a href="https://www.linkedin.com/in/unnati-jadon-610414232" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                                 <Linkedin className="w-5 h-5" />
                             </a>
                         </div>

@@ -194,7 +194,7 @@ const FooterSection = () => {
                     <p className="text-sm text-muted-foreground flex flex-wrap items-center justify-center gap-1.5">
                         Developed & Led by
                         <a
-                            href="https://linkedin.com/in/unnati-jadon-a22b7a250"
+                            href="https://www.linkedin.com/in/unnati-jadon-610414232"
                             target="_blank"
                             rel="noreferrer"
                             className="text-primary font-semibold hover:underline"
