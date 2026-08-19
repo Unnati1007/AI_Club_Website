@@ -7,6 +7,9 @@ export interface GDItem {
     image: string;
     date: string;
     link?: string;
+    finalReport?: string;
+    resources?: string[];
+    reports?: string[];
 }
 
 const BASE_URL = import.meta.env.VITE_API_URL || '';

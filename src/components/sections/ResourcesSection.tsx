@@ -121,7 +121,41 @@ const ResourcesSection = () => {
                     {sortedGDs.map((gd, idx) => {
                         const gdNumber = sortedGDs.length - idx;
                         const formattedGDNum = gdNumber < 10 ? `0${gdNumber}` : `${gdNumber}`;
-                        const resourcesList = getDummyResourcesForGD(gd.title, idx);
+                        
+                        // Construct real resources list in exact order: final report, reports, resources
+                        const resourcesList: ResourceLink[] = [];
+                        if (gd.finalReport) {
+                            resourcesList.push({
+                                id: `final-report-${gd._id || idx}`,
+                                title: `GD Final Report`,
+                                type: "pdf",
+                                description: "Official final summary and conclusion document of the group discussion.",
+                                url: gd.finalReport
+                            });
+                        }
+                        if (gd.reports && gd.reports.length > 0) {
+                            gd.reports.forEach((url, rIdx) => {
+                                resourcesList.push({
+                                    id: `report-${gd._id || idx}-${rIdx}`,
+                                    title: `Report ${rIdx + 1}`,
+                                    type: "paper",
+                                    description: "Detailed analysis and perspective reports submitted by participants.",
+                                    url: url
+                                });
+                            });
+                        }
+                        if (gd.resources && gd.resources.length > 0) {
+                            gd.resources.forEach((url, rIdx) => {
+                                resourcesList.push({
+                                    id: `resource-${gd._id || idx}-${rIdx}`,
+                                    title: `Resource ${rIdx + 1}`,
+                                    type: "slides",
+                                    description: "Supporting study material and references used during the discussion.",
+                                    url: url
+                                });
+                            });
+                        }
+
                         const formattedDate = new Date(gd.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase();
 
                         const handleOpenPopup = () => {
@@ -165,7 +199,7 @@ const ResourcesSection = () => {
                                 <div className="mt-4 pt-3 border-t border-primary/10 flex items-center justify-between text-xs">
                                     <span className="text-muted-foreground text-[11px] font-mono flex items-center gap-1">
                                         <FolderDown className="w-3.5 h-3.5 text-primary/70" />
-                                        4 Resources
+                                        {resourcesList.length} {resourcesList.length === 1 ? 'Resource' : 'Resources'}
                                     </span>
                                     <button
                                         onClick={handleOpenPopup}
@@ -208,29 +242,12 @@ const ResourcesSection = () => {
 
                         {/* List of Resources inside Modal - Fits cleanly without internal scrollbar */}
                         <div className="space-y-3">
-                            {selectedGDResource?.resources.map((res) => (
-                                <div
-                                    key={res.id}
-                                    className="p-3.5 sm:p-4 rounded-xl bg-background/80 hover:bg-primary/5 border border-primary/15 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
-                                >
-                                    <div className="flex items-center gap-3 overflow-hidden">
-                                        <div className="p-2.5 rounded-lg bg-primary/10 flex-shrink-0">
-                                            {res.type === "pdf" && <FileText className="w-4.5 h-4.5 text-rose-400" />}
-                                            {res.type === "slides" && <BookOpen className="w-4.5 h-4.5 text-amber-400" />}
-                                            {res.type === "paper" && <ExternalLink className="w-4.5 h-4.5 text-sky-400" />}
-                                            {res.type === "notes" && <FileCode className="w-4.5 h-4.5 text-purple-400" />}
-                                        </div>
-                                        <div>
-                                            <h4 className="text-xs sm:text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                                                {res.title}
-                                            </h4>
-                                            <p className="text-[11px] sm:text-xs text-muted-foreground">
-                                                {res.description}
-                                            </p>
-                                        </div>
-                                    </div>
-
+                            {selectedGDResource && selectedGDResource.resources.length === 0 ? (
+                                <p className="text-sm text-muted-foreground py-4 text-center font-mono">No resources available for this GD.</p>
+                            ) : (
+                                selectedGDResource?.resources.map((res) => (
                                     <a
+                                        key={res.id}
                                         href={res.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -240,19 +257,40 @@ const ResourcesSection = () => {
                                                 alert(`Opening resource: ${res.title}`);
                                             }
                                         }}
-                                        className="flex-shrink-0 px-4 py-2 rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground border border-primary/20 text-xs font-semibold transition-all flex items-center justify-center gap-1.5 self-end sm:self-center"
+                                        className="p-3.5 sm:p-4 rounded-xl bg-background/80 hover:bg-primary/5 border border-primary/15 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 group cursor-pointer block"
                                     >
-                                        <Download className="w-3.5 h-3.5" />
-                                        <span>Download</span>
+                                        <div className="flex items-center gap-3 overflow-hidden">
+                                            <div className="p-2.5 rounded-lg bg-primary/10 flex-shrink-0">
+                                                {res.type === "pdf" && <FileText className="w-4.5 h-4.5 text-rose-400" />}
+                                                {res.type === "slides" && <BookOpen className="w-4.5 h-4.5 text-amber-400" />}
+                                                {res.type === "paper" && <ExternalLink className="w-4.5 h-4.5 text-sky-400" />}
+                                                {res.type === "notes" && <FileCode className="w-4.5 h-4.5 text-purple-400" />}
+                                            </div>
+                                            <div>
+                                                <h4 className="text-xs sm:text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                                                    {res.title}
+                                                </h4>
+                                                <p className="text-[11px] sm:text-xs text-muted-foreground">
+                                                    {res.description}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            className="flex-shrink-0 px-4 py-2 rounded-lg bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground border border-primary/20 text-xs font-semibold transition-all flex items-center justify-center gap-1.5 self-end sm:self-center text-primary"
+                                        >
+                                            <Download className="w-3.5 h-3.5" />
+                                            <span>Download</span>
+                                        </div>
                                     </a>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </div>
                     </div>
 
                     <div className="flex items-center justify-between pt-3 border-t border-border/40 text-xs">
                         <span className="text-muted-foreground flex items-center gap-1">
-                            <FileCheck className="w-3.5 h-3.5 text-emerald-400" /> All 4 materials verified
+                            <FileCheck className="w-3.5 h-3.5 text-emerald-400" /> All {selectedGDResource?.resources.length} materials verified
                         </span>
                         <button
                             onClick={() => setSelectedGDResource(null)}

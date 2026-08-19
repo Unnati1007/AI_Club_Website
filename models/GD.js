@@ -5,7 +5,10 @@ const gdSchema = new mongoose.Schema({
     description: { type: String, required: true },
     image: { type: String, default: 'https://via.placeholder.com/600x400/0D8ABC/FFFFFF?text=GD' },
     date: { type: String, required: true },
-    link: { type: String }
+    link: { type: String },
+    finalReport: { type: String },
+    resources: [{ type: String }],
+    reports: [{ type: String }]
 }, {
     timestamps: true
 });

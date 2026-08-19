@@ -163,21 +163,53 @@ const seedData = async () => {
                 description: "From arguments in favor of efficiency and consistency to concerns around bias, ethics, and accountability, the discussion sparked diverse perspectives. Members explored how AI could revolutionize legal research and case prediction, while raising critical questions about transparency and judicial discretion. The debate highlighted the tension between technological progress and fundamental legal principles. Some advocated for AI as a tool to reduce backlog and assist judges, while others warned of algorithmic bias perpetuating systemic inequalities. The consensus emerged that AI should augment rather than replace human judgment, with proper safeguards and oversight mechanisms. The group agreed that balance is key - leveraging AI's capabilities while maintaining human-centric justice.",
                 image: "/Photos/GD3-JAN26.jpeg",
                 date: "2026-01-15",
-                topic: "AI in Legal Decision-Making"
+                topic: "AI in Legal Decision-Making",
+                resources: [
+                    "https://drive.google.com/file/d/13gwBiFvChYE-bHfLx5a3G2TF0yU_Y_MW/view?usp=drivesdk",
+                    "https://drive.google.com/file/d/1CpfnI2OszhOhQkRgQ-OshvZz--ImlaiQ/view?usp=drivesdk",
+                    "https://drive.google.com/file/d/1wIW1WDtGaDSpba1vkvbNRZUGlFogV6WS/view?usp=drivesdk"
+                ],
+                reports: [
+                    "https://drive.google.com/file/d/1CnwqHZ7t5Cmg3wJXibe8u3Jf5mIL31uv/view?usp=drivesdk",
+                    "https://drive.google.com/file/d/1dz4csjDGJkNodxug6Fri6ZJx50x7OCUD/view?usp=drivesdk",
+                    "https://drive.google.com/file/d/1GIcRpANbhSe7m-nWwp0J_PXUJPe3sp63/view?usp=drivesdk",
+                    "https://drive.google.com/file/d/1a8c6zDl74s5_P9xvbfnj5Coa5gHt5kYg/view?usp=drivesdk"
+                ]
             },
             {
                 title: "AI Slope: Is It Running the Internet?",
                 description: "From the rise of low-quality AI-generated content to its profound impact on creativity and information trust, members shared thorough perspectives and debated real challenges shaping today's online world. The discussion examined how AI algorithms now curate our news feeds, recommend content, and even generate articles and art. Concerns about filter bubbles, misinformation, and the devaluation of human creativity were balanced against AI's ability to personalize experiences and democratize content creation. Members explored the paradox of AI both enabling and potentially undermining authentic human expression. The conversation concluded that while AI is indeed running significant portions of the internet, human oversight and ethical guidelines remain essential to maintain digital integrity and foster genuine innovation.",
                 image: "/Photos/GD2-NOV.png",
                 date: "2025-11-20",
-                topic: "AI Slope: Is It Running the Internet?"
+                topic: "AI Slope: Is It Running the Internet?",
+                resources: [
+                    "https://drive.google.com/file/d/19HnFVZBahdbxEa8KLBH3v5kzSN893Udr/view?usp=drivesdk",
+                    "https://drive.google.com/file/d/1c51hLPYx6LgAvV_fBTJZM9VcnnaDVFyJ/view?usp=drivesdk"
+                ]
             },
             {
                 title: "The Future of Jobs: Will AI Create More Jobs Than It Replaces?",
                 description: "From exploring automation and new-age careers to debating the balance between human creativity and machine efficiency, the discussion was full of fresh insights and diverse viewpoints. Members analyzed historical technological shifts and their impact on employment, drawing parallels to the AI revolution. Optimists highlighted emerging roles in AI ethics, prompt engineering, and human-AI collaboration. Skeptics pointed to potential job displacement in creative fields and white-collar professions. The group explored how education systems must adapt to prepare future generations for an AI-augmented workforce. The consensus acknowledged that while AI will transform many roles, uniquely human skills like emotional intelligence, creative problem-solving, and ethical reasoning will become even more valuable.",
                 image: "/Photos/GD1-SEP25.jpeg",
                 date: "2025-09-10",
-                topic: "The Future of Jobs"
+                topic: "The Future of Jobs",
+                resources: [
+                    "https://drive.google.com/file/d/1WKwXQHT5mh1wzAFncVLsmZDVW8ZOIwGd/view?usp=drivesdk",
+                    "https://drive.google.com/file/d/1UJ0XtOLCyeP-D977NlI06x-BXYb9FBGO/view?usp=drivesdk"
+                ]
+            },
+            {
+                title: "AI in Education: Replacement or Support Tool?",
+                description: "A collaborative group discussion session to explore the impact of AI in education, analyzing reports, sharing insights, and brainstorming future paths.",
+                image: "https://via.placeholder.com/600x400/0D8ABC/FFFFFF?text=GD4",
+                date: "2026-04-15",
+                topic: "AI in Education",
+                finalReport: "https://docs.google.com/document/d/1GMEZrSV1AT0f0ez1pgK5SLOEF-EVGKgI/edit?usp=drivesdk&ouid=111122047843704789076&rtpof=true&sd=true",
+                reports: [
+                    "https://drive.google.com/file/d/1jw8KMoX5gUWZzZrE8STvuiGuChqOogQc/view?usp=drivesdk",
+                    "https://drive.google.com/file/d/1foIvHdqsbn8RhymuaZTpbxaZkCQIjNnY/view?usp=drivesdk",
+                    "https://docs.google.com/document/d/1oi5DFN4HjQwKi2xu5HEoYTCm1fVbH7u3/edit?usp=drivesdk&ouid=111122047843704789076&rtpof=true&sd=true"
+                ]
             }
         ];
         await GD.insertMany(gds);
