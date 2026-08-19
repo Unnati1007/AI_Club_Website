@@ -62,6 +62,10 @@ const GD_LINKS_MAP: Record<string, { finalReport?: string; resources?: string[];
             "https://drive.google.com/file/d/1jw8KMoX5gUWZzZrE8STvuiGuChqOogQc/view?usp=drivesdk",
             "https://drive.google.com/file/d/1foIvHdqsbn8RhymuaZTpbxaZkCQIjNnY/view?usp=drivesdk",
             "https://docs.google.com/document/d/1oi5DFN4HjQwKi2xu5HEoYTCm1fVbH7u3/edit?usp=drivesdk&ouid=111122047843704789076&rtpof=true&sd=true"
+        ],
+        resources: [
+            "https://www.unesco.org/en/digital-education/artificial-intelligence",
+            "https://www.sciencedirect.com/science/article/pii/S0957417424010339"
         ]
     }
 };
