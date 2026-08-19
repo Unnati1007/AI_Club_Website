@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { MessageSquare, Calendar, ExternalLink, AlertCircle, ChevronDown, ChevronUp, Clock, Users, Sparkles, Link2, FileText, Clipboard } from "lucide-react";
 import { useGDStore, GDItem } from "@/hooks/useGDStore";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { getStaticLinksForGD } from "./ResourcesSection";
 
 const GDSection = () => {
     const ref = useRef(null);
@@ -221,73 +222,78 @@ const GDSection = () => {
                             </p>
 
                             {/* GD Final Report, Resources, Reports */}
-                            {(selectedGD?.finalReport || (selectedGD?.resources && selectedGD.resources.length > 0) || (selectedGD?.reports && selectedGD.reports.length > 0)) && (
-                                <div className="mt-6 pt-6 border-t border-primary/15 space-y-5">
-                                    {selectedGD.finalReport && (
-                                        <div>
-                                            <h5 className="text-xs font-mono text-primary uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                                <FileText className="w-3.5 h-3.5" />
-                                                GD Final Report
-                                            </h5>
-                                            <a
-                                                href={selectedGD.finalReport}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/20 text-xs sm:text-sm font-medium text-foreground hover:bg-primary/20 transition-all w-full sm:w-auto"
-                                            >
-                                                <span>View Final GD Report</span>
-                                                <ExternalLink className="w-3.5 h-3.5 text-primary" />
-                                            </a>
-                                        </div>
-                                    )}
-
-                                    {selectedGD.resources && selectedGD.resources.length > 0 && (
-                                        <div>
-                                            <h5 className="text-xs font-mono text-primary uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                                <Link2 className="w-3.5 h-3.5" />
-                                                Resources
-                                            </h5>
-                                            <div className="flex flex-col gap-2">
-                                                {selectedGD.resources.map((url, idx) => (
-                                                    <a
-                                                        key={idx}
-                                                        href={url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="inline-flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-secondary/5 border border-secondary/15 text-xs sm:text-sm font-medium text-foreground hover:bg-secondary/10 transition-all"
-                                                    >
-                                                        <span className="truncate">Resource #{idx + 1}</span>
-                                                        <ExternalLink className="w-3.5 h-3.5 text-secondary/70 flex-shrink-0" />
-                                                    </a>
-                                                ))}
+                            {selectedGD && (() => {
+                                const staticLinks = getStaticLinksForGD(selectedGD.title);
+                                const hasLinks = staticLinks.finalReport || (staticLinks.resources && staticLinks.resources.length > 0) || (staticLinks.reports && staticLinks.reports.length > 0);
+                                if (!hasLinks) return null;
+                                return (
+                                    <div className="mt-6 pt-6 border-t border-primary/15 space-y-5">
+                                        {staticLinks.finalReport && (
+                                            <div>
+                                                <h5 className="text-xs font-mono text-primary uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                                    <FileText className="w-3.5 h-3.5" />
+                                                    GD Final Report
+                                                </h5>
+                                                <a
+                                                    href={staticLinks.finalReport}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/20 text-xs sm:text-sm font-medium text-foreground hover:bg-primary/20 transition-all w-full sm:w-auto"
+                                                >
+                                                    <span>View Final GD Report</span>
+                                                    <ExternalLink className="w-3.5 h-3.5 text-primary" />
+                                                </a>
                                             </div>
-                                        </div>
-                                    )}
+                                        )}
 
-                                    {selectedGD.reports && selectedGD.reports.length > 0 && (
-                                        <div>
-                                            <h5 className="text-xs font-mono text-primary uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                                <Clipboard className="w-3.5 h-3.5" />
-                                                Reports
-                                            </h5>
-                                            <div className="flex flex-col gap-2">
-                                                {selectedGD.reports.map((url, idx) => (
-                                                    <a
-                                                        key={idx}
-                                                        href={url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="inline-flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-background/40 border border-primary/10 text-xs sm:text-sm font-medium text-foreground hover:bg-primary/5 hover:border-primary/20 transition-all"
-                                                    >
-                                                        <span className="truncate">Report #{idx + 1}</span>
-                                                        <ExternalLink className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
-                                                    </a>
-                                                ))}
+                                        {staticLinks.reports && staticLinks.reports.length > 0 && (
+                                            <div>
+                                                <h5 className="text-xs font-mono text-primary uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                                    <Clipboard className="w-3.5 h-3.5" />
+                                                    Reports
+                                                </h5>
+                                                <div className="flex flex-col gap-2">
+                                                    {staticLinks.reports.map((url, idx) => (
+                                                        <a
+                                                            key={idx}
+                                                            href={url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-background/40 border border-primary/10 text-xs sm:text-sm font-medium text-foreground hover:bg-primary/5 hover:border-primary/20 transition-all"
+                                                        >
+                                                            <span className="truncate">Report {idx + 1}</span>
+                                                            <ExternalLink className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+                                                        </a>
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+                                        )}
+
+                                        {staticLinks.resources && staticLinks.resources.length > 0 && (
+                                            <div>
+                                                <h5 className="text-xs font-mono text-primary uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                                    <Link2 className="w-3.5 h-3.5" />
+                                                    Resources
+                                                </h5>
+                                                <div className="flex flex-col gap-2">
+                                                    {staticLinks.resources.map((url, idx) => (
+                                                        <a
+                                                            key={idx}
+                                                            href={url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-secondary/5 border border-secondary/15 text-xs sm:text-sm font-medium text-foreground hover:bg-secondary/10 transition-all"
+                                                        >
+                                                            <span className="truncate">Resource {idx + 1}</span>
+                                                            <ExternalLink className="w-3.5 h-3.5 text-secondary/70 flex-shrink-0" />
+                                                        </a>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })()}
                         </div>
                     </div>
                 </DialogContent>

@@ -30,41 +30,57 @@ interface GDResourceData {
     resources: ResourceLink[];
 }
 
-const getDummyResourcesForGD = (gdTitle: string, index: number): ResourceLink[] => {
-    return [
-        {
-            id: `notes-${index}`,
-            title: `${gdTitle} - Key Takeaways & Summary`,
-            type: "pdf",
-            fileSize: "2.4 MB",
-            description: "Complete summary document detailing core discussion points, participant arguments, and consensus recommendations.",
-            url: "#"
-        },
-        {
-            id: `slides-${index}`,
-            title: `${gdTitle} - Presentation Deck`,
-            type: "slides",
-            fileSize: "5.1 MB",
-            description: "Official slide deck presented during the group discussion intro session.",
-            url: "#"
-        },
-        {
-            id: `paper-${index}`,
-            title: "Recommended Reading & ArXiv Research Papers",
-            type: "paper",
-            fileSize: "External Link",
-            description: "Curated collection of peer-reviewed articles and research papers referenced during the session.",
-            url: "https://arxiv.org"
-        },
-        {
-            id: `transcript-${index}`,
-            title: "Discussion Transcript & Audio Briefing",
-            type: "notes",
-            fileSize: "1.8 MB",
-            description: "Formatted transcript and audio breakdown highlighting critical debates and key insights.",
-            url: "#"
-        }
-    ];
+const GD_LINKS_MAP: Record<string, { finalReport?: string; resources?: string[]; reports?: string[] }> = {
+    "The Future of Jobs: Will AI Create More Jobs Than It Replaces?": {
+        resources: [
+            "https://drive.google.com/file/d/1WKwXQHT5mh1wzAFncVLsmZDVW8ZOIwGd/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1UJ0XtOLCyeP-D977NlI06x-BXYb9FBGO/view?usp=drivesdk"
+        ]
+    },
+    "AI Slope: Is It Running the Internet?": {
+        resources: [
+            "https://drive.google.com/file/d/19HnFVZBahdbxEa8KLBH3v5kzSN893Udr/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1c51hLPYx6LgAvV_fBTJZM9VcnnaDVFyJ/view?usp=drivesdk"
+        ]
+    },
+    "AI in Legal Decision-Making": {
+        resources: [
+            "https://drive.google.com/file/d/13gwBiFvChYE-bHfLx5a3G2TF0yU_Y_MW/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1CpfnI2OszhOhQkRgQ-OshvZz--ImlaiQ/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1wIW1WDtGaDSpba1vkvbNRZUGlFogV6WS/view?usp=drivesdk"
+        ],
+        reports: [
+            "https://drive.google.com/file/d/1CnwqHZ7t5Cmg3wJXibe8u3Jf5mIL31uv/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1dz4csjDGJkNodxug6Fri6ZJx50x7OCUD/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1GIcRpANbhSe7m-nWwp0J_PXUJPe3sp63/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1a8c6zDl74s5_P9xvbfnj5Coa5gHt5kYg/view?usp=drivesdk"
+        ]
+    },
+    "AI in Education: Replacement or Support Tool?": {
+        finalReport: "https://docs.google.com/document/d/1GMEZrSV1AT0f0ez1pgK5SLOEF-EVGKgI/edit?usp=drivesdk&ouid=111122047843704789076&rtpof=true&sd=true",
+        reports: [
+            "https://drive.google.com/file/d/1jw8KMoX5gUWZzZrE8STvuiGuChqOogQc/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1foIvHdqsbn8RhymuaZTpbxaZkCQIjNnY/view?usp=drivesdk",
+            "https://docs.google.com/document/d/1oi5DFN4HjQwKi2xu5HEoYTCm1fVbH7u3/edit?usp=drivesdk&ouid=111122047843704789076&rtpof=true&sd=true"
+        ]
+    }
+};
+
+export const getStaticLinksForGD = (title: string) => {
+    const normalized = title.toLowerCase();
+    if (normalized.includes("legal") || normalized.includes("gd 03") || normalized.includes("gd3")) {
+        return GD_LINKS_MAP["AI in Legal Decision-Making"];
+    }
+    if (normalized.includes("slope") || normalized.includes("internet") || normalized.includes("gd 02") || normalized.includes("gd2")) {
+        return GD_LINKS_MAP["AI Slope: Is It Running the Internet?"];
+    }
+    if (normalized.includes("jobs") || normalized.includes("replaces") || normalized.includes("gd 01") || normalized.includes("gd1")) {
+        return GD_LINKS_MAP["The Future of Jobs: Will AI Create More Jobs Than It Replaces?"];
+    }
+    if (normalized.includes("education") || normalized.includes("gd 04") || normalized.includes("gd4")) {
+        return GD_LINKS_MAP["AI in Education: Replacement or Support Tool?"];
+    }
+    return {};
 };
 
 const ResourcesSection = () => {
@@ -124,17 +140,18 @@ const ResourcesSection = () => {
                         
                         // Construct real resources list in exact order: final report, reports, resources
                         const resourcesList: ResourceLink[] = [];
-                        if (gd.finalReport) {
+                        const staticLinks = getStaticLinksForGD(gd.title);
+                        if (staticLinks.finalReport) {
                             resourcesList.push({
                                 id: `final-report-${gd._id || idx}`,
                                 title: `GD Final Report`,
                                 type: "pdf",
                                 description: "Official final summary and conclusion document of the group discussion.",
-                                url: gd.finalReport
+                                url: staticLinks.finalReport
                             });
                         }
-                        if (gd.reports && gd.reports.length > 0) {
-                            gd.reports.forEach((url, rIdx) => {
+                        if (staticLinks.reports && staticLinks.reports.length > 0) {
+                            staticLinks.reports.forEach((url, rIdx) => {
                                 resourcesList.push({
                                     id: `report-${gd._id || idx}-${rIdx}`,
                                     title: `Report ${rIdx + 1}`,
@@ -144,8 +161,8 @@ const ResourcesSection = () => {
                                 });
                             });
                         }
-                        if (gd.resources && gd.resources.length > 0) {
-                            gd.resources.forEach((url, rIdx) => {
+                        if (staticLinks.resources && staticLinks.resources.length > 0) {
+                            staticLinks.resources.forEach((url, rIdx) => {
                                 resourcesList.push({
                                     id: `resource-${gd._id || idx}-${rIdx}`,
                                     title: `Resource ${rIdx + 1}`,
